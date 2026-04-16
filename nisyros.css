@@ -384,6 +384,13 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
 
 /* wines wrapper */
 #wines-wrapper { background: var(--bg-alt); margin-top: -4px; padding-top: 4px; scroll-margin-top: var(--nav-h); }
+
+/* individual wine card backgrounds */
+#w1 { background: #c7bca3; }
+#w2 { background: #e4b1a9; }
+#w3 { background: #eb738b; }
+#w4 { background: #eba46c; }
+#w5 { background: #c67e75; }
 .form-field label { font-size: clamp(0.52rem, 1.4vw, 0.65rem); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
 .form-field input, .form-field textarea, .form-field select {
   background: transparent; border: none; border-bottom: 1px solid rgba(41,37,35,0.2);
