@@ -160,7 +160,7 @@ body::before {
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(0.85rem, 1.8vw, 1.1rem);
   color: var(--muted); letter-spacing: 0.05em;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 }
 
 /* ── ILLUSTRATIONS ── */
