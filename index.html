@@ -477,7 +477,7 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     if (!isH&&!isD) return;
     var delta = isH?e.deltaX:e.deltaY;
     var pp=el.querySelectorAll('.page,.wine-card'), idx=getIdx(el);
-    if (delta>0&&idx>=pp.length-1){accum=0;var wr=el.closest('.hscroll-wrapper'),nx=wr?wr.nextElementSibling:null;if(nx)navScrollTo(nx);return;}
+    if (delta>0&&idx>=pp.length-1){accum=0;if(!locked){locked=true;var wr=el.closest('.hscroll-wrapper'),nx=wr?wr.nextElementSibling:null;if(nx)navScrollTo(nx);setTimeout(()=>{locked=false;},2000);}return;}
     if (delta<0&&idx<=0){accum=0;return;}
     e.preventDefault();
     if (locked) return;
