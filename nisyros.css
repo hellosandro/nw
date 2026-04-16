@@ -373,8 +373,8 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
   cursor: pointer; z-index: 20; opacity: 0.6; transition: opacity 0.3s;
 }
 .faces-prev:hover, .faces-next:hover { opacity: 0.95; }
-.faces-prev { left: 16px; }
-.faces-next { right: 16px; }
+.faces-prev { left: 0; }
+.faces-next { right: 0; }
 .faces-prev svg, .faces-next svg { width: 48px; height: 48px; stroke: #fff; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
 .faces-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20; }
