@@ -26,6 +26,10 @@
   </button>
 </nav>
 <div class="nav-overlay" id="nav-overlay">
+  <div class="nav-overlay-header">
+    <span class="nav-overlay-logo">NISYROS <span>WINES</span></span>
+    <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">✕</button>
+  </div>
   <ul class="nav-links" id="nav-links-list">
     <li><a href="#manifesto" class="active">Manifesto</a></li>
     <li><a href="#wines-wrapper">Wines</a></li>
@@ -577,6 +581,7 @@ function toggleMenu() {
   document.body.style.overflow = navOverlay.classList.contains('open') ? 'hidden' : '';
 }
 hamburgerBtn.addEventListener('click', toggleMenu);
+document.getElementById('nav-overlay-close').addEventListener('click', toggleMenu);
 document.querySelectorAll('#nav-links-list a, #nav .nav-logo').forEach(link => {
   link.addEventListener('click', function(e) {
     if (navOverlay.classList.contains('open')) toggleMenu();
