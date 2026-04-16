@@ -574,6 +574,7 @@ function navScrollTo(target) {
 
 /* Hero click → next section */
 document.getElementById('hero').addEventListener('click', function() {
+  if (wScroll) wScroll.scrollLeft = 0;
   var next = this.nextElementSibling;
   if (next) navScrollTo(next);
 });
