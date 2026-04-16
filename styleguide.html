@@ -20,31 +20,27 @@
       --stone: #C7BCA3;
       --muted: #494441;
 
-      /* ── PROPOSED DISPLAY SCALE ── */
-      --d-xl: clamp(3.5rem, 10vw, 9rem);
-      --d-lg: clamp(3rem, 8.5vw, 7.5rem);
-      --d-md: clamp(2.5rem, 7vw, 6rem);
-      --d-sm: clamp(1.6rem, 5vw, 3.5rem);
-      --d-xs: clamp(1.2rem, 3vw, 2.4rem);
-
-      /* ── PROPOSED TEXT SCALE ── */
-      --t-lg: clamp(0.9rem, 2vw, 1.2rem);
-      --t-md: clamp(0.82rem, 1.8vw, 1rem);
-      --t-sm: clamp(0.65rem, 1.8vw, 0.85rem);
-      --t-xs: clamp(0.52rem, 1.4vw, 0.7rem);
+      /* ── PROPOSED SCALE (h0–h6 + p) ── */
+      --h0: clamp(3.5rem, 10vw, 9rem);
+      --h1: clamp(3rem, 8.5vw, 7.5rem);
+      --h2: clamp(2.5rem, 7vw, 6rem);
+      --h3: clamp(1.6rem, 5vw, 3.5rem);
+      --h4: clamp(1.2rem, 3vw, 2.4rem);
+      --h5: clamp(0.9rem, 2vw, 1.2rem);
+      --h6: clamp(0.62rem, 1.6vw, 0.78rem);
+      --p:  clamp(0.82rem, 1.8vw, 1rem);
     }
 
     @media (max-width: 639px) {
       :root {
-        --d-xl: 3.8rem;
-        --d-lg: 3.2rem;
-        --d-md: 2.4rem;
-        --d-sm: 1.6rem;
-        --d-xs: 1.2rem;
-        --t-lg: 1rem;
-        --t-md: 0.9rem;
-        --t-sm: 0.75rem;
-        --t-xs: 0.65rem;
+        --h0: 3.8rem;
+        --h1: 3.2rem;
+        --h2: 2.4rem;
+        --h3: 1.6rem;
+        --h4: 1.2rem;
+        --h5: 1rem;
+        --h6: 0.68rem;
+        --p:  0.9rem;
       }
     }
 
@@ -56,9 +52,7 @@
       margin: 0 auto;
       padding: 64px 48px 120px;
     }
-    @media (max-width: 639px) {
-      body { padding: 40px 24px 80px; }
-    }
+    @media (max-width: 639px) { body { padding: 40px 24px 80px; } }
 
     /* ── PAGE HEADER ── */
     .sg-page-title {
@@ -81,7 +75,7 @@
       margin-bottom: 64px;
     }
 
-    /* ── SECTION TITLE ── */
+    /* ── SECTION LABEL ── */
     .sg-section-label {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 300;
@@ -94,196 +88,174 @@
 
     /* ── ROW ── */
     .sg-row {
-      padding: 28px 0;
+      padding: 32px 0;
       border-top: 1px solid rgba(43,39,37,0.1);
     }
-    .sg-row:last-child {
-      border-bottom: 1px solid rgba(43,39,37,0.1);
-    }
+    .sg-row:last-child { border-bottom: 1px solid rgba(43,39,37,0.1); }
 
-    /* label block above each sample */
-    .sg-label {
-      margin-bottom: 16px;
+    /* label above sample */
+    .sg-label { margin-bottom: 20px; }
+
+    .sg-label-level {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--red);
+      display: inline;
+      margin-right: 16px;
     }
-    .sg-label-class {
+    .sg-label-classes {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 400;
       font-size: 0.78rem;
       color: var(--ink);
-      display: block;
-      margin-bottom: 4px;
+      display: inline;
     }
     .sg-label-meta {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 300;
       font-size: 0.58rem;
       color: var(--muted);
+      margin-top: 5px;
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
     }
-    .sg-label-meta strong {
-      color: var(--red);
-      font-weight: 400;
+    .sg-label-meta strong { color: var(--red); font-weight: 400; }
+
+    /* note for decision points */
+    .sg-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 300;
+      font-size: 0.58rem;
+      color: var(--amber);
+      margin-top: 5px;
     }
 
-    /* ────────────────────────────────────────
-       DISPLAY SAMPLES — exact properties from nisyros.css
-       ──────────────────────────────────────── */
+    /* variant separator inside a row */
+    .sg-variant {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed rgba(43,39,37,0.12);
+    }
+    .sg-variant-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 300;
+      font-size: 0.58rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
 
-    /* .big */
-    .sg-d-xl {
+    /* ═══════════════════════════════
+       SAMPLES
+    ═══════════════════════════════ */
+
+    /* h0 — .big */
+    .s-h0 {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--d-xl);
+      font-size: var(--h0);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--ink);
     }
 
-    /* .big.md */
-    .sg-d-lg {
+    /* h1 — .big.md */
+    .s-h1 {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--d-lg);
+      font-size: var(--h1);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--ink);
     }
 
-    /* .big.sm — same rhythm as .big */
-    .sg-d-md-big {
+    /* h2 base — .wine-name, contact titles */
+    .s-h2 {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--d-md);
+      font-size: var(--h2);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    /* h2 display variant — .big.sm (manifesto only) */
+    .s-h2--display {
+      font-family: bookmania, Georgia, serif;
+      font-weight: 400;
+      font-size: var(--h2);
       line-height: 0.92;
       letter-spacing: -0.02em;
       color: var(--ink);
     }
 
-    /* .wine-name — slightly looser */
-    .sg-d-md-wine {
+    /* h3 — .contact-value, .faces-slide-text (unified) */
+    .s-h3 {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--d-md);
+      font-size: var(--h3);
       line-height: 1.0;
       letter-spacing: -0.01em;
       color: var(--ink);
     }
 
-    /* .contact-value */
-    .sg-d-sm-contact {
+    /* h4 — .collection-name */
+    .s-h4 {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--d-sm);
-      line-height: 1.0;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-    }
-
-    /* .faces-slide-text */
-    .sg-d-sm-faces {
-      font-family: bookmania, Georgia, serif;
-      font-weight: 400;
-      font-size: var(--d-sm);
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-    }
-
-    /* .collection-name */
-    .sg-d-xs {
-      font-family: bookmania, Georgia, serif;
-      font-weight: 400;
-      font-size: var(--d-xs);
+      font-size: var(--h4);
       line-height: 1.1;
       color: var(--ink);
     }
 
-    /* ────────────────────────────────────────
-       TEXT SAMPLES — exact properties from nisyros.css
-       ──────────────────────────────────────── */
-
-    /* .quote */
-    .sg-t-lg-quote {
+    /* h5 — .quote, .wine-type (unified lh 1.65) */
+    .s-h5 {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 300;
-      font-size: var(--t-lg);
+      font-size: var(--h5);
       line-height: 1.65;
       color: var(--ink);
     }
 
-    /* .wine-type */
-    .sg-t-lg-type {
+    /* h6 — small labels, each keeps own ls */
+    .s-h6-counter {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 300;
-      font-size: var(--t-lg);
-      line-height: 1.4;
-      color: var(--ink);
-    }
-
-    /* .wine-body-text / .collection-desc */
-    .sg-t-md {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 300;
-      font-size: var(--t-md);
-      line-height: 1.7;
-      color: var(--ink);
-    }
-
-    /* .contact-sub */
-    .sg-t-md-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 300;
-      font-size: var(--t-md);
-      line-height: 1.75;
-      color: var(--ink);
-    }
-
-    /* .slide-counter */
-    .sg-t-sm-counter {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: var(--t-sm);
+      font-size: var(--h6);
       line-height: 1;
       letter-spacing: 0.05em;
       color: var(--ink);
     }
-
-    /* .wine-number */
-    .sg-t-sm-number {
-      font-family: bookmania, Georgia, serif;
-      font-size: var(--t-sm);
-      line-height: 1;
-      letter-spacing: 0.4em;
-      color: var(--red);
-    }
-
-    /* .wine-body-label */
-    .sg-t-xs-label-bk {
+    .s-h6-number {
       font-family: bookmania, Georgia, serif;
       font-weight: 400;
-      font-size: var(--t-xs);
+      font-size: var(--h6);
+      line-height: 1;
+      letter-spacing: 0.35em;
+      color: var(--red);
+    }
+    .s-h6-body-label {
+      font-family: bookmania, Georgia, serif;
+      font-weight: 400;
+      font-size: var(--h6);
       line-height: 1.4;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--red);
     }
-
-    /* .contact-label */
-    .sg-t-xs-label-mono {
+    .s-h6-contact-label {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 300;
-      font-size: var(--t-xs);
+      font-size: var(--h6);
       line-height: 1.4;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--red);
     }
-
-    /* .wine-spec */
-    .sg-t-xs-spec {
+    .s-h6-spec {
       font-family: bookmania, Georgia, serif;
-      font-size: var(--t-xs);
+      font-weight: 400;
+      font-size: var(--h6);
       line-height: 1.3;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -292,15 +264,17 @@
       padding-left: 8px;
     }
 
-    /* ── COLOURS ── */
-    .sg-colors {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding: 28px 0;
-      border-top: 1px solid rgba(43,39,37,0.1);
-      border-bottom: 1px solid rgba(43,39,37,0.1);
+    /* p — body text */
+    .s-p {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 300;
+      font-size: var(--p);
+      line-height: 1.7;
+      color: var(--ink);
     }
+
+    /* ── COLOURS ── */
+    .sg-colors { display: flex; flex-wrap: wrap; gap: 16px; padding: 28px 0; border-top: 1px solid rgba(43,39,37,0.1); border-bottom: 1px solid rgba(43,39,37,0.1); }
     .sg-color { display: flex; flex-direction: column; gap: 6px; }
     .sg-swatch { width: 48px; height: 48px; border-radius: 2px; border: 1px solid rgba(43,39,37,0.1); }
     .sg-cname { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; color: var(--muted); }
@@ -310,154 +284,120 @@
 <body>
 
   <p class="sg-page-title">Nisyros Wines · Typography Styleguide</p>
-  <p class="sg-page-sub">Proposed scale · not yet applied to the site</p>
+  <p class="sg-page-sub">Proposed scale h0–h6 + p · not yet applied to the site</p>
   <hr class="sg-divider">
 
-  <!-- ═══════════════════════════════════════
-       DISPLAY SCALE
-  ════════════════════════════════════════ -->
-  <p class="sg-section-label">Display scale — bookmania serif</p>
+  <p class="sg-section-label">Scala tipografica</p>
 
+  <!-- H0 -->
   <div class="sg-row">
     <div class="sg-label">
-      <span class="sg-label-class">.big</span>
-      <span class="sg-label-meta"><strong>--d-xl</strong> <span>clamp(3.5rem, 10vw, 9rem) · mobile 3.8rem</span> <span>wt 400 · lh 0.92 · ls -0.02em</span></span>
+      <span class="sg-label-level">h0</span><span class="sg-label-classes">.big</span>
+      <div class="sg-label-meta"><strong>--h0</strong> <span>clamp(3.5rem, 10vw, 9rem) · mobile 3.8rem</span> <span>bookmania · wt 400 · lh 0.92 · ls -0.02em</span></div>
     </div>
-    <div class="sg-d-xl">Nisyros</div>
+    <div class="s-h0">Nisyros</div>
   </div>
 
+  <!-- H1 -->
   <div class="sg-row">
     <div class="sg-label">
-      <span class="sg-label-class">.big.md</span>
-      <span class="sg-label-meta"><strong>--d-lg</strong> <span>clamp(3rem, 8.5vw, 7.5rem) · mobile 3.2rem</span> <span>wt 400 · lh 0.92 · ls -0.02em</span></span>
+      <span class="sg-label-level">h1</span><span class="sg-label-classes">.big.md</span>
+      <div class="sg-label-meta"><strong>--h1</strong> <span>clamp(3rem, 8.5vw, 7.5rem) · mobile 3.2rem</span> <span>bookmania · wt 400 · lh 0.92 · ls -0.02em</span></div>
     </div>
-    <div class="sg-d-lg">Volcanic</div>
+    <div class="s-h1">Volcanic</div>
   </div>
 
+  <!-- H2 -->
   <div class="sg-row">
     <div class="sg-label">
-      <span class="sg-label-class">.big.sm</span>
-      <span class="sg-label-meta"><strong>--d-md</strong> <span>clamp(2.5rem, 7vw, 6rem) · mobile 2.4rem</span> <span>wt 400 · lh 0.92 · ls -0.02em</span></span>
+      <span class="sg-label-level">h2</span><span class="sg-label-classes">.wine-name · .big.sm</span>
+      <div class="sg-label-meta"><strong>--h2</strong> <span>clamp(2.5rem, 7vw, 6rem) · mobile 2.4rem</span> <span>bookmania · wt 400</span></div>
+      <div class="sg-note">⚑ due varianti di lh/ls — stessa dimensione, contesti diversi</div>
     </div>
-    <div class="sg-d-md-big">The Island</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-name</span>
-      <span class="sg-label-meta"><strong>--d-md</strong> <span>clamp(2.5rem, 7vw, 6rem) · mobile 2.4rem</span> <span>wt 400 · lh 1.0 · ls -0.01em</span></span>
+    <div class="s-h2">Roudià</div>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.big.sm — manifesto display (lh 0.92 · ls -0.02em)</div>
+      <div class="s-h2--display">No labels<br>defines Us</div>
     </div>
-    <div class="sg-d-md-wine">Roudià</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.contact-value</span>
-      <span class="sg-label-meta"><strong>--d-sm</strong> <span>clamp(1.6rem, 5vw, 3.5rem) · mobile 1.6rem</span> <span>wt 400 · lh 1.0 · ls -0.01em</span></span>
-    </div>
-    <div class="sg-d-sm-contact">By appointment</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.faces-slide-text</span>
-      <span class="sg-label-meta"><strong>--d-sm</strong> <span>clamp(1.6rem, 5vw, 3.5rem) · mobile 1.6rem</span> <span>wt 400 · lh 0.95 · ls -0.02em</span></span>
-    </div>
-    <div class="sg-d-sm-faces">The people behind<br>every bottle.</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.collection-name</span>
-      <span class="sg-label-meta"><strong>--d-xs</strong> <span>clamp(1.2rem, 3vw, 2.4rem) · mobile 1.2rem</span> <span>wt 400 · lh 1.1</span></span>
-    </div>
-    <div class="sg-d-xs">Monopàtia</div>
-  </div>
-
-  <!-- ═══════════════════════════════════════
-       TEXT SCALE
-  ════════════════════════════════════════ -->
-  <p class="sg-section-label">Text scale — JetBrains Mono</p>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.quote</span>
-      <span class="sg-label-meta"><strong>--t-lg</strong> <span>clamp(0.9rem, 2vw, 1.2rem) · mobile 1rem</span> <span>wt 300 · lh 1.65</span></span>
-    </div>
-    <div class="sg-t-lg-quote">We are a small operation on a small island.<br>We answer every message ourselves.</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-type</span>
-      <span class="sg-label-meta"><strong>--t-lg</strong> <span>clamp(0.9rem, 2vw, 1.2rem) · mobile 1rem</span> <span>wt 300 · lh 1.4</span></span>
-    </div>
-    <div class="sg-t-lg-type">Athiri · Amphora White</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-body-text &nbsp;·&nbsp; .collection-desc</span>
-      <span class="sg-label-meta"><strong>--t-md</strong> <span>clamp(0.82rem, 1.8vw, 1rem) · mobile 0.9rem</span> <span>wt 300 · lh 1.7</span></span>
-    </div>
-    <div class="sg-t-md">Athiri, part skin-contact, rested in amphora.<br>Unclarified, unfiltered. Wild ferment, no additions.</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.contact-sub</span>
-      <span class="sg-label-meta"><strong>--t-md</strong> <span>clamp(0.82rem, 1.8vw, 1rem) · mobile 0.9rem</span> <span>wt 300 · lh 1.75</span></span>
-    </div>
-    <div class="sg-t-md-sub">We welcome visitors who want to understand<br>what we do. Write to us first.</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.slide-counter</span>
-      <span class="sg-label-meta"><strong>--t-sm</strong> <span>clamp(0.65rem, 1.8vw, 0.85rem) · mobile 0.75rem</span> <span>JetBrains Mono · ls 0.05em</span></span>
-    </div>
-    <div class="sg-t-sm-counter">3 / 8</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-number</span>
-      <span class="sg-label-meta"><strong>--t-sm</strong> <span>clamp(0.65rem, 1.8vw, 0.85rem) · mobile 0.75rem</span> <span>bookmania · ls 0.4em</span></span>
-    </div>
-    <div class="sg-t-sm-number">01 — WHITE</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-body-label</span>
-      <span class="sg-label-meta"><strong>--t-xs</strong> <span>clamp(0.52rem, 1.4vw, 0.7rem) · mobile 0.65rem</span> <span>bookmania · wt 400 · ls 0.3em · uppercase</span></span>
-    </div>
-    <div class="sg-t-xs-label-bk">Story</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.contact-label</span>
-      <span class="sg-label-meta"><strong>--t-xs</strong> <span>clamp(0.52rem, 1.4vw, 0.7rem) · mobile 0.65rem</span> <span>JetBrains Mono · wt 300 · ls 0.2em · uppercase</span></span>
-    </div>
-    <div class="sg-t-xs-label-mono">Location</div>
-  </div>
-
-  <div class="sg-row">
-    <div class="sg-label">
-      <span class="sg-label-class">.wine-spec</span>
-      <span class="sg-label-meta"><strong>--t-xs</strong> <span>clamp(0.52rem, 1.4vw, 0.7rem) · mobile 0.65rem</span> <span>bookmania · ls 0.22em · uppercase</span></span>
-    </div>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;">
-      <span class="sg-t-xs-spec">PGI Dodecanese</span>
-      <span class="sg-t-xs-spec">Dry-farmed · Hand-harvested</span>
-      <span class="sg-t-xs-spec">Minimal intervention</span>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.wine-name — nome vino (lh 1.0 · ls -0.01em)</div>
+      <div class="s-h2">Apiri · Atmida · Roudià</div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════
-       COLOURS
-  ════════════════════════════════════════ -->
+  <!-- H3 -->
+  <div class="sg-row">
+    <div class="sg-label">
+      <span class="sg-label-level">h3</span><span class="sg-label-classes">.contact-value · .faces-slide-text</span>
+      <div class="sg-label-meta"><strong>--h3</strong> <span>clamp(1.6rem, 5vw, 3.5rem) · mobile 1.6rem</span> <span>bookmania · wt 400 · lh 1.0 · ls -0.01em</span></div>
+      <div class="sg-note">✓ unificati — le differenze originali (lh 0.95 / ls -0.02em) erano minime</div>
+    </div>
+    <div class="s-h3">By appointment</div>
+  </div>
+
+  <!-- H4 -->
+  <div class="sg-row">
+    <div class="sg-label">
+      <span class="sg-label-level">h4</span><span class="sg-label-classes">.collection-name</span>
+      <div class="sg-label-meta"><strong>--h4</strong> <span>clamp(1.2rem, 3vw, 2.4rem) · mobile 1.2rem</span> <span>bookmania · wt 400 · lh 1.1</span></div>
+    </div>
+    <div class="s-h4">Monopàtia</div>
+  </div>
+
+  <!-- H5 -->
+  <div class="sg-row">
+    <div class="sg-label">
+      <span class="sg-label-level">h5</span><span class="sg-label-classes">.quote · .wine-type</span>
+      <div class="sg-label-meta"><strong>--h5</strong> <span>clamp(0.9rem, 2vw, 1.2rem) · mobile 1rem</span> <span>JetBrains Mono · wt 300 · lh 1.65</span></div>
+      <div class="sg-note">✓ unificati — .wine-type era lh 1.4 ma è sempre una riga sola, non fa differenza</div>
+    </div>
+    <div class="s-h5">We are a small operation on a small island.<br>We answer every message ourselves.</div>
+  </div>
+
+  <!-- H6 -->
+  <div class="sg-row">
+    <div class="sg-label">
+      <span class="sg-label-level">h6</span><span class="sg-label-classes">.slide-counter · .wine-number · .wine-body-label · .contact-label · .wine-spec</span>
+      <div class="sg-label-meta"><strong>--h6</strong> <span>clamp(0.62rem, 1.6vw, 0.78rem) · mobile 0.68rem</span> <span>dimensione condivisa · ogni elemento mantiene il suo letter-spacing</span></div>
+      <div class="sg-note">⚑ il letter-spacing varia troppo (0.05em → 0.35em) per essere unificato</div>
+    </div>
+    <div class="sg-variant" style="border-top:none; padding-top:0; margin-top:0;">
+      <div class="sg-variant-label">.slide-counter — JetBrains Mono · ls 0.05em</div>
+      <div class="s-h6-counter">3 / 8</div>
+    </div>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.wine-number — bookmania · ls 0.35em</div>
+      <div class="s-h6-number">01 — WHITE</div>
+    </div>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.wine-body-label — bookmania · ls 0.3em · uppercase</div>
+      <div class="s-h6-body-label">Story</div>
+    </div>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.contact-label — JetBrains Mono · ls 0.2em · uppercase</div>
+      <div class="s-h6-contact-label">Location</div>
+    </div>
+    <div class="sg-variant">
+      <div class="sg-variant-label">.wine-spec — bookmania · ls 0.22em · uppercase · border-left</div>
+      <div style="display:flex; gap:20px; flex-wrap:wrap;">
+        <span class="s-h6-spec">PGI Dodecanese</span>
+        <span class="s-h6-spec">Dry-farmed</span>
+        <span class="s-h6-spec">Minimal intervention</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P -->
+  <div class="sg-row">
+    <div class="sg-label">
+      <span class="sg-label-level">p</span><span class="sg-label-classes">.wine-body-text · .contact-sub · .collection-desc</span>
+      <div class="sg-label-meta"><strong>--p</strong> <span>clamp(0.82rem, 1.8vw, 1rem) · mobile 0.9rem</span> <span>JetBrains Mono · wt 300 · lh 1.7</span></div>
+      <div class="sg-note">✓ unificati — .contact-sub era lh 1.75, differenza impercettibile</div>
+    </div>
+    <div class="s-p">Athiri, part skin-contact, rested in amphora.<br>Unclarified, unfiltered. Wild ferment, no additions.</div>
+  </div>
+
+  <!-- COLOURS -->
   <p class="sg-section-label">Colour palette</p>
   <div class="sg-colors">
     <div class="sg-color"><div class="sg-swatch" style="background:#F5F2EE;"></div><span class="sg-cname">--bg</span><span class="sg-chex">#F5F2EE</span></div>
