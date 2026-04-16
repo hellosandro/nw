@@ -24,6 +24,7 @@
   --h4: clamp(1.2rem, 3vw, 2.4rem);
   --h5: clamp(0.9rem, 2vw, 1.2rem);
   --h6: clamp(0.62rem, 1.6vw, 0.78rem);
+  --h6-family: 'JetBrains Mono', monospace;
   --p:  clamp(0.82rem, 1.8vw, 1rem);
 }
 
@@ -188,7 +189,7 @@ body::before {
 
 .slide-counter {
   display: block;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--h6-family);
   font-size: var(--h6);
   color: var(--muted); letter-spacing: 0.05em;
   margin-bottom: 48px;
@@ -256,7 +257,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .hero-logo { display: block; width: clamp(200px, 55vw, 700px); height: auto; margin-top: 24px; margin-bottom: 20px; }
 .hero-logo .logo-wordmark { fill: #fff; opacity: 1; }
 .hero-logo .logo-baseline { fill: rgba(255,255,255,0.7); }
-#hero .location { font-size: var(--h6); letter-spacing: 0.3em; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-bottom: 12px; }
+#hero .location { font-family: var(--h6-family); font-size: var(--h6); letter-spacing: 0.3em; color: rgba(255,255,255,0.7); text-transform: uppercase; margin-bottom: 12px; }
 #hero .big { color: var(--bg); }
 #hero .big.red { color: var(--red); }
 #hero .tagline { font-family: 'JetBrains Mono', monospace; font-weight: 300; color: var(--faded); font-size: var(--h5); line-height: 1.65; margin-top: 32px; text-align: center; }
@@ -297,7 +298,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 
 /* ── WINES ── */
 .collections-label {
-  font-family: bookmania, Georgia, serif; font-weight: 400;
+  font-family: var(--h6-family); font-weight: 300;
   font-size: var(--h6); letter-spacing: 0.35em;
   text-transform: uppercase; color: var(--ink); margin-bottom: 28px;
 }
@@ -332,22 +333,22 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   align-self: center; padding: 0 16px; margin-right: clamp(32px, 5vw, 80px); position: relative; z-index: 2;
 }
 .wine-bottle-area img { max-width: 100%; max-height: 66vh; object-fit: contain; }
-.wine-number { font-size: var(--h6); letter-spacing: 0.4em; color: var(--red); margin-bottom: 20px; }
+.wine-number { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.4em; color: var(--red); margin-bottom: 20px; }
 .wine-name { font-family: bookmania, Georgia, serif; font-weight: 400; font-size: var(--h2); line-height: 1.0; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 0.12em; }
 .wine-type { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--h5); color: var(--muted); margin-bottom: 24px; }
 hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; margin-bottom: 24px; }
 .wine-body { max-width: 580px; margin-bottom: 32px; }
 .wine-body-section { margin-bottom: 16px; }
 .wine-body-section:last-child { margin-bottom: 0; }
-.wine-body-label { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+.wine-body-label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
 .wine-body-text { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--p); line-height: 1.7; color: var(--muted); }
 .wine-specs { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: auto; clear: both; }
-.wine-spec { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); border-left: 2px solid var(--red); padding-left: 8px; line-height: 1.4; }
+.wine-spec { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); border-left: 2px solid var(--red); padding-left: 8px; line-height: 1.4; }
 .wine-vintages { margin-top: 6px; margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
 .wine-vintage-year { font-family: bookmania, Georgia, serif; font-size: var(--h5); letter-spacing: 0.2em; color: var(--ink); }
 .wine-vintage-sep { display: inline-block; width: 1px; height: 12px; background: var(--stone); margin: 0 12px; vertical-align: middle; }
 .wine-vintage-soon { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--h5); color: var(--stone); }
-.wine-collection { display: inline-block; font-size: var(--h6); letter-spacing: 0.3em; text-indent: 0.3em; text-transform: uppercase; color: var(--bg); background: var(--red); padding: 0.55em 0.5em 0.25em; margin-left: 8px; vertical-align: middle; line-height: 1; }
+.wine-collection { display: inline-block; font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.3em; text-indent: 0.3em; text-transform: uppercase; color: var(--bg); background: var(--red); padding: 0.55em 0.5em 0.25em; margin-left: 8px; vertical-align: middle; line-height: 1; }
 .wine-card[data-collection="nereides"]  .wine-collection { background: #C7BCA3; color: var(--ink); }
 .wine-card[data-collection="monopatia"] .wine-collection { background: #EA9332; color: var(--ink); }
 .wine-card[data-collection="volcanica"] .wine-collection { background: #C46E4B; color: var(--bg); }
@@ -373,7 +374,7 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
   background: linear-gradient(to top, rgba(41,37,35,0.65) 0%, rgba(41,37,35,0.08) 55%);
 }
 .faces-slide-caption { position: absolute; bottom: 48px; left: 48px; right: 48px; }
-.faces-slide-label { font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase; color: #fff; margin-bottom: 8px; }
+.faces-slide-label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase; color: #fff; margin-bottom: 8px; }
 .faces-slide-text { font-family: bookmania, Georgia, serif; font-weight: 400; font-size: var(--h3); line-height: 1.0; letter-spacing: -0.01em; color: #fff; }
 
 .faces-prev, .faces-next {
@@ -401,7 +402,7 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
 .contact-grid { display: grid; grid-template-columns: 1fr; }
 .contact-block { padding: 40px 28px; border-bottom: 1px solid rgba(41,37,35,0.1); position: relative; }
 .contact-block:last-child { border-bottom: none; }
-.contact-label { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+.contact-label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
 .contact-value { font-family: bookmania, Georgia, serif; font-weight: 400; font-size: var(--h3); line-height: 1.0; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 12px; text-transform: capitalize; }
 .contact-value a { color: inherit; text-decoration: none; transition: color 0.2s; }
 .contact-value a:hover { color: var(--red); }
@@ -416,7 +417,7 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
 /* wines wrapper */
 #wines-wrapper { background: var(--bg-alt); margin-top: -4px; padding-top: 4px; scroll-margin-top: var(--nav-h); }
 
-.form-field label { font-size: var(--h6); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
+.form-field label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
 .form-field input, .form-field textarea, .form-field select {
   background: transparent; border: none; border-bottom: 1px solid rgba(41,37,35,0.2);
   padding: 10px 0; font-family: 'JetBrains Mono', monospace; font-weight: 300;
@@ -430,7 +431,7 @@ hr.wine-slash { border: none; border-top: 2px solid var(--red); width: 48px; mar
 .form-submit:hover { background: var(--red); }
 
 /* ── FOOTER ── */
-footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); font-size: var(--h6); letter-spacing: 0.25em; text-transform: uppercase; text-align: center; padding: 28px 24px calc(28px + env(safe-area-inset-bottom, 0px)); }
+footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); font-family: var(--h6-family); font-size: var(--h6); letter-spacing: 0.25em; text-transform: uppercase; text-align: center; padding: 28px 24px calc(28px + env(safe-area-inset-bottom, 0px)); }
 
 /* ── SCROLL REVEAL ── */
 .reveal { opacity: 1; transform: none; }
