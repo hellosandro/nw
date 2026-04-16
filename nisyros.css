@@ -247,11 +247,8 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 #m7 .big.red { color: var(--amber); }
 #m7 hr.slash { border-top-color: var(--amber); }
 
-/* illustration colours per slide (SVGs loaded as <img>, use filter) */
-/* target: var(--amber) = #EA9332 for slides 2, 4, 7 */
-#m2 .panel-illust img, #m4 .panel-illust img, #m7 .panel-illust img {
-  filter: sepia(1) saturate(4) hue-rotate(5deg) brightness(1.0);
-}
+/* illustration colours per slide */
+/* slides 2,4,7: colour set directly in SVG files (#EA9332) */
 #credo .panel-illust img {
   filter: brightness(0.15);
 }
