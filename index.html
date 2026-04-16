@@ -509,6 +509,7 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
 /* Chevron arrows — first right chevron on manifesto gets bounce class */
 (function() {
   var isFirst = true;
+  var winesRArr = null;
   ['manifesto-scroll','wines-scroll'].forEach(id => {
     var scrollEl = document.getElementById(id);
     if (!scrollEl) return;
@@ -520,8 +521,8 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     var rArr = document.createElement('div');
     rArr.className = 'scroll-chevron scroll-chevron-right';
     rArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
-    // Only first right chevron (manifesto) gets bounce
     if (isFirst) { rArr.classList.add('first-bounce'); isFirst = false; }
+    else { winesRArr = rArr; }
     wrapper.appendChild(lArr);
     wrapper.appendChild(rArr);
     function upd() {
@@ -546,6 +547,16 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     scrollEl.addEventListener('scroll', () => requestAnimationFrame(upd));
     setTimeout(upd, 500);
   });
+  // Add bounce to wines right arrow when wines first comes into view
+  if (winesRArr) {
+    var wObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { winesRArr.classList.add('first-bounce'); wObs.disconnect(); }
+      });
+    }, { threshold: 0.5 });
+    var ww = document.getElementById('wines-wrapper');
+    if (ww) wObs.observe(ww);
+  }
 })();
 
 /* Nav scroll */
