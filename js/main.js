@@ -14,6 +14,13 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
   var dots   = document.querySelectorAll('.faces-dot');
   var cur = 0, autoT;
   function goTo(idx) {
+    if (idx >= slides.length) {
+      clearInterval(autoT);
+      var facesEl = document.getElementById('faces');
+      var next = facesEl ? facesEl.nextElementSibling : null;
+      if (next) navScrollTo(next);
+      return;
+    }
     slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
     cur = (idx + slides.length) % slides.length;
     slides[cur].classList.add('active'); dots[cur].classList.add('active');
@@ -98,7 +105,7 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     if (!isH&&!isD) return;
     var delta = isH?e.deltaX:e.deltaY;
     var pp=el.querySelectorAll('.page,.wine-card'), idx=getIdx(el);
-    if (delta>0&&idx>=pp.length-1){accum=0;return;}
+    if (delta>0&&idx>=pp.length-1){accum=0;var wr=el.closest('.hscroll-wrapper'),nx=wr?wr.nextElementSibling:null;if(nx)navScrollTo(nx);return;}
     if (delta<0&&idx<=0){accum=0;return;}
     e.preventDefault();
     if (locked) return;
@@ -115,7 +122,7 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
   var sx=0, sy=0, tr=false;
   el.addEventListener('touchstart', e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;tr=true;},{passive:true});
   el.addEventListener('touchmove',  e=>{if(!tr)return;var dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>10)e.preventDefault();},{passive:false});
-  el.addEventListener('touchend',   e=>{if(!tr)return;tr=false;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))goPanel(el,getIdx(el)+(dx<0?1:-1));},{passive:true});
+  el.addEventListener('touchend',   e=>{if(!tr)return;tr=false;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){var idx=getIdx(el),pp=el.querySelectorAll('.page,.wine-card');if(dx<0&&idx>=pp.length-1){var wr=el.closest('.hscroll-wrapper'),nx=wr?wr.nextElementSibling:null;if(nx)navScrollTo(nx);}else{goPanel(el,idx+(dx<0?1:-1));}}},{passive:true});
 });
 
 /* Chevron arrows — first right chevron on manifesto gets bounce class */
