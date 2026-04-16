@@ -168,7 +168,7 @@ body::before {
 .illust-wine       { fill: var(--red); opacity: 0.75; }
 .illust-wine-amber { fill: var(--amber); opacity: 0.7; }
 .illust-accent     { fill: none; stroke: var(--red); stroke-width: 2; stroke-linecap: round; }
-.panel-illust      { flex: 0 0 auto; width: clamp(100px, 22vw, 280px); opacity: 0.85; margin-right: 52px; }
+.panel-illust      { flex: 0 0 auto; width: clamp(100px, 22vw, 280px); opacity: 0.85; margin-right: 52px; align-self: flex-end; padding-bottom: clamp(40px, 6vh, 64px); }
 .panel-illust svg, .panel-illust img  { width: 100%; height: auto; display: block; }
 
 /* ── PAGE BLOCKS ── */
@@ -246,6 +246,12 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 #m4 hr.slash { border-top-color: var(--amber); }
 #m7 .big.red { color: var(--amber); }
 #m7 hr.slash { border-top-color: var(--amber); }
+
+/* illustration colours per slide */
+#m2 .illust-line, #m4 .illust-line, #m7 .illust-line { stroke: #EA9336; }
+#m2 .illust-accent, #m4 .illust-accent, #m7 .illust-accent { stroke: #EA9336; }
+#credo .illust-line { stroke: #2D2927; }
+#credo .illust-accent { stroke: #2D2927; }
 
 /* credo */
 #credo { background: var(--red); border-bottom: 1px solid rgba(41,37,35,0.1); }
