@@ -572,6 +572,12 @@ function navScrollTo(target) {
   snapTimer = setTimeout(() => { document.documentElement.style.scrollSnapType = ''; snapTimer=null; }, 1200);
 }
 
+/* Hero click → next section */
+document.getElementById('hero').addEventListener('click', function() {
+  var next = this.nextElementSibling;
+  if (next) navScrollTo(next);
+});
+
 /* Hamburger */
 var hamburgerBtn = document.getElementById('hamburger-btn');
 var navOverlay   = document.getElementById('nav-overlay');
