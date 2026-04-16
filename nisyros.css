@@ -97,7 +97,7 @@ body::before {
 .nav-links { display: flex; flex-direction: column; align-items: center; gap: 0; list-style: none; }
 .nav-links li a {
   display: block; font-family: bookmania, Georgia, serif; font-weight: 400;
-  font-size: clamp(1.6rem, 7vw, 5rem); letter-spacing: -0.01em; line-height: 0.85;
+  font-size: clamp(1.6rem, 7vw, 5rem); letter-spacing: 0.1em; line-height: 0.85;
   color: rgba(255,255,255,0.8);
   text-decoration: none; padding: 0; text-align: center;
   transition: color 0.2s;
