@@ -156,10 +156,11 @@ body::before {
 #credo .scroll-hint-down { color: var(--bg); font-size: clamp(2.4rem, 5vw, 3.2rem); }
 
 .slide-counter {
-  position: absolute; top: calc(var(--nav-h) + 16px); right: 32px;
+  display: block;
   font-family: 'JetBrains Mono', monospace;
   font-size: clamp(0.85rem, 1.8vw, 1.1rem);
-  color: var(--stone); opacity: 0.6; letter-spacing: 0.05em; z-index: 5;
+  color: var(--muted); letter-spacing: 0.05em;
+  margin-bottom: 16px;
 }
 
 /* ── ILLUSTRATIONS ── */
