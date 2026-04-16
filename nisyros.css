@@ -41,6 +41,12 @@ body::before {
   padding-left: max(24px, env(safe-area-inset-left, 0px));
   padding-right: max(24px, env(safe-area-inset-right, 0px));
   z-index: 400;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+#nav.nav-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 #nav .nav-logo {
   font-family: bookmania, Georgia, serif;

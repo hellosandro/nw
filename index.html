@@ -595,6 +595,19 @@ document.querySelectorAll('.scroll-hint-down').forEach(el => {
   });
 });
 
+/* Nav visibility — visible only on manifesto */
+(function() {
+  var navEl = document.getElementById('nav');
+  var mWrapper = document.getElementById('manifesto-wrapper');
+  if (!navEl || !mWrapper) return;
+  var navVis = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      navEl.classList.toggle('nav-hidden', !e.isIntersecting);
+    });
+  }, { threshold: 0.1 });
+  navVis.observe(mWrapper);
+})();
+
 /* Active nav */
 var navLinks = document.querySelectorAll('#nav-links-list a');
 var navObs = new IntersectionObserver(entries => {
