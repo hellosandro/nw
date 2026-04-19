@@ -32,7 +32,8 @@ html { scroll-snap-type: y mandatory; }
 body { background: var(--bg); color: var(--ink); font-family: bookmania, Georgia, serif; overflow-x: hidden; }
 
 #manifesto-wrapper, #hero, #wines-wrapper { scroll-snap-align: start; scroll-snap-stop: always; }
-#faces, #contact { scroll-snap-align: start; scroll-margin-top: 0; }
+#contact { scroll-snap-align: start; scroll-margin-top: 0; }
+#faces { scroll-snap-align: start; scroll-margin-top: var(--nav-h); }
 
 /* paper grain */
 body::before {
@@ -396,9 +397,9 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 /* ── FACES & PLACES (masonry grid) ── */
 #faces {
   scroll-snap-align: start;
-  scroll-margin-top: 0;
+  scroll-margin-top: var(--nav-h);
   background: var(--bg);
-  padding-top: calc(var(--nav-h) + 24px);
+  padding-top: 32px;
   padding-bottom: 48px;
 }
 .faces-section-header { padding: 0 28px 24px; border-bottom: 1px solid rgba(41,37,35,0.12); margin-bottom: 0; }
@@ -513,7 +514,8 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .panel-text { text-align: left; width: 100%; }
   .panel-illust { width: clamp(140px, 52vw, 220px); align-self: center; margin-right: 0; padding-bottom: 0; margin-bottom: 48px; }
   .quote { margin-top: 8px; }
-  #faces, #contact { scroll-margin-top: 0; }
+  #contact { scroll-margin-top: 0; }
+  #faces { scroll-margin-top: var(--nav-h); }
   #hero { padding: calc(var(--nav-h) + 20px) 24px 40px; height: 100dvh; min-height: auto; align-items: center; justify-content: center; overflow: hidden; }
   #hero .hero-logo { width: clamp(200px, 65vw, 340px); margin-top: 16px; margin-bottom: 12px; }
   #wines-wrapper { height: 100dvh; min-height: auto; overflow: hidden; }
