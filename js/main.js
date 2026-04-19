@@ -11,11 +11,14 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
 (function() {
   var slides = document.querySelectorAll('.faces-slide');
   var dots   = document.querySelectorAll('.faces-dot');
-  var cur = 0, autoT;
+  var facesEl = document.getElementById('faces');
+  var cur = 0, autoT = null;
+  function startAuto() { if (autoT) return; autoT = setInterval(autoAdvance, 5000); }
+  function stopAuto()  { if (autoT) { clearInterval(autoT); autoT = null; } }
+  function autoAdvance() { goTo((cur + 1) % slides.length); }
   function goTo(idx) {
     if (idx >= slides.length) {
-      clearInterval(autoT);
-      var facesEl = document.getElementById('faces');
+      stopAuto();
       var next = facesEl ? facesEl.nextElementSibling : null;
       if (next) navScrollTo(next);
       return;
@@ -23,7 +26,7 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
     slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
     cur = (idx + slides.length) % slides.length;
     slides[cur].classList.add('active'); dots[cur].classList.add('active');
-    clearInterval(autoT); autoT = setInterval(() => goTo(cur + 1), 5000);
+    stopAuto(); startAuto();
   }
   document.getElementById('faces-prev').addEventListener('click', () => goTo(cur - 1));
   document.getElementById('faces-next').addEventListener('click', () => goTo(cur + 1));
@@ -31,7 +34,13 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
   var ss = document.getElementById('faces-slideshow'), sx = 0;
   ss.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
   ss.addEventListener('touchend',   e => { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) goTo(dx < 0 ? cur+1 : cur-1); }, { passive: true });
-  autoT = setInterval(() => goTo(cur + 1), 5000);
+  if (facesEl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) startAuto(); else stopAuto(); });
+    }, { threshold: 0.3 }).observe(facesEl);
+  } else {
+    startAuto();
+  }
 })();
 
 /* ── HORIZONTAL SCROLL ENGINE ── */
@@ -53,7 +62,7 @@ function goPanel(el, idx) {
   smoothTo(el, pp[idx].offsetLeft, 480);
 }
 
-function setupDots(scrollEl, dotsEl) {
+function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
   var pp = scrollEl.querySelectorAll('.page,.wine-card');
   if (!pp.length) return;
   dotsEl.innerHTML = '';
@@ -64,20 +73,37 @@ function setupDots(scrollEl, dotsEl) {
     dotsEl.appendChild(d);
   });
   var dots = dotsEl.querySelectorAll('.dot');
+  var total = pp.length;
+  function syncControls(idx) {
+    if (counterEl) counterEl.textContent = (idx+1) + ' / ' + total;
+    if (controlsEl) {
+      var panel = pp[idx];
+      controlsEl.style.backgroundColor = getComputedStyle(panel).backgroundColor;
+      controlsEl.classList.toggle('on-dark', panel.id === 'credo');
+      controlsEl.classList.toggle('on-last', idx === total - 1);
+    }
+  }
+  syncControls(0);
+  var rafPending = false;
   scrollEl.addEventListener('scroll', function() {
-    clearTimeout(scrollEl._dt);
-    scrollEl._dt = setTimeout(() => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function() {
+      rafPending = false;
       var idx = getIdx(scrollEl);
       dots.forEach((d,i) => d.classList.toggle('active', i===idx));
-    }, 50);
+      syncControls(idx);
+    });
   });
 }
 
-var mScroll = document.getElementById('manifesto-scroll');
-var mDots   = document.getElementById('manifesto-dots');
-var wScroll = document.getElementById('wines-scroll');
-var wDots   = document.getElementById('wines-dots');
-if (mScroll && mDots) setupDots(mScroll, mDots);
+var mScroll   = document.getElementById('manifesto-scroll');
+var mDots     = document.getElementById('manifesto-dots');
+var mCounter  = document.getElementById('manifesto-counter');
+var mControls = document.querySelector('.manifesto-controls');
+var wScroll   = document.getElementById('wines-scroll');
+var wDots     = document.getElementById('wines-dots');
+if (mScroll && mDots) setupDots(mScroll, mDots, mCounter, mControls);
 if (wScroll && wDots) setupDots(wScroll, wDots);
 
 /* Reveal inside panels */
@@ -140,8 +166,9 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     rArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
     // Only first right chevron (manifesto) gets bounce
     if (isFirst) { rArr.classList.add('first-bounce'); isFirst = false; }
-    wrapper.appendChild(lArr);
-    wrapper.appendChild(rArr);
+    var arrowsHost = id === 'manifesto-scroll' ? document.getElementById('manifesto-arrows') : wrapper;
+    arrowsHost.appendChild(lArr);
+    arrowsHost.appendChild(rArr);
     function upd() {
       var pp=scrollEl.querySelectorAll('.page,.wine-card'), idx=getIdx(scrollEl);
       lArr.style.display = idx<=0?'none':'';
