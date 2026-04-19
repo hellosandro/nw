@@ -481,9 +481,9 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   html { scroll-snap-type: y mandatory; }
   .hscroll { overflow-y: hidden; overscroll-behavior: contain; height: 100%; }
   #wines-scroll { overscroll-behavior: contain; overflow-y: hidden; }
-  .page { flex-direction: column; padding: calc(var(--nav-h) + 48px) 56px 40px; gap: 20px; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; align-items: center; justify-content: center; }
+  .page { flex-direction: column; padding: calc(var(--nav-h) + 20px) 40px 32px; gap: 16px; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; align-items: center; justify-content: flex-start; }
   .panel-text { text-align: left; width: 100%; }
-  .panel-illust { width: clamp(140px, 52vw, 220px); align-self: center; margin-right: 0; padding-bottom: 0; margin-bottom: 48px; }
+  .panel-illust { width: clamp(120px, 44vw, 200px); align-self: center; margin-right: 0; padding-bottom: 0; margin-bottom: 0; margin-top: auto; }
   .quote { margin-top: 8px; }
   #faces, #contact { scroll-margin-top: 0; }
   #hero { padding: calc(var(--nav-h) + 20px) 24px 40px; height: 100dvh; min-height: auto; align-items: center; justify-content: center; overflow: hidden; }
