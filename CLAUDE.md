@@ -119,7 +119,7 @@ Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a V
 **Wines sheet CSV URL:**
 `https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1993474932&single=true&output=csv`
 
-**Body-text format:** the wine body field uses `|||` as a separator between *Story / Winemaking / Tasting Notes*.
+**Body-text format:** the wine `body` field splits on `||` into exactly two non-empty parts — part 1 renders under *Story*, part 2 under *Winemaking & Tasting Notes*. The `specs` field splits on a single `|`, each part becoming a row.
 
 **Google Drive images:** must use the `https://lh3.googleusercontent.com/d/[FILE_ID]` format, not the standard sharing URL.
 
@@ -174,6 +174,7 @@ Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a V
 - `c7c0abf` Wines: CMS is single source of truth, fail loud on bad data
 - `eb5d18e` Wines redesign v3: card layout, contact table, nav updates
 - `bdc74ce` Build output renamed to `index.html` for Vercel
+- Sanity-check cleanup (branch `claude/sanity-check-cleanup-egCqZ`): drop `assets/7.svg` + `nw-hero-original.jpg`, remove `w1-backup` card from `wines.html`, strip ~150 lines of unused CSS, fix `og:url` + drop OG preload, rename `NW-02-terraces.jpg` to match the crater caption.
 
 ---
 

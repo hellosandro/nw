@@ -9,10 +9,9 @@
 <meta property="og:title" content="Nisyros Wines — Volcanic Natural Wine from the Aegean">
 <meta property="og:description" content="Minimal intervention wines born from volcanic soil on the island of Nisyros, Aegean Sea, Greece.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://www.nisyroswines.gr">
+<meta property="og:url" content="https://nw-ruby.vercel.app">
 <meta property="og:image" content="https://lh3.googleusercontent.com/d/1SLpLVik4AbXR2nNONRhFf4LVPL3pqFDf=s1200">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌋</text></svg>">
-<link rel="preload" as="image" href="https://lh3.googleusercontent.com/d/1SLpLVik4AbXR2nNONRhFf4LVPL3pqFDf">
 <link href="https://use.typekit.net/jyf6llr.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="nisyros.css">
@@ -225,7 +224,7 @@
     </div>
 
     <div class="faces-slide" id="fslide-1">
-      <img src="assets/NW-02-terraces.jpg" alt="Stefanos crater, Nisyros" loading="lazy">
+      <img src="assets/NW-02-crater.jpg" alt="Stefanos crater, Nisyros" loading="lazy">
       <div class="faces-slide-overlay"></div>
       <div class="faces-slide-caption">
         <p class="faces-slide-label">Volcano</p>
@@ -305,7 +304,6 @@
 
 <script>
 /* ── SCROLL REVEAL ── */
-document.body.classList.add('js-ready');
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
 }, { threshold: 0.08 });
