@@ -45,7 +45,7 @@ nw/
 │   ├── manifesto.html    # horizontal-scroll manifesto (VII slides + credo)
 │   ├── hero.html         # hero section with inline SVG logo
 │   ├── wines.html        # horizontal-scroll wine cards (CMS overwrites at runtime)
-│   ├── faces.html        # fullscreen photo slideshow (hardcoded, not CMS)
+│   ├── faces.html        # Faces &amp; Places masonry grid (CMS-driven)
 │   └── contact.html      # contact blocks + footer
 ├── js/
 │   └── main.js           # scroll engine, CMS loader, nav, animations
@@ -123,7 +123,7 @@ Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a V
 
 **Google Drive images:** must use the `https://lh3.googleusercontent.com/d/[FILE_ID]` format, not the standard sharing URL.
 
-**Faces section is NOT CMS-driven** — it is hardcoded in `sections/faces.html`.
+**Faces &amp; Places sheet:** `gid=1521558789`, proxied at `/api/cms?sheet=faces`. One row per photo. Required columns: `id, size, img_url, label, caption`. `size` must be one of `wide | tall | sq`. `img_url` accepts a Drive share URL or a direct URL — Drive URLs are rewritten to `lh3.googleusercontent.com/d/[FILE_ID]` at render time. Rows missing any required field throw loudly.
 
 **CMS loader invariant:** updates happen via `data-cms` attributes, not by replacing `innerHTML`. The CMS fails loud on bad data (no silent fallbacks, no duplicated runtime templates). See commit `c7c0abf`.
 

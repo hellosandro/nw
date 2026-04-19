@@ -7,41 +7,6 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
   setTimeout(() => el.classList.add('on'), 150 + i * 120);
 });
 
-/* ── FACES SLIDESHOW ── */
-(function() {
-  var slides = document.querySelectorAll('.faces-slide');
-  var dots   = document.querySelectorAll('.faces-dot');
-  var facesEl = document.getElementById('faces');
-  var cur = 0, autoT = null;
-  function startAuto() { if (autoT) return; autoT = setInterval(autoAdvance, 5000); }
-  function stopAuto()  { if (autoT) { clearInterval(autoT); autoT = null; } }
-  function autoAdvance() { goTo((cur + 1) % slides.length); }
-  function goTo(idx) {
-    if (idx >= slides.length) {
-      stopAuto();
-      var next = facesEl ? facesEl.nextElementSibling : null;
-      if (next) navScrollTo(next);
-      return;
-    }
-    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
-    cur = (idx + slides.length) % slides.length;
-    slides[cur].classList.add('active'); dots[cur].classList.add('active');
-    stopAuto(); startAuto();
-  }
-  document.getElementById('faces-prev').addEventListener('click', () => goTo(cur - 1));
-  document.getElementById('faces-next').addEventListener('click', () => goTo(cur + 1));
-  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
-  var ss = document.getElementById('faces-slideshow'), sx = 0;
-  ss.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
-  ss.addEventListener('touchend',   e => { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) goTo(dx < 0 ? cur+1 : cur-1); }, { passive: true });
-  if (facesEl && 'IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) startAuto(); else stopAuto(); });
-    }, { threshold: 0.3 }).observe(facesEl);
-  } else {
-    startAuto();
-  }
-})();
 
 /* ── HORIZONTAL SCROLL ENGINE ── */
 function smoothTo(el, target, dur) {
@@ -206,7 +171,7 @@ function navScrollTo(target) {
 (function() {
   var nav = document.getElementById('nav');
   if (!nav) return;
-  var darkZones = document.querySelectorAll('#hero, #faces');
+  var darkZones = document.querySelectorAll('#hero');
   if (!darkZones.length) return;
   function update() {
     var navH = nav.getBoundingClientRect().height;
@@ -267,6 +232,7 @@ document.querySelectorAll('#m1,#hero,#wines-wrapper,#faces,#contact').forEach(el
 /* CMS — config (Sheet1) + wines — served via Vercel Edge Function (no CORS) */
 const SHEET_CONFIG = '/api/cms?sheet=config';
 const SHEET_WINES  = '/api/cms?sheet=wines';
+const SHEET_FACES  = '/api/cms?sheet=faces';
 function driveUrl(u){if(!u)return'';var m=u.match(/\/d\/([a-zA-Z0-9_-]+)/)||u.match(/[?&]id=([a-zA-Z0-9_-]+)/);return m?'https://lh3.googleusercontent.com/d/'+m[1]+'=s1600':u;}
 function joinCSVLines(t){var r=[],c='',q=false;for(var i=0;i<t.length;i++){var ch=t[i];if(ch==='"'){q=!q;c+=ch;}else if((ch==='\n'||(ch==='\r'&&t[i+1]==='\n'))&&q){c+=' ';if(ch==='\r')i++;}else if(ch==='\r'){}else if(ch==='\n'){r.push(c);c='';}else c+=ch;}if(c)r.push(c);return r;}
 function splitRow(row){var r=[],c='',q=false;for(var i=0;i<row.length;i++){var ch=row[i];if(ch==='"'){if(q&&row[i+1]==='"'){c+='"';i++;}else q=!q;}else if(ch===','&&!q){r.push(c);c='';}else c+=ch;}r.push(c);return r;}
@@ -409,5 +375,39 @@ async function loadCMS(){
   if(wScroll && wDots) setupDots(wScroll, wDots);
 }
 
+// ── Faces & Places rendering (CMS-driven; fail loud on bad data) ──
+// Required CMS columns per row:
+//   id, size, img_url, label, caption
+//   size must be one of: wide | tall | sq
+var FACES_SIZES = ['wide', 'tall', 'sq'];
+function renderFace(f){
+  var id      = requireField(f, 'id');
+  var size    = requireField(f, 'size').toLowerCase();
+  var imgRaw  = requireField(f, 'img_url');
+  var label   = requireField(f, 'label');
+  var caption = requireField(f, 'caption');
+  if(FACES_SIZES.indexOf(size) === -1){
+    throw new Error('[CMS] face "'+id+'" size must be wide|tall|sq (got "'+size+'")');
+  }
+  return ''
+    + '<div class="faces-item '+size+' reveal" id="'+escAttr(id)+'">'
+      + '<img src="'+escAttr(driveUrl(imgRaw))+'" alt="'+escAttr(caption)+'" loading="lazy">'
+      + '<div class="faces-caption">'
+        + '<p class="faces-caption-label">'+label+'</p>'
+        + '<p class="faces-caption-text">'+caption+'</p>'
+      + '</div>'
+    + '</div>';
+}
+async function loadFaces(){
+  var container = document.getElementById('faces-container');
+  if(!container) throw new Error('[CMS] #faces-container not found in DOM');
+  var faces = parseCSV(await fetchSheet(SHEET_FACES));
+  var valid = faces.filter(function(f){ return f.img_url && f.img_url.trim(); });
+  if(!valid.length) throw new Error('[CMS] faces sheet returned no rows with img_url');
+  container.innerHTML = valid.map(renderFace).join('');
+  container.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+}
+
 loadConfig();
 loadCMS();
+loadFaces();

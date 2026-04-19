@@ -393,43 +393,71 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 }
 .wine-col-bottle img { max-width: 100%; max-height: 80vh; object-fit: contain; }
 
-/* ── FACES SLIDESHOW ── */
+/* ── FACES & PLACES (masonry grid) ── */
 #faces {
   scroll-snap-align: start;
   scroll-margin-top: 0;
-  position: relative; width: 100%; height: 100svh;
-  overflow: hidden; background: var(--ink);
+  background: var(--bg);
+  padding-top: calc(var(--nav-h) + 24px);
+  padding-bottom: 48px;
 }
-.faces-slideshow { position: relative; width: 100%; height: 100%; }
-.faces-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
-.faces-slide.active { opacity: 1; }
-.faces-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.faces-slide-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(41,37,35,0.65) 0%, rgba(41,37,35,0.08) 55%);
+.faces-section-header { padding: 0 28px 24px; border-bottom: 1px solid rgba(41,37,35,0.12); margin-bottom: 0; }
+.faces-section-header .quote { margin-top: 10px; }
+
+.faces-grid { columns: 2; column-gap: 0; padding: 0; }
+.faces-item {
+  break-inside: avoid;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(41,37,35,0.1);
+  border-right: 1px solid rgba(41,37,35,0.1);
+  cursor: pointer;
 }
-.faces-slide-caption { position: absolute; bottom: 48px; left: 48px; right: 48px; }
-.faces-slide-label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase; color: #fff; margin-bottom: 8px; }
-.faces-slide-text { font-family: bookmania, Georgia, serif; font-weight: 400; font-size: var(--h3); line-height: 1.0; letter-spacing: -0.01em; color: #fff; }
-
-.faces-prev, .faces-next {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 88px; height: 88px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; z-index: 20; opacity: 0.6; transition: opacity 0.3s;
+.faces-item:nth-child(2n) { border-right: none; }
+.faces-item img {
+  width: 100%; display: block; object-fit: cover;
+  filter: grayscale(20%) contrast(1.05);
+  transition: transform 0.55s ease, filter 0.55s ease;
 }
-.faces-prev:hover, .faces-next:hover { opacity: 0.95; }
-.faces-prev { left: 0; }
-.faces-next { right: 0; }
-.faces-prev svg, .faces-next svg { width: 48px; height: 48px; stroke: #fff; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.faces-item:hover img { transform: scale(1.04); filter: grayscale(0%) contrast(1.08); }
+.faces-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(41,37,35,0.85) 0%, transparent 100%);
+  padding: 32px 16px 14px;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+.faces-item:hover .faces-caption { transform: translateY(0); }
+.faces-caption-label {
+  font-family: var(--h6-family); font-weight: 300;
+  font-size: clamp(0.5rem, 1.4vw, 0.62rem);
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 4px;
+}
+.faces-caption-text {
+  font-family: bookmania, Georgia, serif; font-weight: 400; font-style: italic;
+  font-size: clamp(0.925rem, 2.2vw, 1.175rem);
+  color: var(--bg); line-height: 1.4;
+}
+.faces-item.wide { column-span: all; border-right: none; }
+.faces-item.wide img { height: clamp(220px, 38vw, 520px); }
+.faces-item.tall img { height: clamp(260px, 55vw, 580px); }
+.faces-item.sq   img { height: clamp(180px, 40vw, 400px); }
 
-.faces-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20; }
-.faces-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s, transform 0.3s; }
-.faces-dot.active { background: #fff; transform: scale(1.3); }
-
-.faces-header-overlay { position: absolute; top: calc(var(--nav-h) + 32px); left: 48px; z-index: 10; }
-.faces-header-overlay .big { color: #fff; }
-.faces-header-overlay hr.slash { border-top-color: rgba(255,255,255,0.4); }
+@media (min-width: 640px) {
+  .faces-grid { columns: 3; }
+  .faces-item:nth-child(2n) { border-right: 1px solid rgba(41,37,35,0.1); }
+  .faces-item:nth-child(3n) { border-right: none; }
+  .faces-section-header { padding: 0 48px 32px; }
+  .faces-caption { padding: 48px 24px 18px; }
+  .faces-caption-text { font-size: clamp(1.025rem, 1.7vw, 1.225rem); }
+}
+@media (min-width: 1024px) {
+  .faces-grid { columns: 4; }
+  .faces-item:nth-child(3n) { border-right: 1px solid rgba(41,37,35,0.1); }
+  .faces-item:nth-child(4n) { border-right: none; }
+  .faces-item.wide img { height: clamp(280px, 28vw, 480px); }
+}
 
 /* ── CONTACT ── */
 #contact { background: var(--bg); min-height: auto; padding-top: 0; padding-bottom: 80px; }
@@ -490,7 +518,6 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   #hero .hero-logo { width: clamp(200px, 65vw, 340px); margin-top: 16px; margin-bottom: 12px; }
   #wines-wrapper { height: 100dvh; min-height: auto; overflow: hidden; }
   #manifesto-wrapper { height: 100dvh; min-height: auto; overflow: hidden; }
-  #faces { height: 100dvh; }
   .wine-card { flex-direction: column-reverse; flex: 0 0 100vw; min-width: 100vw; height: 100%; min-height: auto; padding: calc(var(--nav-h) + 2px) 20px 16px; align-items: stretch; gap: 0; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .wines-intro-card { flex-direction: column; flex: 0 0 100vw; min-width: 100vw; padding: calc(var(--nav-h) + 12px) 24px 16px !important; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .wines-intro-card .wine-card-inner { padding-top: 0; display: flex; flex-direction: column; }
@@ -512,12 +539,9 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .wine-col-details { margin-top: 24px; }
   .wine-card-v3 .wine-col-bottle { order: -1; margin-top: 0; margin-bottom: 24px; }
   .wine-col-bottle img { max-height: 50vh; }
-  .faces-slide-caption { bottom: 32px; left: 24px; right: 24px; }
-  .faces-header-overlay { left: 24px; top: calc(var(--nav-h) + 20px); }
+  .faces-section-header { padding: 0 24px 20px; }
   .scroll-chevron { width: 52px; height: 52px; }
   .scroll-chevron svg { width: 28px; height: 28px; }
-  .faces-prev, .faces-next { width: 56px; height: 56px; }
-  .faces-prev svg, .faces-next svg { width: 32px; height: 32px; }
   .contact-header { padding: calc(var(--nav-h) + 40px) 24px 32px; }
   .contact-block { padding: 32px 24px; }
 }

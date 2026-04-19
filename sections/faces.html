@@ -1,42 +1,19 @@
-<!-- ══ FACES — fullscreen slideshow ══ -->
+<!-- ══ FACES & PLACES ══ -->
 <section id="faces">
-  <div class="faces-slideshow" id="faces-slideshow">
 
-    <div class="faces-slide active" id="fslide-0">
-      <img src="assets/NW-01-caldera.jpg" alt="Village and caldera, Nisyros" loading="eager">
-      <div class="faces-slide-overlay"></div>
-      <div class="faces-slide-caption">
-        <p class="faces-slide-label">Territory</p>
-        <p class="faces-slide-text">The village, the caldera,<br>the sea.</p>
-      </div>
-    </div>
-
-    <div class="faces-slide" id="fslide-1">
-      <img src="assets/NW-02-crater.jpg" alt="Stefanos crater, Nisyros" loading="lazy">
-      <div class="faces-slide-overlay"></div>
-      <div class="faces-slide-caption">
-        <p class="faces-slide-label">Volcano</p>
-        <p class="faces-slide-text">Inside the crater.<br>Still breathing.</p>
-      </div>
-    </div>
-
-    <div class="faces-header-overlay">
-      <div class="big md">Faces</div>
-      <div class="big md">&amp; Places</div>
-      <hr class="slash" style="margin-top:8px;">
-    </div>
-
-    <div class="faces-prev" id="faces-prev">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-    </div>
-    <div class="faces-next" id="faces-next">
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
-    </div>
-
-    <div class="faces-dots" id="faces-dots">
-      <div class="faces-dot active" data-idx="0"></div>
-      <div class="faces-dot" data-idx="1"></div>
-    </div>
-
+  <div class="section-header faces-section-header">
+    <div class="big md reveal">Faces</div>
+    <div class="big md red reveal d1">&amp; Places</div>
+    <hr class="slash reveal d2">
+    <p class="quote reveal d2">The island. The people. The bottles. What the cellar smells like at five in the morning.</p>
   </div>
+
+  <!-- Grid rendered by js/main.js loadCMS() from the Google Sheet `faces` tab.
+       Required CMS columns per row:
+         id, size, img_url, label, caption
+       size must be one of: wide | tall | sq
+       Drive share URLs are rewritten to lh3.googleusercontent.com at render time.
+       If a row is missing any required field, loadCMS throws loudly. -->
+  <div class="faces-grid" id="faces-container"></div>
+
 </section>
