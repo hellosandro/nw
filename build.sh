@@ -9,8 +9,8 @@ OUT="index.html"
 cat \
   sections/head.html \
   sections/nav.html \
-  sections/manifesto.html \
   sections/hero.html \
+  sections/manifesto.html \
   sections/wines.html \
   sections/faces.html \
   sections/contact.html \
