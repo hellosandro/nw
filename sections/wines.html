@@ -17,8 +17,8 @@
            variety, appellation, origin, altitude, soil, vinification,
            production, alcohol, volume
          Shape:
-           body   → exactly 2 non-empty parts separated by "||"
-                    (part 1 = Story, part 2 = Winemaking & Tasting Notes)
+           body   → exactly 3 non-empty parts separated by "||"
+                    (Story || Winemaking || Tasting Notes)
            detail rows (variety..production) render as labeled key/value pairs
            footer renders "{volume}  alc.{alcohol}% by vol." (alcohol is the
              bare number, e.g. 13)

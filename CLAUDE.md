@@ -78,7 +78,7 @@ Manifesto-style, quiet, confident, deliberately spare.
 |---|---|---|
 | Warm white | `#F5F2EE` | Page background |
 | Dark ink | `#2B2725` | Primary text |
-| Volcanic red | `#C46E4B` | Primary accent + Volcanic Nature collection |
+| Volcanic red | `#C46E4B` | Primary accent + Volcanica collection |
 | Amber | `#EA9332` | Manifesto II/IV/VII accent + Monopàtia collection |
 | Nereides sand | `#C7BCA3` | Nereides collection |
 
@@ -86,7 +86,7 @@ Manifesto-style, quiet, confident, deliberately spare.
 
 **Collection brand colors apply to:** wine card badges · spec tag divider bars · collection names with underline accents.
 
-**Note:** the internal CSS slug for *Volcanic Nature* is `data-collection="volcanica"`. It is not visible to users — do not rename it.
+**Note:** the CMS stores the collection name as `Volcanica` (column J). The code appends the word "Collection" at render time; everything else — name, slug (`volcanica`), color matching — flows from that single value.
 
 ---
 
@@ -98,13 +98,13 @@ Three collections:
 |---|---|---|
 | **Monopàtia** | `#EA9332` | Unconventional wines, creative freedom |
 | **Nereides** | `#C7BCA3` | Selected Dodecanese grapes and varieties |
-| **Volcanic Nature** | `#C46E4B` | Single-island wines, every grape grown on Nisyros |
+| **Volcanica** | `#C46E4B` | Single-island wines, every grape grown on Nisyros |
 
 Five wines currently on the site:
 
 1. **3,2,1** — Nereides
 2. **40 Milia Konda** — Nereides
-3. **Roudià** — Volcanic Nature
+3. **Roudià** — Volcanica
 4. **Apiri** — Monopàtia
 5. **Atmida** — Monopàtia
 

@@ -175,8 +175,8 @@
            variety, appellation, origin, altitude, soil, vinification,
            production, alcohol, volume
          Shape:
-           body   → exactly 2 non-empty parts separated by "||"
-                    (part 1 = Story, part 2 = Winemaking & Tasting Notes)
+           body   → exactly 3 non-empty parts separated by "||"
+                    (Story || Winemaking || Tasting Notes)
            detail rows (variety..production) render as labeled key/value pairs
            footer renders "{volume}  alc.{alcohol}% by vol." (alcohol is the
              bare number, e.g. 13)
@@ -627,8 +627,8 @@ async function loadConfig(){
 //   variety, appellation, origin, altitude, soil, vinification,
 //   production, alcohol, volume
 // Shape:
-//   body    → exactly 2 non-empty parts separated by "||"
-//             (part 1 renders under "Story", part 2 under "Winemaking & Tasting Notes")
+//   body    → exactly 3 non-empty parts separated by "||"
+//             (Story || Winemaking || Tasting Notes)
 //   details → one labeled row per field (variety..production)
 //   footer  → "{volume}  alc.{alcohol}% by vol."
 //   slug    → derived from `collection` (lowercased, accents stripped)
@@ -665,8 +665,8 @@ function renderWineV3(w){
   var slug = slugify(coll);
 
   var body = bodyRaw.split('||').map(function(s){ return s.trim(); });
-  if(body.length !== 2 || !body[0] || !body[1]){
-    throw new Error('[CMS] wine "'+id+'" body must split into exactly 2 non-empty parts on "||" (got '+body.length+')');
+  if(body.length !== 3 || !body[0] || !body[1] || !body[2]){
+    throw new Error('[CMS] wine "'+id+'" body must split into exactly 3 non-empty parts on "||" (got '+body.length+')');
   }
 
   var detailsHtml = WINE_DETAIL_FIELDS.map(function(f){
@@ -689,7 +689,8 @@ function renderWineV3(w){
         + '<p class="wine-type">'+type+'</p>'
         + '<div class="wine-col-texts">'
           + '<div><p class="wine-body-label">Story</p><p class="wine-body-text">'+body[0]+'</p></div>'
-          + '<div><p class="wine-body-label">Winemaking &amp; Tasting Notes</p><p class="wine-body-text">'+body[1]+'</p></div>'
+          + '<div><p class="wine-body-label">Winemaking</p><p class="wine-body-text">'+body[1]+'</p></div>'
+          + '<div><p class="wine-body-label">Tasting Notes</p><p class="wine-body-text">'+body[2]+'</p></div>'
         + '</div>'
       + '</div>'
       + '<div class="wine-col-details">'
