@@ -183,7 +183,7 @@ body::before {
   flex: 0 0 100vw; min-width: 100vw; height: 100%;
   display: flex; flex-direction: row; align-items: center;
   padding: calc(var(--nav-h) + 12px) 48px 16px;
-  position: relative; overflow: hidden;
+  position: relative; overflow-x: hidden; overflow-y: auto;
 }
 .page .panel-text { flex: 1; min-width: 0; }
 
@@ -270,7 +270,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   flex: 0 0 100vw; min-width: 100vw; max-width: none; height: 100%;
   display: flex; flex-direction: row; align-items: flex-start;
   padding: calc(var(--nav-h) + 32px) clamp(56px, 6vw, 120px) 24px clamp(48px, 5vw, 100px);
-  position: relative; overflow: visible;
+  position: relative; overflow-x: hidden; overflow-y: auto;
   background: var(--bg); border-right: 1px solid rgba(41,37,35,0.06);
 }
 .wine-card:nth-child(odd) { background: var(--bg-alt); }
@@ -422,7 +422,7 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   html { scroll-snap-type: y mandatory; }
   .hscroll { overflow-y: hidden; overscroll-behavior: contain; height: 100%; }
   #wines-scroll { overscroll-behavior: contain; overflow-y: hidden; }
-  .page { flex-direction: column; padding: calc(var(--nav-h) + 48px) 56px 40px; gap: 20px; height: 100%; min-height: auto; overflow: hidden; align-items: center; justify-content: center; }
+  .page { flex-direction: column; padding: calc(var(--nav-h) + 48px) 56px 40px; gap: 20px; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; align-items: center; justify-content: center; }
   .panel-text { text-align: left; width: 100%; }
   .panel-illust { width: clamp(140px, 52vw, 220px); align-self: center; margin-right: 0; padding-bottom: 0; margin-bottom: 48px; }
   .quote { margin-top: 8px; }
@@ -432,14 +432,14 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   #wines-wrapper { height: 100dvh; min-height: auto; overflow: hidden; }
   #manifesto-wrapper { height: 100dvh; min-height: auto; overflow: hidden; }
   #faces { height: 100dvh; }
-  .wine-card { flex-direction: column-reverse; flex: 0 0 100vw; min-width: 100vw; height: 100%; min-height: auto; padding: calc(var(--nav-h) + 2px) 20px 16px; align-items: stretch; gap: 0; overflow: hidden; }
-  .wines-intro-card { flex-direction: column; flex: 0 0 100vw; min-width: 100vw; padding: calc(var(--nav-h) + 12px) 24px 16px !important; height: 100%; min-height: auto; overflow: hidden; }
+  .wine-card { flex-direction: column-reverse; flex: 0 0 100vw; min-width: 100vw; height: 100%; min-height: auto; padding: calc(var(--nav-h) + 2px) 20px 16px; align-items: stretch; gap: 0; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .wines-intro-card { flex-direction: column; flex: 0 0 100vw; min-width: 100vw; padding: calc(var(--nav-h) + 12px) 24px 16px !important; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .wines-intro-card .wine-card-inner { padding-top: 0; display: flex; flex-direction: column; }
   .wines-intro-card .big { margin-bottom: 0; }
   .wines-intro-card hr.slash { margin-top: 4px; margin-bottom: 4px; }
   .wines-intro-card .quote { margin-bottom: 0; }
   .wines-intro-card div[style*="margin-top: 48px"] { margin-top: 12px !important; padding-top: 10px !important; flex: 1; min-height: 0; }
-  .wine-card-inner { flex: 1; min-height: 0; overflow: hidden; }
+  .wine-card-inner { flex: 1; min-height: 0; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .wine-body-text { line-height: 1.5; }
   .wine-type { margin-bottom: 4px; }
   .wines-intro-card { padding: var(--nav-h) 24px 16px !important; }
