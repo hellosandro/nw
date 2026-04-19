@@ -400,7 +400,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   scroll-snap-stop: always;
   scroll-margin-top: var(--nav-h);
   background: var(--bg);
-  padding-top: 32px;
+  padding-top: clamp(72px, calc(var(--nav-h) + 56px), 132px);
   padding-bottom: 48px;
 }
 .faces-section-header { padding: 0 28px 24px; border-bottom: 1px solid rgba(41,37,35,0.12); margin-bottom: 0; }
