@@ -447,7 +447,9 @@ var snapTimer = null;
 function navScrollTo(target) {
   if (snapTimer) clearTimeout(snapTimer);
   document.documentElement.style.scrollSnapType = 'none';
-  target.scrollIntoView({ behavior: 'smooth' });
+  var margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+  var y = Math.round(target.getBoundingClientRect().top + window.pageYOffset - margin);
+  window.scrollTo({ top: y, behavior: 'smooth' });
   snapTimer = setTimeout(() => { document.documentElement.style.scrollSnapType = ''; snapTimer=null; }, 1200);
 }
 
