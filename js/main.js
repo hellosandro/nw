@@ -1,5 +1,4 @@
 /* ── SCROLL REVEAL ── */
-document.body.classList.add('js-ready');
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
 }, { threshold: 0.08 });
@@ -202,6 +201,26 @@ function navScrollTo(target) {
   target.scrollIntoView({ behavior: 'smooth' });
   snapTimer = setTimeout(() => { document.documentElement.style.scrollSnapType = ''; snapTimer=null; }, 1200);
 }
+
+/* Nav theme: white text/hamburger when a dark section sits under the bar */
+(function() {
+  var nav = document.getElementById('nav');
+  if (!nav) return;
+  var darkZones = document.querySelectorAll('#hero, #faces');
+  if (!darkZones.length) return;
+  function update() {
+    var navH = nav.getBoundingClientRect().height;
+    var onDark = false;
+    darkZones.forEach(function(el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < navH && r.bottom > 0) { onDark = true; }
+    });
+    nav.classList.toggle('on-dark', onDark);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
+})();
 
 /* Hamburger */
 var hamburgerBtn = document.getElementById('hamburger-btn');
