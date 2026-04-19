@@ -430,13 +430,16 @@ function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
     }
   }
   syncControls(0);
+  var rafPending = false;
   scrollEl.addEventListener('scroll', function() {
-    clearTimeout(scrollEl._dt);
-    scrollEl._dt = setTimeout(() => {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function() {
+      rafPending = false;
       var idx = getIdx(scrollEl);
       dots.forEach((d,i) => d.classList.toggle('active', i===idx));
       syncControls(idx);
-    }, 50);
+    });
   });
 }
 
