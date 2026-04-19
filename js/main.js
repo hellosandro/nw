@@ -316,12 +316,15 @@ async function loadConfig(){
 
 // ── Wine card v3 rendering (single source of truth: the CMS sheet) ──
 // Required CMS columns per wine:
-//   id, collection, name, type, body, specs, img_bottle
+//   id, collection, name, type, body, img_bottle,
+//   variety, appellation, origin, altitude, soil, vinification,
+//   production, alcohol, volume
 // Shape:
-//   body  → exactly 2 non-empty parts separated by "||"
-//           (part 1 renders under "Story", part 2 under "Winemaking & Tasting Notes")
-//   specs → ≥ 1 non-empty part separated by "|", each becomes a .wine-spec-row
-//   slug  → derived from `collection` (lowercased, accents stripped)
+//   body    → exactly 2 non-empty parts separated by "||"
+//             (part 1 renders under "Story", part 2 under "Winemaking & Tasting Notes")
+//   details → one labeled row per field (variety..production)
+//   footer  → "{volume}  alc.{alcohol}% by vol."
+//   slug    → derived from `collection` (lowercased, accents stripped)
 function slugify(s){
   return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-').trim();
 }
@@ -333,14 +336,24 @@ function requireField(w, field){
   if(!v) throw new Error('[CMS] wine "'+(w.id || '?')+'" missing required field: '+field);
   return v;
 }
+var WINE_DETAIL_FIELDS = [
+  ['variety',      'Variety'],
+  ['appellation',  'Appellation'],
+  ['origin',       'Origin'],
+  ['altitude',     'Altitude'],
+  ['soil',         'Soil'],
+  ['vinification', 'Vinification'],
+  ['production',   'Production']
+];
 function renderWineV3(w){
   var id       = requireField(w, 'id');
   var coll     = requireField(w, 'collection');
   var name     = requireField(w, 'name');
   var type     = requireField(w, 'type');
   var bodyRaw  = requireField(w, 'body');
-  var specsRaw = requireField(w, 'specs');
   var imgRaw   = requireField(w, 'img_bottle');
+  var alcohol  = requireField(w, 'alcohol');
+  var volume   = requireField(w, 'volume');
 
   var slug = slugify(coll);
 
@@ -349,10 +362,14 @@ function renderWineV3(w){
     throw new Error('[CMS] wine "'+id+'" body must split into exactly 2 non-empty parts on "||" (got '+body.length+')');
   }
 
-  var specs = specsRaw.split('|').map(function(s){ return s.trim(); }).filter(Boolean);
-  if(!specs.length){
-    throw new Error('[CMS] wine "'+id+'" specs is empty');
-  }
+  var detailsHtml = WINE_DETAIL_FIELDS.map(function(f){
+    var val = requireField(w, f[0]);
+    return ''
+      + '<div class="wine-detail-row">'
+        + '<span class="wine-detail-label">'+f[1]+'</span>'
+        + '<span class="wine-detail-value">'+val+'</span>'
+      + '</div>';
+  }).join('');
 
   var imgSrc = driveUrl(imgRaw);
   var plainName = name.replace(/<[^>]+>/g, '');
@@ -369,8 +386,8 @@ function renderWineV3(w){
         + '</div>'
       + '</div>'
       + '<div class="wine-col-details">'
-        + '<p class="wine-body-label">Details</p>'
-        + specs.map(function(s){ return '<div class="wine-spec-row">'+s+'</div>'; }).join('')
+        + detailsHtml
+        + '<div class="wine-detail-footer">'+volume+'&nbsp;&nbsp;alc.'+alcohol+'% by vol.</div>'
       + '</div>'
       + '<div class="wine-col-bottle">'
         + '<img src="'+escAttr(imgSrc)+'" alt="'+escAttr(plainName)+' bottle" loading="lazy">'

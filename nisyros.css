@@ -368,14 +368,25 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .wine-col-main { display: flex; flex-direction: column; }
 .wine-col-texts { margin-top: 24px; display: flex; flex-direction: column; gap: 24px; max-width: 480px; }
 .wine-col-texts .wine-body-label { margin-bottom: 12px; }
-.wine-col-details { padding-top: 0; }
-.wine-col-details .wine-body-label { margin-bottom: 12px; }
-.wine-col-details .wine-spec-row {
-  font-family: var(--h6-family); font-weight: 300; font-size: var(--p);
-  line-height: 1.7; color: var(--muted);
-  padding: 10px 0; border-bottom: 1px solid rgba(43,39,37,0.08);
+.wine-col-details { padding-top: clamp(56px, 7.2vw, 112px); display: flex; flex-direction: column; }
+.wine-detail-row {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 7px 0 9px; border-bottom: 1px solid rgba(43,39,37,0.18);
 }
-.wine-col-details .wine-spec-row:last-child { border-bottom: none; }
+.wine-detail-label {
+  font-family: var(--h6-family); font-weight: 300;
+  font-size: clamp(0.56rem, 1.35vw, 0.7rem);
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+}
+.wine-detail-value {
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: clamp(0.74rem, 1.55vw, 0.9rem); line-height: 1.35; color: var(--ink);
+}
+.wine-detail-footer {
+  margin-top: 20px;
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: clamp(0.74rem, 1.55vw, 0.9rem); line-height: 1.35; color: var(--ink);
+}
 .wine-col-bottle {
   display: flex; align-items: center; justify-content: center;
   align-self: center;

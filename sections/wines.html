@@ -12,10 +12,16 @@
     </div>
 
     <!-- Wine cards are rendered by js/main.js loadCMS() from the Google Sheet.
-         Required CMS columns per wine: id, collection, name, type, body, specs, img_bottle.
-           body  → exactly 2 non-empty parts separated by "||"
-                   (part 1 = Story, part 2 = Winemaking & Tasting Notes)
-           specs → ≥ 1 non-empty part separated by "|", each becomes a .wine-spec-row
+         Required CMS columns per wine:
+           id, collection, name, type, body, img_bottle,
+           variety, appellation, origin, altitude, soil, vinification,
+           production, alcohol, volume
+         Shape:
+           body   → exactly 2 non-empty parts separated by "||"
+                    (part 1 = Story, part 2 = Winemaking & Tasting Notes)
+           detail rows (variety..production) render as labeled key/value pairs
+           footer renders "{volume}  alc.{alcohol}% by vol." (alcohol is the
+             bare number, e.g. 13)
            Slug (data-collection) is derived from `collection` (lowercase + accent-strip).
          If the sheet is missing a field or the shape is wrong, loadCMS throws loudly. -->
     <div id="wines-container" style="display:contents;"></div>
