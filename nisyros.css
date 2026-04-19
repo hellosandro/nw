@@ -35,7 +35,7 @@ body { background: var(--bg); color: var(--ink); font-family: bookmania, Georgia
 #contact { scroll-snap-align: start; scroll-margin-top: 0; }
 /* #faces is taller than the viewport; putting the snap point on the section
    itself makes mandatory snap unreliable. Snap instead on its small header. */
-.faces-section-header { scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: var(--nav-h); }
+.faces-section-header { scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: calc(var(--nav-h) + 40px); }
 
 /* paper grain */
 body::before {
