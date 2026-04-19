@@ -375,17 +375,17 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 }
 .wine-detail-label {
   font-family: var(--h6-family); font-weight: 300;
-  font-size: clamp(0.56rem, 1.35vw, 0.7rem);
+  font-size: clamp(0.5rem, 1.2vw, 0.62rem);
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
 }
 .wine-detail-value {
   font-family: 'JetBrains Mono', monospace; font-weight: 300;
-  font-size: clamp(0.74rem, 1.55vw, 0.9rem); line-height: 1.35; color: var(--ink);
+  font-size: clamp(0.66rem, 1.35vw, 0.8rem); line-height: 1.35; color: var(--ink);
 }
 .wine-detail-footer {
   margin-top: 20px;
   font-family: 'JetBrains Mono', monospace; font-weight: 300;
-  font-size: clamp(0.74rem, 1.55vw, 0.9rem); line-height: 1.35; color: var(--ink);
+  font-size: clamp(0.66rem, 1.35vw, 0.8rem); line-height: 1.35; color: var(--ink);
 }
 .wine-col-bottle {
   display: flex; align-items: center; justify-content: center;
