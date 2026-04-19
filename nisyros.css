@@ -33,7 +33,7 @@ body { background: var(--bg); color: var(--ink); font-family: bookmania, Georgia
 
 #manifesto-wrapper, #hero, #wines-wrapper { scroll-snap-align: start; scroll-snap-stop: always; }
 #contact { scroll-snap-align: start; scroll-margin-top: 0; }
-#faces { scroll-snap-align: start; scroll-margin-top: var(--nav-h); }
+#faces { scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: var(--nav-h); }
 
 /* paper grain */
 body::before {
@@ -397,6 +397,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 /* ── FACES & PLACES (masonry grid) ── */
 #faces {
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   scroll-margin-top: var(--nav-h);
   background: var(--bg);
   padding-top: 32px;
