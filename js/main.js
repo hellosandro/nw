@@ -78,7 +78,6 @@ function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
     if (counterEl) counterEl.textContent = (idx+1) + ' / ' + total;
     if (controlsEl) {
       var panel = pp[idx];
-      controlsEl.style.backgroundColor = getComputedStyle(panel).backgroundColor;
       controlsEl.classList.toggle('on-dark', panel.id === 'credo');
       controlsEl.classList.toggle('on-last', idx === total - 1);
     }
@@ -169,20 +168,28 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     var arrowsHost = id === 'manifesto-scroll' ? document.getElementById('manifesto-arrows') : wrapper;
     arrowsHost.appendChild(lArr);
     arrowsHost.appendChild(rArr);
+    var isManifesto = id === 'manifesto-scroll';
     function upd() {
       var pp=scrollEl.querySelectorAll('.page,.wine-card'), idx=getIdx(scrollEl);
-      lArr.style.display = idx<=0?'none':'';
-      // Last panel: right arrow navigates to next vertical section instead of disappearing
+      // Keep arrow slots in place; toggle visibility only so positions never shift.
+      lArr.style.visibility = idx<=0 ? 'hidden' : 'visible';
       if (idx >= pp.length-1) {
-        rArr.style.display = '';
-        rArr.style.opacity = '0.4';
-        rArr.onclick = function() {
-          var nextSection = wrapper.nextElementSibling;
-          // skip dots containers
-          while (nextSection && nextSection.classList.contains('hscroll-dots')) nextSection = nextSection.nextElementSibling;
-          if (nextSection) navScrollTo(nextSection);
-        };
+        if (isManifesto) {
+          // Manifesto: hide right arrow but preserve its slot (no shift)
+          rArr.style.visibility = 'hidden';
+          rArr.onclick = null;
+        } else {
+          // Wines: right arrow stays (absolutely positioned) and jumps to next section
+          rArr.style.visibility = 'visible';
+          rArr.style.opacity = '0.4';
+          rArr.onclick = function() {
+            var nextSection = wrapper.nextElementSibling;
+            while (nextSection && nextSection.classList.contains('hscroll-dots')) nextSection = nextSection.nextElementSibling;
+            if (nextSection) navScrollTo(nextSection);
+          };
+        }
       } else {
+        rArr.style.visibility = 'visible';
         rArr.style.opacity = '';
         rArr.onclick = () => goPanel(scrollEl, getIdx(scrollEl)+1);
       }
