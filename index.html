@@ -136,8 +136,9 @@
   </div>
   <div class="manifesto-controls">
     <span class="slide-counter" id="manifesto-counter">1 / 7</span>
-    <div class="manifesto-arrows" id="manifesto-arrows"></div>
-    <div class="hscroll-dots" id="manifesto-dots"></div>
+    <div class="manifesto-arrows" id="manifesto-arrows">
+      <div class="hscroll-dots" id="manifesto-dots"></div>
+    </div>
   </div>
 </div>
 <!-- ══ HERO ══ -->
@@ -473,8 +474,14 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     // Only first right chevron (manifesto) gets bounce
     if (isFirst) { rArr.classList.add('first-bounce'); isFirst = false; }
     var arrowsHost = id === 'manifesto-scroll' ? document.getElementById('manifesto-arrows') : wrapper;
-    arrowsHost.appendChild(lArr);
-    arrowsHost.appendChild(rArr);
+    if (id === 'manifesto-scroll') {
+      // Left arrow before the dots, right arrow after — so row is [L | dots | R]
+      arrowsHost.insertBefore(lArr, arrowsHost.firstChild);
+      arrowsHost.appendChild(rArr);
+    } else {
+      arrowsHost.appendChild(lArr);
+      arrowsHost.appendChild(rArr);
+    }
     var isManifesto = id === 'manifesto-scroll';
     function upd() {
       var pp=scrollEl.querySelectorAll('.page,.wine-card'), idx=getIdx(scrollEl);

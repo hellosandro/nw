@@ -118,6 +118,10 @@ body::before {
   display: flex; justify-content: center; gap: 8px; padding: 14px 0;
   position: relative; z-index: 20; pointer-events: auto; flex: 0 0 auto;
 }
+#wines-dots {
+  position: absolute; left: 0; right: 0; bottom: 8px;
+  padding: 0;
+}
 .hscroll-dots .dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--stone); opacity: 0.3;
@@ -153,13 +157,16 @@ body::before {
   animation: bounce-right 1.4s ease-in-out 0.6s 6;
 }
 
-/* ── MANIFESTO BOTTOM CONTROLS (counter + arrows + dots, stacked centered) ── */
+/* ── MANIFESTO BOTTOM CONTROLS (counter + [arrow · dots · arrow], floating) ── */
 .manifesto-controls {
   display: flex; flex-direction: column; align-items: center;
-  gap: 10px; padding: 10px 0 14px; flex: 0 0 auto;
-  position: relative; z-index: 20;
+  gap: 6px; padding: 0 0 18px;
+  position: absolute; left: 0; right: 0; bottom: 0;
+  z-index: 20;
   background: transparent;
+  pointer-events: none;
 }
+.manifesto-controls > * { pointer-events: auto; }
 .manifesto-controls .slide-counter {
   margin: 0;
   font-family: var(--h6-family);
@@ -167,14 +174,14 @@ body::before {
   color: var(--muted); letter-spacing: 0.05em;
 }
 .manifesto-arrows {
-  display: flex; align-items: center; gap: 28px;
+  display: flex; align-items: center; gap: 14px;
 }
 .manifesto-arrows .scroll-chevron {
   position: static; transform: none;
   width: 44px; height: 44px;
 }
 .manifesto-arrows .scroll-chevron svg { width: 26px; height: 26px; stroke: var(--ink); }
-.manifesto-controls .hscroll-dots { padding: 0; }
+.manifesto-controls .hscroll-dots { padding: 0; position: static; flex: 0 0 auto; }
 
 /* Dark slide (credo): invert counter/arrows/dots */
 .manifesto-controls.on-dark .slide-counter { color: rgba(245,242,238,0.75); }
