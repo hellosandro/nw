@@ -538,7 +538,7 @@ function navScrollTo(target) {
     var onDark = false;
     darkZones.forEach(function(el) {
       var r = el.getBoundingClientRect();
-      if (r.top < navH && r.bottom > 0) { onDark = true; }
+      if (r.top < navH && r.bottom > navH) { onDark = true; }
     });
     nav.classList.toggle('on-dark', onDark);
   }
