@@ -40,18 +40,9 @@ function initFaces() {
     wall.classList.remove('dragging');
   });
 
-  // Vertical wheel → horizontal scroll (only when the wall actually overflows)
-  wall.addEventListener('wheel', function(e) {
-    if (wall.scrollWidth <= wall.clientWidth + 2) return;
-    var absX = Math.abs(e.deltaX), absY = Math.abs(e.deltaY);
-    if (absY <= absX) return;
-    var canRight = wall.scrollLeft < wall.scrollWidth - wall.clientWidth - 1;
-    var canLeft  = wall.scrollLeft > 0;
-    if ((e.deltaY > 0 && canRight) || (e.deltaY < 0 && canLeft)) {
-      e.preventDefault();
-      wall.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
+  // Vertical wheel is left to the page so the user can always scroll down
+  // to Contact from any photo. Horizontal trackpad swipes still scroll the
+  // wall natively via overflow-x; drag + arrows + dots handle the rest.
 
   // ── Arrows + dots ──
   var arrowsHost = document.getElementById('faces-arrows');
