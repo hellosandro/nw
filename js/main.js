@@ -417,7 +417,7 @@ function renderWineV3(w){
     + '<article class="wine-card wine-card-v3 reveal" id="'+escAttr(id)+'" data-collection="'+escAttr(slug)+'">'
       + '<div class="wine-col-main">'
         + '<div class="big sm">'+name+'</div>'
-        + '<p class="wine-type">'+subtitle+'</p>'
+        + '<p class="wine-type wine-subtitle">'+subtitle+'</p>'
         + '<div class="wine-col-texts">'
           + '<div><p class="wine-body-label">Story</p><p class="wine-body-text">'+body[0]+'</p></div>'
           + '<div><p class="wine-body-label">Winemaking</p><p class="wine-body-text">'+body[1]+'</p></div>'
