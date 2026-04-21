@@ -486,14 +486,17 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   position: relative; width: 100%; height: 100svh;
   background: var(--bg);
   overflow: hidden;
-  display: flex; flex-direction: column;
+  --faces-max: clamp(390px, 72vh, 810px);
 }
-.faces-wall-header { padding: calc(var(--nav-h) + 32px) 48px 0; flex: 0 0 auto; }
+.faces-wall-header {
+  position: absolute; top: calc(var(--nav-h) + 32px); left: 48px;
+  z-index: 10; pointer-events: none;
+}
 .faces-wall {
-  flex: 1 1 auto;
+  position: absolute; inset: 0;
   display: flex; align-items: center;
   gap: clamp(56px, 7vw, 128px);
-  padding: 0 48px 40px;
+  padding: 0 48px;
   overflow-x: auto; overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -511,12 +514,12 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 }
 .faces-polaroid img {
   display: block;
-  max-width: clamp(260px, 48vh, 540px);
-  max-height: clamp(260px, 48vh, 540px);
+  max-width: var(--faces-max);
+  max-height: var(--faces-max);
   width: auto; height: auto;
   user-select: none; -webkit-user-drag: none;
 }
-.faces-caption { margin: 18px 4px 0; max-width: clamp(260px, 48vh, 540px); }
+.faces-caption { margin: 18px 4px 0; max-width: var(--faces-max); }
 .faces-label {
   font-family: var(--h6-family); font-weight: 300;
   font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase;
@@ -608,11 +611,11 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .wine-col-details { margin-top: 24px; }
   .wine-card-v3 .wine-col-bottle { order: -1; margin-top: 0; margin-bottom: 24px; }
   .wine-col-bottle img { max-height: 50vh; }
-  .faces-wall-header { padding: calc(var(--nav-h) + 20px) 24px 0; }
-  .faces-wall { gap: 40px; padding: 0 24px 28px; }
+  #faces { --faces-max: min(88vw, 64vh); }
+  .faces-wall-header { top: calc(var(--nav-h) + 20px); left: 24px; }
+  .faces-wall { gap: 40px; padding: 0 24px; }
   .faces-polaroid { padding: 10px; }
-  .faces-polaroid img { max-width: clamp(220px, 62vw, 380px); max-height: clamp(220px, 62vh, 380px); }
-  .faces-caption { max-width: clamp(220px, 62vw, 380px); margin-top: 14px; }
+  .faces-caption { margin-top: 14px; }
   .scroll-chevron { width: 52px; height: 52px; }
   .scroll-chevron svg { width: 28px; height: 28px; }
   .contact-header { padding: calc(var(--nav-h) + 40px) 24px 32px; }
