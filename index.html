@@ -441,6 +441,16 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     if (!isH&&!isD) return;
     var delta = isH?e.deltaX:e.deltaY;
     var pp=el.querySelectorAll('.page,.wine-card'), idx=getIdx(el);
+    // Let the current panel consume vertical scroll before hijacking horizontally.
+    // Only applies to vertical-intent wheels; horizontal trackpad swipes keep hijacking immediately.
+    if (!isH && isD) {
+      var panel = pp[idx];
+      if (panel) {
+        var canDown = panel.scrollTop + panel.clientHeight < panel.scrollHeight - 1;
+        var canUp   = panel.scrollTop > 0;
+        if ((delta>0 && canDown) || (delta<0 && canUp)) { accum=0; return; }
+      }
+    }
     if (delta>0&&idx>=pp.length-1){accum=0;var wr=el.closest('.hscroll-wrapper'),nx=wr?wr.nextElementSibling:null;if(nx)navScrollTo(nx);return;}
     if (delta<0&&idx<=0){accum=0;return;}
     e.preventDefault();
@@ -656,6 +666,21 @@ function slugify(s){
 function escAttr(s){
   return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+// Read collection blurbs from the "Three Philosophies" slide so wine cards
+// and that slide share a single source of truth. Populated in loadCMS().
+var COLLECTION_DESCRIPTIONS = {};
+function readCollectionDescriptions(){
+  var map = {};
+  document.querySelectorAll('.collection-item-v2').forEach(function(item){
+    var nameEl = item.querySelector('.collection-name-v2');
+    var descEl = item.querySelector('.collection-desc-v2');
+    if(!nameEl || !descEl) return;
+    var name = (nameEl.textContent || '').trim();
+    var desc = (descEl.textContent || '').trim();
+    if(name && desc) map[slugify(name)] = desc;
+  });
+  return map;
+}
 function requireField(w, field){
   var v = (w[field] || '').trim();
   if(!v) throw new Error('[CMS] wine "'+(w.id || '?')+'" missing required field: '+field);
@@ -702,7 +727,6 @@ function renderWineV3(w){
   return ''
     + '<article class="wine-card wine-card-v3 reveal" id="'+escAttr(id)+'" data-collection="'+escAttr(slug)+'">'
       + '<div class="wine-col-main">'
-        + '<span class="wine-collection">'+coll+' Collection</span>'
         + '<div class="big sm">'+name+'</div>'
         + '<p class="wine-type">'+type+'</p>'
         + '<div class="wine-col-texts">'
@@ -712,6 +736,8 @@ function renderWineV3(w){
         + '</div>'
       + '</div>'
       + '<div class="wine-col-details">'
+        + '<span class="wine-collection">'+coll+' Collection</span>'
+        + (COLLECTION_DESCRIPTIONS[slug] ? '<p class="wine-collection-desc">'+escAttr(COLLECTION_DESCRIPTIONS[slug])+'</p>' : '')
         + detailsHtml
         + '<div class="wine-detail-footer">'+volume+'&nbsp;&nbsp;alc.'+alcohol+'% by vol.</div>'
       + '</div>'
@@ -729,6 +755,7 @@ async function loadCMS(){
   var valid = wines.filter(function(w){ return w.name && w.name.trim(); });
   if(!valid.length) throw new Error('[CMS] wines sheet returned no rows with a name');
 
+  COLLECTION_DESCRIPTIONS = readCollectionDescriptions();
   container.innerHTML = valid.map(renderWineV3).join('');
   container.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
   if(wScroll && wDots) setupDots(wScroll, wDots);

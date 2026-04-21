@@ -401,7 +401,13 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .wine-card[data-collection="nereides"]  .wine-collection { background: #C7BCA3; color: var(--ink); }
 .wine-card[data-collection="monopatia"] .wine-collection { background: #EA9332; color: var(--ink); }
 .wine-card[data-collection="volcanica"] .wine-collection { background: #C46E4B; color: var(--bg); }
-.wine-card-v3 .wine-collection { margin-left: 0; margin-bottom: 40px; align-self: flex-start; font-weight: 500; letter-spacing: 0.08em; text-indent: 0.08em; padding: 0.5em 0.55em 0.42em; }
+.wine-card-v3 .wine-collection { margin-left: 0; margin-bottom: 14px; align-self: flex-start; font-weight: 500; letter-spacing: 0.08em; text-indent: 0.08em; padding: 0.5em 0.55em 0.42em; }
+.wine-collection-desc {
+  margin: 0 0 clamp(24px, 3vw, 40px);
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: clamp(0.66rem, 1.2vw, 0.78rem); line-height: 1.55;
+  color: var(--muted);
+}
 .wines-collections-card { overflow: visible !important; }
 .wines-collections-card .wine-card-inner { overflow: visible !important; }
 .collections-eyebrow { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); margin-bottom: 40px; }
@@ -423,14 +429,15 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 /* ── WINE CARD V3 (3-column) ── */
 .wine-card-v3 {
   display: grid !important;
-  grid-template-columns: clamp(280px, 38vw, 520px) clamp(140px, 18vw, 240px) 1fr;
+  grid-template-columns: clamp(280px, 38vw, 520px) 1fr clamp(140px, 18vw, 240px);
   align-items: start;
   column-gap: clamp(32px, 4vw, 72px);
+  padding-bottom: clamp(56px, 7vh, 96px);
 }
 .wine-col-main { display: flex; flex-direction: column; }
 .wine-col-texts { margin-top: 24px; display: flex; flex-direction: column; gap: 24px; max-width: 480px; }
 .wine-col-texts .wine-body-label { margin-bottom: 12px; }
-.wine-col-details { padding-top: clamp(56px, 7.2vw, 112px); display: flex; flex-direction: column; }
+.wine-col-details { order: 2; display: flex; flex-direction: column; }
 .wine-detail-row {
   display: flex; flex-direction: column; gap: 7px;
   padding: 7px 0 9px; border-bottom: 1px solid rgba(43,39,37,0.18);
@@ -450,10 +457,27 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   font-size: clamp(0.66rem, 1.35vw, 0.8rem); line-height: 1.35; color: var(--ink);
 }
 .wine-col-bottle {
+  order: 1;
   display: flex; align-items: center; justify-content: center;
   align-self: center;
 }
 .wine-col-bottle img { max-width: 100%; max-height: 80vh; object-fit: contain; }
+
+/* ── WINE CARD V3 — tablet: main + details stacked in col 1, bottle in col 2 ── */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .wine-card-v3 {
+    grid-template-columns: minmax(0, 1fr) clamp(200px, 30vw, 340px);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "main    bottle"
+      "details bottle";
+    column-gap: clamp(24px, 3.5vw, 56px);
+    row-gap: clamp(28px, 3vw, 48px);
+  }
+  .wine-col-main    { grid-area: main; }
+  .wine-col-details { grid-area: details; }
+  .wine-col-bottle  { grid-area: bottle; }
+}
 
 /* ── FACES SLIDESHOW ── */
 #faces {
