@@ -490,11 +490,11 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 }
 .faces-wall-header {
   position: absolute; top: calc(var(--nav-h) + 32px); left: 48px;
-  z-index: 10; pointer-events: none;
+  z-index: 0; pointer-events: none;
 }
 .faces-wall-header .big { color: #fff; }
 .faces-wall {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 1;
   display: flex; align-items: flex-end;
   gap: clamp(56px, 7vw, 128px);
   padding: 0 48px 48px clamp(96px, 10vw, 180px);
