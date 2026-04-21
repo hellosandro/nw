@@ -396,9 +396,14 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
 });
 
 /* ── FACES GALLERY WALL (free horizontal scroll + arrows/dots + lightbox) ── */
-(function() {
+// Called once, AFTER loadFaces() has (possibly) replaced the hardcoded
+// fallback figures with CMS-driven ones — so querySelectorAll sees the
+// final set of items.
+function initFaces() {
   var wall = document.getElementById('faces-wall');
   if (!wall) return;
+  if (wall.dataset.initialized === '1') return;
+  wall.dataset.initialized = '1';
 
   var items = wall.querySelectorAll('.faces-item');
 
@@ -504,7 +509,7 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
     var photos = Array.prototype.map.call(items, function(it) {
       var img = it.querySelector('img');
       return {
-        src: img ? img.getAttribute('src') : '',
+        src: img ? (img.getAttribute('data-full-src') || img.getAttribute('src')) : '',
         alt: img ? img.getAttribute('alt') : ''
       };
     });
@@ -547,7 +552,7 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
       if (e.key === 'ArrowRight') showPhoto(lbIdx + 1);
     });
   }
-})();
+}
 
 /* ── HORIZONTAL SCROLL ENGINE ── */
 function smoothTo(el, target, dur) {
@@ -786,13 +791,14 @@ var navObs = new IntersectionObserver(entries => {
 }, { threshold: 0.2 });
 document.querySelectorAll('#m1,#hero,#wines-wrapper,#faces,#contact').forEach(el => navObs.observe(el));
 
-/* CMS — config (Sheet1) + wines — served via Vercel Edge Function (no CORS) */
+/* CMS — config + wines + faces — served via Netlify redirects (no CORS) */
 const SHEET_CONFIG = '/api/cms?sheet=config';
 const SHEET_WINES  = '/api/cms?sheet=wines';
+const SHEET_FACES  = '/api/cms?sheet=faces';
 function driveUrl(u){if(!u)return'';var m=u.match(/\/d\/([a-zA-Z0-9_-]+)/)||u.match(/[?&]id=([a-zA-Z0-9_-]+)/);return m?'https://lh3.googleusercontent.com/d/'+m[1]+'=s1600':u;}
 function joinCSVLines(t){var r=[],c='',q=false;for(var i=0;i<t.length;i++){var ch=t[i];if(ch==='"'){q=!q;c+=ch;}else if((ch==='\n'||(ch==='\r'&&t[i+1]==='\n'))&&q){c+=' ';if(ch==='\r')i++;}else if(ch==='\r'){}else if(ch==='\n'){r.push(c);c='';}else c+=ch;}if(c)r.push(c);return r;}
 function splitRow(row){var r=[],c='',q=false;for(var i=0;i<row.length;i++){var ch=row[i];if(ch==='"'){if(q&&row[i+1]==='"'){c+='"';i++;}else q=!q;}else if(ch===','&&!q){r.push(c);c='';}else c+=ch;}r.push(c);return r;}
-function parseCSV(text){var rows=[],lines=joinCSVLines(text.trim()),hi=-1;for(var i=0;i<lines.length;i++){if(splitRow(lines[i])[0].replace(/^"|"$/g,'').trim().toLowerCase()==='id'){hi=i;break;}}if(hi===-1)return rows;var headers=splitRow(lines[hi]).map(h=>h.replace(/^"|"$/g,'').trim().split('\n')[0].replace(/\s*\(.*$/,'').trim().toLowerCase());for(var i=hi+1;i<lines.length;i++){var vals=splitRow(lines[i]);if(vals.every(v=>!v.trim()))continue;var fv=vals[0].replace(/^"|"$/g,'').trim();if(!fv||fv.charCodeAt(0)===0x25b8)continue;var obj={};headers.forEach((h,idx)=>{obj[h]=(vals[idx]||'').replace(/^"|"$/g,'').trim();});rows.push(obj);}return rows;}
+function parseCSV(text,headerFirstCell){var key=(headerFirstCell||'id').toLowerCase();var rows=[],lines=joinCSVLines(text.trim()),hi=-1;for(var i=0;i<lines.length;i++){if(splitRow(lines[i])[0].replace(/^"|"$/g,'').trim().toLowerCase()===key){hi=i;break;}}if(hi===-1)return rows;var headers=splitRow(lines[hi]).map(h=>h.replace(/^"|"$/g,'').trim().split('\n')[0].replace(/\s*\(.*$/,'').trim().toLowerCase());for(var i=hi+1;i<lines.length;i++){var vals=splitRow(lines[i]);if(vals.every(v=>!v.trim()))continue;var fv=vals[0].replace(/^"|"$/g,'').trim();if(!fv||fv.charCodeAt(0)===0x25b8)continue;var obj={};headers.forEach((h,idx)=>{obj[h]=(vals[idx]||'').replace(/^"|"$/g,'').trim();});rows.push(obj);}return rows;}
 async function fetchSheet(url){
   if(!url)return null;
   var ctrl=new AbortController();
@@ -951,8 +957,67 @@ async function loadCMS(){
   if(wScroll && wDots) setupDots(wScroll, wDots);
 }
 
+// ── Faces & Places rendering ──────────────────────────────────────────────
+// CMS columns (faces tab): oredr, img_url, label, text
+// - img_url: Google Drive share link; converted to lh3.googleusercontent.com
+//   and routed through Netlify Image CDN for AVIF/WebP + CDN caching.
+// - Polaroid uses w=800, lightbox uses w=1600 (via data-full-src).
+// Fallback: on CMS failure or zero rows, the hardcoded <figure>s in
+// sections/faces.html stay on screen. initFaces() wires scroll/lightbox
+// against whatever figures exist at call time.
+function driveIdFromUrl(u){
+  if(!u) return '';
+  var m = u.match(/\/d\/([a-zA-Z0-9_-]+)/) || u.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : '';
+}
+function cdnImage(rawUrl, width){
+  var id = driveIdFromUrl(rawUrl);
+  var src = id ? 'https://lh3.googleusercontent.com/d/' + id : rawUrl;
+  return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + width + '&fit=cover';
+}
+function renderFace(row){
+  var raw = (row.img_url || '').trim();
+  if(!raw) return '';
+  var label = (row.label || '').trim();
+  var text  = (row.text  || '').trim();
+  var thumb = cdnImage(raw, 800);
+  var full  = cdnImage(raw, 1600);
+  var alt   = label || 'Nisyros Wines photo';
+  return ''
+    + '<figure class="faces-item">'
+      + '<div class="faces-polaroid">'
+        + '<img src="'+escAttr(thumb)+'" data-full-src="'+escAttr(full)+'" alt="'+escAttr(alt)+'" loading="lazy" draggable="false">'
+      + '</div>'
+      + (label || text
+        ? '<figcaption class="faces-caption">'
+          + (label ? '<p class="faces-label">'+escAttr(label)+'</p>' : '')
+          + (text  ? '<p class="faces-text">'+escAttr(text)+'</p>'   : '')
+        + '</figcaption>'
+        : '')
+    + '</figure>';
+}
+async function loadFaces(){
+  var wall = document.getElementById('faces-wall');
+  if(!wall) return;
+  try {
+    var rows = parseCSV(await fetchSheet(SHEET_FACES), 'oredr');
+    var valid = rows.filter(function(r){ return r.img_url && r.img_url.trim(); });
+    if(!valid.length){
+      console.warn('[CMS] faces sheet returned 0 rows with img_url — keeping hardcoded fallback');
+      return;
+    }
+    var header = wall.querySelector('.faces-wall-header');
+    wall.querySelectorAll('.faces-item').forEach(function(el){ el.remove(); });
+    wall.insertAdjacentHTML('beforeend', valid.map(renderFace).join(''));
+    if(header && header !== wall.firstElementChild) wall.insertBefore(header, wall.firstElementChild);
+  } catch (e) {
+    console.warn('[CMS] faces load failed, using fallback:', e);
+  }
+}
+
 loadConfig();
 loadCMS();
+loadFaces().then(initFaces);
 </script>
 </body>
 </html>
