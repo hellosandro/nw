@@ -585,7 +585,7 @@ function driveIdFromUrl(u){
 function cdnImage(rawUrl, width){
   var id = driveIdFromUrl(rawUrl);
   var src = id ? 'https://lh3.googleusercontent.com/d/' + id : rawUrl;
-  return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + width + '&fit=cover';
+  return '/.netlify/images?url=' + encodeURIComponent(src) + '&w=' + width;
 }
 function renderFace(row){
   var raw = (row.img_url || '').trim();
