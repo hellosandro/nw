@@ -15,3 +15,16 @@
   to = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1993474932&single=true&output=csv"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/api/cms"
+  query = { sheet = "faces" }
+  to = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1521558789&single=true&output=csv"
+  status = 200
+  force = true
+
+# Allow Netlify Image CDN to transform Google Drive-hosted photos.
+# Source links come from the CMS as https://lh3.googleusercontent.com/d/<file_id>
+# and are requested via /.netlify/images?url=...&w=...
+[images]
+  remote_images = ["https://lh3\\.googleusercontent\\.com/.*"]
