@@ -494,9 +494,9 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 }
 .faces-wall {
   position: absolute; inset: 0;
-  display: flex; align-items: center;
+  display: flex; align-items: flex-end;
   gap: clamp(56px, 7vw, 128px);
-  padding: 0 48px;
+  padding: 0 48px 48px clamp(96px, 10vw, 180px);
   overflow-x: auto; overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -613,7 +613,7 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .wine-col-bottle img { max-height: 50vh; }
   #faces { --faces-max: min(88vw, 64vh); }
   .faces-wall-header { top: calc(var(--nav-h) + 20px); left: 24px; }
-  .faces-wall { gap: 40px; padding: 0 24px; }
+  .faces-wall { gap: 40px; padding: 0 24px 28px; }
   .faces-polaroid { padding: 10px; }
   .faces-caption { margin-top: 14px; }
   .scroll-chevron { width: 52px; height: 52px; }
