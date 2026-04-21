@@ -245,27 +245,42 @@ body::before {
 .panel-illust      { flex: 0 0 auto; width: clamp(160px, 30vw, 400px); opacity: 0.85; margin-right: 52px; align-self: flex-end; padding-bottom: clamp(40px, 6vh, 64px); }
 .panel-illust svg, .panel-illust img  { width: 100%; height: auto; display: block; }
 
-/* Desktop: illustrations become absolute, positioned per slide (vertical × horizontal).
-   Text is constrained to the left half so it doesn't fight the illustration. */
+/* Desktop: each slide places its illustration inside the RIGHT COLUMN
+   (the space next to the text). Positions are vertical × horizontal
+   within that column, not absolute on the whole page. */
 @media (min-width: 640px) {
-  .page .panel-text { flex: 0 1 auto; max-width: min(46vw, 720px); position: relative; z-index: 1; }
+  .page .panel-text {
+    flex: 0 0 auto;
+    width: min(46vw, 680px);
+    position: relative; z-index: 1;
+  }
   .panel-illust {
-    position: absolute;
-    flex: none;
-    width: clamp(220px, 24vw, 360px);
+    flex: 1;
+    position: relative;
+    align-self: stretch;
+    width: auto; min-width: 0;
     margin: 0; padding: 0;
-    align-self: auto;
     pointer-events: none;
   }
-  /* "centro" (horizontal) slides: 1, 2, 3, credo */
-  #m1 .panel-illust,
-  #credo .panel-illust { left: 50%; bottom: clamp(72px, 10vh, 120px); transform: translateX(-50%); }
-  #m2 .panel-illust     { left: 50%; top: 50%;                         transform: translate(-50%, -50%); }
-  #m3 .panel-illust     { left: 50%; top: calc(var(--nav-h) + 48px);   transform: translateX(-50%); }
-  /* "destra" (horizontal) slides: 4, 5, 6 */
-  #m4 .panel-illust { right: 100px; bottom: clamp(72px, 10vh, 120px); }
-  #m5 .panel-illust { right: 100px; top: calc(var(--nav-h) + 48px); }
-  #m6 .panel-illust { right: 100px; top: 50%; transform: translateY(-50%); }
+  .panel-illust img {
+    position: absolute;
+    width: clamp(200px, 22vw, 340px);
+    height: auto; display: block;
+  }
+  /* 1: basso / centro */
+  #m1 .panel-illust img    { left: 50%; bottom: 24px; transform: translateX(-50%); }
+  /* 2: centro / centro */
+  #m2 .panel-illust img    { left: 50%; top: 50%;    transform: translate(-50%, -50%); }
+  /* 3: alto / centro */
+  #m3 .panel-illust img    { left: 50%; top: 24px;   transform: translateX(-50%); }
+  /* 4: basso / destra */
+  #m4 .panel-illust img    { right: 24px; bottom: 24px; }
+  /* 5: alto / destra */
+  #m5 .panel-illust img    { right: 24px; top: 24px; }
+  /* 6: centro / destra */
+  #m6 .panel-illust img    { right: 24px; top: 50%; transform: translateY(-50%); }
+  /* 7 (credo): basso / centro */
+  #credo .panel-illust img { left: 50%; bottom: 24px; transform: translateX(-50%); }
 }
 
 /* ── PAGE BLOCKS ── */
@@ -523,7 +538,7 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   #wines-scroll { overscroll-behavior: contain; overflow-y: hidden; }
   .page { flex-direction: column; padding: calc(var(--nav-h) + 20px) 40px 32px; gap: 16px; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; align-items: center; justify-content: flex-start; }
   .panel-text { text-align: left; width: 100%; }
-  .panel-illust { position: static; width: clamp(120px, 44vw, 200px); align-self: center; margin: 32px auto 88px; padding: 0; }
+  .panel-illust { position: static; width: clamp(120px, 44vw, 200px); align-self: center; margin: 16px auto 88px; padding: 0; }
   .quote { margin-top: 8px; }
   #faces, #contact { scroll-margin-top: 0; }
   #hero { padding: calc(var(--nav-h) + 20px) 24px 40px; height: 100dvh; min-height: auto; align-items: center; justify-content: center; overflow: hidden; }
