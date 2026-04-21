@@ -2,7 +2,7 @@
 
 > **Living document.** This file is the shared source of truth for the Nisyros Wines website project. It is maintained and updated by Claude across sessions so that Nicola, Sandro, and any collaborator landing on the repo have the full picture without archaeological digs through chat history.
 >
-> **Last updated:** 2026-04-19 · **Maintained by:** Claude (Cowork) · **Owners:** Nicola Zonca (nicola@nativeprime.com), Sandro (design + deploy)
+> **Last updated:** 2026-04-21 · **Maintained by:** Claude (Cowork) · **Owners:** Nicola Zonca (nicola@nativeprime.com), Sandro (design + deploy)
 
 ---
 
@@ -26,9 +26,10 @@ Tone in copy: short, declarative sentences. No marketing fluff. The site reads l
 
 | | |
 |---|---|
-| Live site | https://nw-ruby.vercel.app |
-| Repo | https://github.com/hellosandro/nw |
-| Deployment | Vercel, auto-deploy on merge to `main` |
+| Live site | https://nisyroswines.com |
+| Repo (origin) | https://github.com/hellosandro/nw |
+| Repo (production) | https://github.com/nicolazonca/nw |
+| Deployment | Netlify, auto-deploy on merge to `main` of `nicolazonca/nw` |
 | Instagram | https://www.instagram.com/nisyroswines/ |
 
 ---
@@ -156,25 +157,25 @@ Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a V
 
 ---
 
-## 9. Current state (as of 2026-04-19)
+## 9. Current state (as of 2026-04-21)
+
+**Deployment:** migrated from Vercel → Netlify. Live at https://nisyroswines.com (custom domain, DNS via Squarespace). Production repo is the fork `nicolazonca/nw`; `hellosandro/nw` remains the origin for Sandro's reviews. The Vercel deployment (`nw-ruby.vercel.app`) is still up but no longer the canonical URL.
+
+**CMS proxy:** `api/cms.js` (Vercel Edge Function) is superseded on Netlify by redirect rules in `netlify.toml`. The client-side JS is unchanged — still calls `/api/cms?sheet=…`.
 
 **Branches in play:**
 
 - `main` — last merged: PR #6 (removing unused `nisyros.html`), PR #4 (integration of wines redesign, CMS fixes, dark nav manifesto).
-- `wines-redesign` — v3 wine card layout, contact table, nav updates (merged into integration).
-- `integration/all-features` — merged to main.
-- `fix/cms-fetch-reliability` — merged.
-- `claude/*` branches — short-lived experimental branches.
+- `claude/update-wine-card-6PBwU` — wine card updates (Vintages + Type specs, subtitle under name, `.wine-subtitle` CSS, `netlify.toml`, `og:url` fix). Merged into `nicolazonca/nw` main; pending merge to `hellosandro/nw` main.
 
 **Recent notable commits:**
 
+- `5cdf917` Add netlify.toml: build command + /api/cms proxy redirects
+- `0436528` Wines: add .wine-subtitle class (Raleway 500, uppercase)
+- `debb8ef` Wines: add Vintages & Type to specs; use CMS subtitle under wine name
 - `89edfe3` Merge PR #6 — remove unused `nisyros.html`
 - `a9ef43d` Merge PR #4 — integration of all features
-- `c0a247a` Manifesto: dark nav + Arabic counters inside panel-text
 - `c7c0abf` Wines: CMS is single source of truth, fail loud on bad data
-- `eb5d18e` Wines redesign v3: card layout, contact table, nav updates
-- `bdc74ce` Build output renamed to `index.html` for Vercel
-- Sanity-check cleanup (branch `claude/sanity-check-cleanup-egCqZ`): drop `assets/7.svg` + `nw-hero-original.jpg`, remove `w1-backup` card from `wines.html`, strip ~150 lines of unused CSS, fix `og:url` + drop OG preload, rename `NW-02-terraces.jpg` to match the crater caption.
 
 ---
 
