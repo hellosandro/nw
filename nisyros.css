@@ -490,15 +490,17 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   --faces-max: clamp(390px, 72vh, 810px);
 }
 .faces-wall-header {
-  position: absolute; top: calc(var(--nav-h) + 32px);
-  left: max(100px, env(safe-area-inset-left, 0px));
-  z-index: 10; pointer-events: none;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding-top: calc(var(--nav-h) + 32px);
+  width: clamp(380px, 40vw, 560px);
 }
+.faces-wall-header .quote { margin-top: 20px; }
 .faces-wall {
   position: absolute; inset: 0;
   display: flex; align-items: flex-end;
   gap: clamp(56px, 7vw, 128px);
-  padding: 0 48px 48px calc(var(--faces-max) * 0.75);
+  padding: 0 48px 48px max(100px, env(safe-area-inset-left, 0px));
   overflow-x: auto; overflow-y: hidden;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -509,16 +511,14 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .faces-wall.dragging { cursor: grabbing; }
 .faces-wall.dragging .faces-item { pointer-events: none; }
 
-.faces-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; margin: 0; z-index: 20; }
-/* First photo sits behind the title; all others pass in front of it */
-.faces-item:first-child { z-index: 1; }
-/* Hand-hung look: each photo drifts up/down off the centerline */
-.faces-item:nth-child(6n+1) { transform: translateY(-40px); }
-.faces-item:nth-child(6n+2) { transform: translateY( 34px); }
-.faces-item:nth-child(6n+3) { transform: translateY(-36px); }
-.faces-item:nth-child(6n+4) { transform: translateY( 12px); }
-.faces-item:nth-child(6n+5) { transform: translateY(-24px); }
-.faces-item:nth-child(6n+6) { transform: translateY( 44px); }
+.faces-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; margin: 0; }
+/* Hand-hung look: each photo drifts up/down off the baseline */
+.faces-item:nth-of-type(6n+1) { transform: translateY(-40px); }
+.faces-item:nth-of-type(6n+2) { transform: translateY( 34px); }
+.faces-item:nth-of-type(6n+3) { transform: translateY(-36px); }
+.faces-item:nth-of-type(6n+4) { transform: translateY( 12px); }
+.faces-item:nth-of-type(6n+5) { transform: translateY(-24px); }
+.faces-item:nth-of-type(6n+6) { transform: translateY( 44px); }
 .faces-polaroid {
   background: #fff; padding: 14px; line-height: 0;
   box-shadow: 0 1px 2px rgba(43,39,37,0.12), 0 22px 40px -18px rgba(43,39,37,0.35);
@@ -623,8 +623,8 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .wine-card-v3 .wine-col-bottle { order: -1; margin-top: 0; margin-bottom: 24px; }
   .wine-col-bottle img { max-height: 50vh; }
   #faces { --faces-max: min(88vw, 64vh); }
-  .faces-wall-header { top: calc(var(--nav-h) + 20px); left: 24px; }
-  .faces-wall { gap: 40px; padding: 0 24px; }
+  .faces-wall-header { padding-top: calc(var(--nav-h) + 20px); width: clamp(260px, 82vw, 440px); }
+  .faces-wall { gap: 40px; padding: 0 24px 28px; }
   .faces-polaroid { padding: 10px; }
   .faces-caption { margin-top: 14px; }
   .scroll-chevron { width: 52px; height: 52px; }
