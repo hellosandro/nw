@@ -666,6 +666,21 @@ function slugify(s){
 function escAttr(s){
   return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+// Read collection blurbs from the "Three Philosophies" slide so wine cards
+// and that slide share a single source of truth. Populated in loadCMS().
+var COLLECTION_DESCRIPTIONS = {};
+function readCollectionDescriptions(){
+  var map = {};
+  document.querySelectorAll('.collection-item-v2').forEach(function(item){
+    var nameEl = item.querySelector('.collection-name-v2');
+    var descEl = item.querySelector('.collection-desc-v2');
+    if(!nameEl || !descEl) return;
+    var name = (nameEl.textContent || '').trim();
+    var desc = (descEl.textContent || '').trim();
+    if(name && desc) map[slugify(name)] = desc;
+  });
+  return map;
+}
 function requireField(w, field){
   var v = (w[field] || '').trim();
   if(!v) throw new Error('[CMS] wine "'+(w.id || '?')+'" missing required field: '+field);
@@ -722,6 +737,7 @@ function renderWineV3(w){
       + '</div>'
       + '<div class="wine-col-details">'
         + '<span class="wine-collection">'+coll+' Collection</span>'
+        + (COLLECTION_DESCRIPTIONS[slug] ? '<p class="wine-collection-desc">'+escAttr(COLLECTION_DESCRIPTIONS[slug])+'</p>' : '')
         + detailsHtml
         + '<div class="wine-detail-footer">'+volume+'&nbsp;&nbsp;alc.'+alcohol+'% by vol.</div>'
       + '</div>'
@@ -739,6 +755,7 @@ async function loadCMS(){
   var valid = wines.filter(function(w){ return w.name && w.name.trim(); });
   if(!valid.length) throw new Error('[CMS] wines sheet returned no rows with a name');
 
+  COLLECTION_DESCRIPTIONS = readCollectionDescriptions();
   container.innerHTML = valid.map(renderWineV3).join('');
   container.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
   if(wScroll && wDots) setupDots(wScroll, wDots);

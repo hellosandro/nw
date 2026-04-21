@@ -401,7 +401,13 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .wine-card[data-collection="nereides"]  .wine-collection { background: #C7BCA3; color: var(--ink); }
 .wine-card[data-collection="monopatia"] .wine-collection { background: #EA9332; color: var(--ink); }
 .wine-card[data-collection="volcanica"] .wine-collection { background: #C46E4B; color: var(--bg); }
-.wine-card-v3 .wine-collection { margin-left: 0; margin-bottom: 40px; align-self: flex-start; font-weight: 500; letter-spacing: 0.08em; text-indent: 0.08em; padding: 0.5em 0.55em 0.42em; }
+.wine-card-v3 .wine-collection { margin-left: 0; margin-bottom: 14px; align-self: flex-start; font-weight: 500; letter-spacing: 0.08em; text-indent: 0.08em; padding: 0.5em 0.55em 0.42em; }
+.wine-collection-desc {
+  margin: 0 0 clamp(24px, 3vw, 40px);
+  font-family: 'JetBrains Mono', monospace; font-weight: 300;
+  font-size: clamp(0.66rem, 1.2vw, 0.78rem); line-height: 1.55;
+  color: var(--muted);
+}
 .wines-collections-card { overflow: visible !important; }
 .wines-collections-card .wine-card-inner { overflow: visible !important; }
 .collections-eyebrow { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); margin-bottom: 40px; }
