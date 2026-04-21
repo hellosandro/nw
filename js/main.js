@@ -117,12 +117,18 @@ function initFaces() {
   var lbClose  = document.getElementById('faces-lightbox-close');
   var lbPrev   = document.getElementById('faces-lightbox-prev');
   var lbNext   = document.getElementById('faces-lightbox-next');
+  var lbLabel  = document.getElementById('faces-lightbox-label');
+  var lbText   = document.getElementById('faces-lightbox-text');
   if (lb && lbImg && items.length) {
     var photos = Array.prototype.map.call(items, function(it) {
       var img = it.querySelector('img');
+      var labelEl = it.querySelector('.faces-label');
+      var textEl  = it.querySelector('.faces-text');
       return {
         src: img ? (img.getAttribute('data-full-src') || img.getAttribute('src')) : '',
-        alt: img ? img.getAttribute('alt') : ''
+        alt: img ? img.getAttribute('alt') : '',
+        label: labelEl ? labelEl.textContent.trim() : '',
+        text:  textEl  ? textEl.textContent.trim()  : ''
       };
     });
     var lbIdx = 0;
@@ -131,6 +137,8 @@ function initFaces() {
       var p = photos[lbIdx];
       lbImg.src = p.src;
       lbImg.alt = p.alt || '';
+      if (lbLabel) lbLabel.textContent = p.label || '';
+      if (lbText)  lbText.textContent  = p.text  || '';
     }
     function openLb(i) {
       showPhoto(i);

@@ -578,6 +578,22 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   width: auto; height: auto; display: block;
   object-fit: contain;
 }
+.faces-lightbox-caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 48px 24px 28px;
+  background: linear-gradient(to top, rgba(20,18,17,0.85) 0%, rgba(20,18,17,0) 100%);
+  text-align: center; pointer-events: none;
+  color: var(--bg);
+}
+.faces-lightbox-caption .faces-label {
+  color: var(--bg); opacity: 0.85; margin-bottom: 8px;
+}
+.faces-lightbox-caption .faces-text {
+  color: var(--bg); max-width: 720px; margin: 0 auto;
+}
+.faces-lightbox-caption:empty,
+.faces-lightbox-caption .faces-label:empty,
+.faces-lightbox-caption .faces-text:empty { display: none; }
 .faces-lightbox-close, .faces-lightbox-prev, .faces-lightbox-next {
   position: absolute; background: transparent; border: none; cursor: pointer;
   padding: 0; color: #fff; opacity: 0.65; transition: opacity 0.2s;
