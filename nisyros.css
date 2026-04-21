@@ -513,6 +513,15 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 .faces-item { flex: 0 0 auto; position: relative; margin: 0; z-index: 20; }
 /* First photo sits behind the title; all others pass in front of it */
 .faces-item:first-child { z-index: 1; }
+
+/* Edge echoes — faded hint of what's at the other end of the wall */
+.faces-echo { opacity: 0.3; transform: none !important; }
+.faces-echo .faces-polaroid { box-shadow: none; padding: 10px; }
+.faces-echo .faces-polaroid img {
+  max-width: calc(var(--faces-max) * 0.55);
+  max-height: calc(var(--faces-max) * 0.55);
+  filter: grayscale(0.3);
+}
 /* Hand-hung look: each photo drifts up/down off the centerline */
 .faces-item:nth-child(6n+1) { transform: translateY(-40px); }
 .faces-item:nth-child(6n+2) { transform: translateY( 34px); }
