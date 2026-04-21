@@ -399,7 +399,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   letter-spacing: 0.2em;
 }
 .wine-body-label { font-family: var(--h6-family); font-weight: 600; font-size: var(--h6); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
-.wine-body-text { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: var(--p); line-height: 1.7; color: var(--muted); }
+.wine-body-text { font-family: 'JetBrains Mono', monospace; font-weight: 300; font-size: 0.9rem; line-height: 1.7; color: var(--muted); }
 .wine-collection { display: inline-block; font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.3em; text-indent: 0.3em; text-transform: uppercase; color: var(--bg); background: var(--red); padding: 0.5em 0.5em 0.42em; margin-left: 8px; vertical-align: middle; line-height: 1; }
 .wine-card[data-collection="nereides"]  .wine-collection { background: #C7BCA3; color: var(--ink); }
 .wine-card[data-collection="monopatia"] .wine-collection { background: #EA9332; color: var(--ink); }
@@ -482,43 +482,114 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   .wine-col-bottle  { grid-area: bottle; }
 }
 
-/* ── FACES SLIDESHOW ── */
+/* ── FACES GALLERY WALL ── */
 #faces {
   scroll-snap-align: start;
   scroll-margin-top: 0;
   position: relative; width: 100%; height: 100svh;
-  overflow: hidden; background: var(--ink);
+  background: var(--bg);
+  overflow: hidden;
+  isolation: isolate;
+  --faces-max: clamp(390px, 72vh, 810px);
 }
-.faces-slideshow { position: relative; width: 100%; height: 100%; }
-.faces-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease; }
-.faces-slide.active { opacity: 1; }
-.faces-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.faces-slide-overlay {
+.faces-wall-header {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding-top: calc(var(--nav-h) + 32px);
+  width: clamp(380px, 40vw, 560px);
+}
+.faces-wall-header .quote { margin-top: 20px; }
+.faces-wall {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(41,37,35,0.65) 0%, rgba(41,37,35,0.08) 55%);
+  display: flex; align-items: flex-end;
+  gap: clamp(56px, 7vw, 128px);
+  padding: 0 48px 100px max(100px, env(safe-area-inset-left, 0px));
+  overflow-x: auto; overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
 }
-.faces-slide-caption { position: absolute; bottom: 48px; left: 48px; right: 48px; }
-.faces-slide-label { font-family: var(--h6-family); font-weight: 300; font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase; color: #fff; margin-bottom: 8px; }
-.faces-slide-text { font-family: bookmania, Georgia, serif; font-weight: 400; font-size: var(--h3); line-height: 1.0; letter-spacing: -0.01em; color: #fff; }
+.faces-wall::-webkit-scrollbar { display: none; }
+.faces-wall.dragging { cursor: grabbing; }
 
-.faces-prev, .faces-next {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 88px; height: 88px;
+.faces-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-start; margin: 0; }
+/* Hand-hung look: each photo drifts up off the baseline (kept biased upward so
+   nothing pokes into the controls row at the section bottom) */
+.faces-item:nth-of-type(6n+1) { transform: translateY(-50px); }
+.faces-item:nth-of-type(6n+2) { transform: translateY(  8px); }
+.faces-item:nth-of-type(6n+3) { transform: translateY(-44px); }
+.faces-item:nth-of-type(6n+4) { transform: translateY(-12px); }
+.faces-item:nth-of-type(6n+5) { transform: translateY(-32px); }
+.faces-item:nth-of-type(6n+6) { transform: translateY( 10px); }
+.faces-polaroid {
+  background: #fff; padding: 14px; line-height: 0;
+  box-shadow: 0 1px 2px rgba(43,39,37,0.12), 0 22px 40px -18px rgba(43,39,37,0.35);
+}
+.faces-polaroid img {
+  display: block;
+  max-width: var(--faces-max);
+  max-height: var(--faces-max);
+  width: auto; height: auto;
+  user-select: none; -webkit-user-drag: none;
+}
+.faces-caption { margin: 18px 4px 0; max-width: var(--faces-max); }
+.faces-label {
+  font-family: var(--h6-family); font-weight: 300;
+  font-size: var(--h6); letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--ink); margin-bottom: 6px;
+}
+.faces-text {
+  font-family: bookmania, Georgia, serif; font-weight: 400;
+  font-size: var(--h5); line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.faces-polaroid { cursor: zoom-in; }
+
+/* Controls row (arrows + dots) at the bottom of the section */
+.faces-controls {
+  position: absolute; left: 0; right: 0; bottom: 14px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; z-index: 20; opacity: 0.6; transition: opacity 0.3s;
+  z-index: 20; background: transparent; pointer-events: none;
 }
-.faces-prev:hover, .faces-next:hover { opacity: 0.95; }
-.faces-prev { left: 0; }
-.faces-next { right: 0; }
-.faces-prev svg, .faces-next svg { width: 48px; height: 48px; stroke: #fff; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.faces-controls > * { pointer-events: auto; }
+.faces-arrows {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(245,242,238,0.82);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  padding: 6px 14px; border-radius: 32px;
+}
+.faces-arrows .scroll-chevron { position: static; transform: none; width: 44px; height: 44px; }
+.faces-arrows .scroll-chevron svg { width: 26px; height: 26px; stroke: rgba(0,0,0,0.35); }
+.faces-arrows .scroll-chevron.is-disabled { opacity: 0.2; pointer-events: none; }
+#faces-dots { padding: 0; position: static; flex: 0 0 auto; }
 
-.faces-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20; }
-.faces-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s, transform 0.3s; }
-.faces-dot.active { background: #fff; transform: scale(1.3); }
-
-.faces-header-overlay { position: absolute; top: calc(var(--nav-h) + 32px); left: 48px; z-index: 10; }
-.faces-header-overlay .big { color: #fff; }
-.faces-header-overlay hr.slash { border-top-color: rgba(255,255,255,0.4); }
+/* Fullscreen lightbox */
+.faces-lightbox {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(20,18,17,0.94);
+  display: none; align-items: center; justify-content: center;
+  padding: 0;
+}
+.faces-lightbox.open { display: flex; }
+.faces-lightbox-img {
+  max-width: 100vw;
+  max-height: 100svh;
+  width: auto; height: auto; display: block;
+  object-fit: contain;
+}
+.faces-lightbox-close, .faces-lightbox-prev, .faces-lightbox-next {
+  position: absolute; background: transparent; border: none; cursor: pointer;
+  padding: 0; color: #fff; opacity: 0.65; transition: opacity 0.2s;
+}
+.faces-lightbox-close:hover, .faces-lightbox-prev:hover, .faces-lightbox-next:hover { opacity: 1; }
+.faces-lightbox-close { top: 20px; right: 24px; width: 40px; height: 40px; }
+.faces-lightbox-prev  { left: 20px;  top: 50%; transform: translateY(-50%); width: 56px; height: 56px; }
+.faces-lightbox-next  { right: 20px; top: 50%; transform: translateY(-50%); width: 56px; height: 56px; }
+.faces-lightbox-close svg, .faces-lightbox-prev svg, .faces-lightbox-next svg {
+  width: 100%; height: 100%; stroke: #fff; stroke-width: 1.5;
+  fill: none; stroke-linecap: round; stroke-linejoin: round;
+}
 
 /* ── CONTACT ── */
 #contact { background: var(--bg); min-height: auto; padding-top: 0; padding-bottom: 80px; }
@@ -600,12 +671,23 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .wine-col-details { margin-top: 24px; }
   .wine-card-v3 .wine-col-bottle { order: -1; margin-top: 0; margin-bottom: 24px; }
   .wine-col-bottle img { max-height: 50vh; }
-  .faces-slide-caption { bottom: 32px; left: 24px; right: 24px; }
-  .faces-header-overlay { left: 24px; top: calc(var(--nav-h) + 20px); }
+  #faces { --faces-max: min(88vw, 50vh); }
+  .faces-wall-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: calc(var(--nav-h) + 20px) 24px 0;
+    z-index: 5; pointer-events: none;
+    width: auto;
+  }
+  .faces-wall-header .quote { margin-top: 16px; }
+  .faces-wall {
+    gap: 28px;
+    padding: clamp(230px, 32vh, 290px) 16px 90px;
+    align-items: center;
+  }
+  .faces-polaroid { padding: 10px; }
+  .faces-caption { margin-top: 14px; }
   .scroll-chevron { width: 52px; height: 52px; }
   .scroll-chevron svg { width: 28px; height: 28px; }
-  .faces-prev, .faces-next { width: 56px; height: 56px; }
-  .faces-prev svg, .faces-next svg { width: 32px; height: 32px; }
   .contact-header { padding: calc(var(--nav-h) + 40px) 24px 32px; }
   .contact-block { padding: 32px 24px; }
 }

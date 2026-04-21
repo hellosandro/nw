@@ -1,42 +1,111 @@
-<!-- ══ FACES — fullscreen slideshow ══ -->
+<!-- ══ FACES — gallery wall ══ -->
 <section id="faces">
-  <div class="faces-slideshow" id="faces-slideshow">
+  <div class="faces-wall" id="faces-wall">
 
-    <div class="faces-slide active" id="fslide-0">
-      <img src="assets/NW-01-caldera.jpg" alt="Village and caldera, Nisyros" loading="eager">
-      <div class="faces-slide-overlay"></div>
-      <div class="faces-slide-caption">
-        <p class="faces-slide-label">Territory</p>
-        <p class="faces-slide-text">The village, the caldera,<br>the sea.</p>
+    <div class="faces-wall-header">
+      <div class="big">Faces</div>
+      <div class="big">&amp; Places</div>
+      <p class="quote">The island. The people. The bottles. What the cellar smells like at five in the morning.</p>
+    </div>
+
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/NW-01-caldera.jpg" alt="" loading="lazy" draggable="false">
       </div>
-    </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Lorem ipsum dolor sit amet.</p>
+      </figcaption>
+    </figure>
 
-    <div class="faces-slide" id="fslide-1">
-      <img src="assets/NW-02-crater.jpg" alt="Stefanos crater, Nisyros" loading="lazy">
-      <div class="faces-slide-overlay"></div>
-      <div class="faces-slide-caption">
-        <p class="faces-slide-label">Volcano</p>
-        <p class="faces-slide-text">Inside the crater.<br>Still breathing.</p>
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-2025_Harvest_red-20.jpg" alt="" loading="lazy" draggable="false">
       </div>
-    </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Sed do eiusmod tempor.</p>
+      </figcaption>
+    </figure>
 
-    <div class="faces-header-overlay">
-      <div class="big md">Faces</div>
-      <div class="big md">&amp; Places</div>
-      <hr class="slash" style="margin-top:8px;">
-    </div>
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-wall-1.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Consectetur adipiscing elit.</p>
+      </figcaption>
+    </figure>
 
-    <div class="faces-prev" id="faces-prev">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-    </div>
-    <div class="faces-next" id="faces-next">
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
-    </div>
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-volcanic-soil.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Incididunt ut labore et dolore.</p>
+      </figcaption>
+    </figure>
 
-    <div class="faces-dots" id="faces-dots">
-      <div class="faces-dot active" data-idx="0"></div>
-      <div class="faces-dot" data-idx="1"></div>
-    </div>
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-2025_Harvest_white-44.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Magna aliqua, ut enim.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-monopatia.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Ad minim veniam, quis nostrud.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/nw-2025_Pressing_Rhodos_white-01.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Exercitation ullamco laboris.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="faces-item">
+      <div class="faces-polaroid">
+        <img src="assets/NW-02-crater.jpg" alt="" loading="lazy" draggable="false">
+      </div>
+      <figcaption class="faces-caption">
+        <p class="faces-label">Placeholder</p>
+        <p class="faces-text">Nisi ut aliquip ex ea commodo.</p>
+      </figcaption>
+    </figure>
 
   </div>
+
+  <div class="faces-controls">
+    <div class="faces-arrows" id="faces-arrows">
+      <div class="hscroll-dots" id="faces-dots"></div>
+    </div>
+  </div>
 </section>
+
+<div class="faces-lightbox" id="faces-lightbox" aria-hidden="true">
+  <button class="faces-lightbox-close" id="faces-lightbox-close" aria-label="Close">
+    <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line></svg>
+  </button>
+  <button class="faces-lightbox-prev" id="faces-lightbox-prev" aria-label="Previous">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <img class="faces-lightbox-img" id="faces-lightbox-img" src="" alt="">
+  <button class="faces-lightbox-next" id="faces-lightbox-next" aria-label="Next">
+    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+  </button>
+</div>

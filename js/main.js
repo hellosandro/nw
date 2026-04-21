@@ -7,39 +7,157 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
   setTimeout(() => el.classList.add('on'), 150 + i * 120);
 });
 
-/* ── FACES SLIDESHOW ── */
+/* ── FACES GALLERY WALL (free horizontal scroll + arrows/dots + lightbox) ── */
 (function() {
-  var slides = document.querySelectorAll('.faces-slide');
-  var dots   = document.querySelectorAll('.faces-dot');
-  var facesEl = document.getElementById('faces');
-  var cur = 0, autoT = null;
-  function startAuto() { if (autoT) return; autoT = setInterval(autoAdvance, 5000); }
-  function stopAuto()  { if (autoT) { clearInterval(autoT); autoT = null; } }
-  function autoAdvance() { goTo((cur + 1) % slides.length); }
-  function goTo(idx) {
-    if (idx >= slides.length) {
-      stopAuto();
-      var next = facesEl ? facesEl.nextElementSibling : null;
-      if (next) navScrollTo(next);
-      return;
+  var wall = document.getElementById('faces-wall');
+  if (!wall) return;
+
+  var items = wall.querySelectorAll('.faces-item');
+
+  // Mouse drag-to-scroll. Track whether a real drag happened so we can
+  // suppress the synthesised click that would otherwise open the lightbox.
+  var dragging = false, dragged = false, startX = 0, startScroll = 0;
+  wall.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
+    dragging = true; dragged = false;
+    startX = e.pageX;
+    startScroll = wall.scrollLeft;
+    wall.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    if (Math.abs(e.pageX - startX) > 5) dragged = true;
+    wall.scrollLeft = startScroll - (e.pageX - startX);
+  });
+  window.addEventListener('mouseup', function() {
+    if (!dragging) return;
+    dragging = false;
+    wall.classList.remove('dragging');
+  });
+
+  // Vertical wheel → horizontal scroll (only when the wall actually overflows)
+  wall.addEventListener('wheel', function(e) {
+    if (wall.scrollWidth <= wall.clientWidth + 2) return;
+    var absX = Math.abs(e.deltaX), absY = Math.abs(e.deltaY);
+    if (absY <= absX) return;
+    var canRight = wall.scrollLeft < wall.scrollWidth - wall.clientWidth - 1;
+    var canLeft  = wall.scrollLeft > 0;
+    if ((e.deltaY > 0 && canRight) || (e.deltaY < 0 && canLeft)) {
+      e.preventDefault();
+      wall.scrollLeft += e.deltaY;
     }
-    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
-    cur = (idx + slides.length) % slides.length;
-    slides[cur].classList.add('active'); dots[cur].classList.add('active');
-    stopAuto(); startAuto();
+  }, { passive: false });
+
+  // ── Arrows + dots ──
+  var arrowsHost = document.getElementById('faces-arrows');
+  var dotsEl    = document.getElementById('faces-dots');
+  if (arrowsHost && dotsEl && items.length) {
+    // Build dots
+    dotsEl.innerHTML = '';
+    items.forEach(function(_, i) {
+      var d = document.createElement('span');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', function() { scrollToItem(i); });
+      dotsEl.appendChild(d);
+    });
+    var dots = dotsEl.querySelectorAll('.dot');
+
+    // Build arrows
+    var lArr = document.createElement('div');
+    lArr.className = 'scroll-chevron scroll-chevron-left';
+    lArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>';
+    var rArr = document.createElement('div');
+    rArr.className = 'scroll-chevron scroll-chevron-right';
+    rArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
+    arrowsHost.insertBefore(lArr, dotsEl);
+    arrowsHost.appendChild(rArr);
+
+    function currentIdx() {
+      var center = wall.scrollLeft + wall.clientWidth / 2;
+      var best = 0, bd = Infinity;
+      items.forEach(function(it, i) {
+        var c = it.offsetLeft + it.offsetWidth / 2;
+        var d = Math.abs(c - center);
+        if (d < bd) { bd = d; best = i; }
+      });
+      return best;
+    }
+    function scrollToItem(i) {
+      var item = items[Math.max(0, Math.min(i, items.length - 1))];
+      var target = item.offsetLeft + item.offsetWidth / 2 - wall.clientWidth / 2;
+      target = Math.max(0, Math.min(target, wall.scrollWidth - wall.clientWidth));
+      smoothTo(wall, target, 420);
+    }
+    lArr.addEventListener('click', function() { scrollToItem(currentIdx() - 1); });
+    rArr.addEventListener('click', function() { scrollToItem(currentIdx() + 1); });
+
+    function syncNav() {
+      var idx = currentIdx();
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      lArr.classList.toggle('is-disabled', wall.scrollLeft < 4);
+      rArr.classList.toggle('is-disabled', wall.scrollLeft > wall.scrollWidth - wall.clientWidth - 4);
+    }
+    var rafPending = false;
+    wall.addEventListener('scroll', function() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function() { rafPending = false; syncNav(); });
+    });
+    syncNav();
   }
-  document.getElementById('faces-prev').addEventListener('click', () => goTo(cur - 1));
-  document.getElementById('faces-next').addEventListener('click', () => goTo(cur + 1));
-  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
-  var ss = document.getElementById('faces-slideshow'), sx = 0;
-  ss.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
-  ss.addEventListener('touchend',   e => { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) goTo(dx < 0 ? cur+1 : cur-1); }, { passive: true });
-  if (facesEl && 'IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) startAuto(); else stopAuto(); });
-    }, { threshold: 0.3 }).observe(facesEl);
-  } else {
-    startAuto();
+
+  // ── Lightbox ──
+  var lb       = document.getElementById('faces-lightbox');
+  var lbImg    = document.getElementById('faces-lightbox-img');
+  var lbClose  = document.getElementById('faces-lightbox-close');
+  var lbPrev   = document.getElementById('faces-lightbox-prev');
+  var lbNext   = document.getElementById('faces-lightbox-next');
+  if (lb && lbImg && items.length) {
+    var photos = Array.prototype.map.call(items, function(it) {
+      var img = it.querySelector('img');
+      return {
+        src: img ? img.getAttribute('src') : '',
+        alt: img ? img.getAttribute('alt') : ''
+      };
+    });
+    var lbIdx = 0;
+    function showPhoto(i) {
+      lbIdx = (i + photos.length) % photos.length;
+      var p = photos[lbIdx];
+      lbImg.src = p.src;
+      lbImg.alt = p.alt || '';
+    }
+    function openLb(i) {
+      showPhoto(i);
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    // Event delegation: the click might land on the wall instead of the item
+    // if a CSS rule toggles pointer-events during the drag cycle. Listening on
+    // the wall catches both cases and then maps back to the matching item.
+    wall.addEventListener('click', function(e) {
+      if (dragged) return;
+      var it = e.target && e.target.closest ? e.target.closest('.faces-item') : null;
+      if (!it) return;
+      var i = Array.prototype.indexOf.call(items, it);
+      if (i >= 0) openLb(i);
+    });
+    lbClose.addEventListener('click', closeLb);
+    lbPrev.addEventListener('click', function() { showPhoto(lbIdx - 1); });
+    lbNext.addEventListener('click', function() { showPhoto(lbIdx + 1); });
+    lb.addEventListener('click', function(e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')    closeLb();
+      if (e.key === 'ArrowLeft') showPhoto(lbIdx - 1);
+      if (e.key === 'ArrowRight') showPhoto(lbIdx + 1);
+    });
   }
 })();
 
@@ -222,7 +340,7 @@ function navScrollTo(target) {
 (function() {
   var nav = document.getElementById('nav');
   if (!nav) return;
-  var darkZones = document.querySelectorAll('#hero, #faces');
+  var darkZones = document.querySelectorAll('#hero');
   if (!darkZones.length) return;
   function update() {
     var navH = nav.getBoundingClientRect().height;
