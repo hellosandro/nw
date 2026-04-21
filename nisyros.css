@@ -423,14 +423,14 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
 /* ── WINE CARD V3 (3-column) ── */
 .wine-card-v3 {
   display: grid !important;
-  grid-template-columns: clamp(280px, 38vw, 520px) clamp(140px, 18vw, 240px) 1fr;
+  grid-template-columns: clamp(280px, 38vw, 520px) 1fr clamp(140px, 18vw, 240px);
   align-items: start;
   column-gap: clamp(32px, 4vw, 72px);
 }
 .wine-col-main { display: flex; flex-direction: column; }
 .wine-col-texts { margin-top: 24px; display: flex; flex-direction: column; gap: 24px; max-width: 480px; }
 .wine-col-texts .wine-body-label { margin-bottom: 12px; }
-.wine-col-details { padding-top: clamp(56px, 7.2vw, 112px); display: flex; flex-direction: column; }
+.wine-col-details { order: 2; padding-top: clamp(56px, 7.2vw, 112px); display: flex; flex-direction: column; }
 .wine-detail-row {
   display: flex; flex-direction: column; gap: 7px;
   padding: 7px 0 9px; border-bottom: 1px solid rgba(43,39,37,0.18);
@@ -450,6 +450,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   font-size: clamp(0.66rem, 1.35vw, 0.8rem); line-height: 1.35; color: var(--ink);
 }
 .wine-col-bottle {
+  order: 1;
   display: flex; align-items: center; justify-content: center;
   align-self: center;
 }
