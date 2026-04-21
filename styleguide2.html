@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Nisyros Wines — Styleguide 2</title>
+<link rel="stylesheet" href="https://use.typekit.net/jyf6llr.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:    #F5F2EE;
+    --bg-alt:#EDE7DB;
+    --ink:   #2B2725;
+    --red:   #C46E4B;
+    --amber: #EA9332;
+    --stone: #C7BCA3;
+    --muted: #494441;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 300;
+    padding: 48px 40px 80px;
+    min-width: 1200px;
+  }
+
+  .page-title {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    font-size: 2.6rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .page-intro {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 780px;
+    margin-bottom: 56px;
+  }
+
+  /* ── ROW: one class, three columns ── */
+  .class-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    padding: 32px 0 48px;
+    border-top: 1px solid rgba(43,39,37,0.15);
+  }
+
+  .col-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 18px;
+  }
+
+  .class-name {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .clamp-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+    opacity: 0.75;
+  }
+  .clamp-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .sample {
+    padding: 24px 0;
+    border-top: 1px dashed rgba(43,39,37,0.18);
+    border-bottom: 1px dashed rgba(43,39,37,0.18);
+    margin-bottom: 20px;
+    overflow: hidden;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+  }
+
+  .details {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .details div { display: grid; grid-template-columns: 130px 1fr; }
+  .details .k { color: var(--ink); }
+
+  .usage-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .usage-list {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    line-height: 1.75;
+    color: var(--muted);
+    list-style: none;
+  }
+  .usage-list li { padding-left: 14px; position: relative; }
+  .usage-list li::before {
+    content: '·';
+    color: var(--red);
+    position: absolute;
+    left: 0;
+  }
+
+  /* ── NON-RESPONSIVE DEMOS for .big ── */
+  /* Shared .big look, only font-size varies per column */
+  .big-demo {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .big-demo.desktop      { font-size: 9rem;    }   /* clamp max    */
+  .big-demo.intermediate { font-size: 6.25rem; }   /* 10vw @ 1000px */
+  .big-demo.mobile       { font-size: 3.5rem;  }   /* clamp min    */
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Styleguide v2</h1>
+  <p class="page-intro">
+    Classi tipografiche in ordine di grandezza. Ogni classe è mostrata tre volte affiancate — i tre valori del <code>clamp()</code>: massimo (desktop), midpoint (intermedio, media fra min e max) e minimo (mobile). La parola campione è resa a misura reale, non responsive, così da vedere l'effettiva dimensione ad ogni breakpoint.
+  </p>
+
+  <!-- ══════════════════════════════════════
+       .big
+       clamp(3.5rem, 10vw, 9rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+
+    <!-- ── Col 1 · DESKTOP (max) ── -->
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.big</div>
+      <div class="clamp-formula">clamp(3.5rem, 10vw, 9rem)</div>
+      <div class="clamp-value">9rem · 144px</div>
+
+      <div class="sample"><span class="big-demo desktop">Nisyros</span></div>
+
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>9rem (144px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">word-break</span><span>keep-all</span></div>
+      </div>
+
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Manifesto — titoli dei pannelli #m1–#m6 e #credo</li>
+        <li>Hero — titolo principale (override colore: var(--bg))</li>
+        <li>Wines intro card — "5 Wines / 2 Vintages / 3 Collections"</li>
+        <li>Wines collections card — "Three Philosophies" (con modifier .sm → --h2)</li>
+        <li>Faces header overlay — titolo della sezione</li>
+        <li>Modifier disponibili: <code>.big.md</code> (--h1) · <code>.big.sm</code> (--h2) · <code>.big.red</code> · <code>.big.amber</code></li>
+      </ul>
+    </div>
+
+    <!-- ── Col 2 · INTERMEDIO (preferred) ── -->
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.big</div>
+      <div class="clamp-value">6.25rem · 100px</div>
+
+      <div class="sample"><span class="big-demo intermediate">Nisyros</span></div>
+
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>6.25rem (100px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">word-break</span><span>keep-all</span></div>
+      </div>
+    </div>
+
+    <!-- ── Col 3 · MOBILE (min) ── -->
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.big</div>
+      <div class="clamp-value">3.5rem · 56px</div>
+
+      <div class="sample"><span class="big-demo mobile">Nisyros</span></div>
+
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>3.5rem (56px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">word-break</span><span>keep-all</span></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .big.md  (modifier --h1)
+       clamp(3rem, 8.5vw, 7.5rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.big.md</div>
+      <div class="clamp-formula">clamp(3rem, 8.5vw, 7.5rem)</div>
+      <div class="clamp-value">7.5rem · 120px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:7.5rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>7.5rem (120px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Modifier di <code>.big</code> — titolo "medio" con stessa scala tipografica ma font-size --h1</li>
+        <li>Attualmente non istanziata nei template (disponibile come utility)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.big.md</div>
+      <div class="clamp-value">5.25rem · 84px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:5.25rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>5.25rem (84px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.big.md</div>
+      <div class="clamp-value">3rem · 48px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:3rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>3rem (48px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .big.sm  (modifier --h2)
+       clamp(2.5rem, 7vw, 6rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.big.sm</div>
+      <div class="clamp-formula">clamp(2.5rem, 7vw, 6rem)</div>
+      <div class="clamp-value">6rem · 96px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:6rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>6rem (96px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wines collections card — "Three Philosophies" sopra la griglia 3 colonne</li>
+        <li>Modifier di <code>.big</code> → font-size --h2 (ereditando line-height/letter-spacing di <code>.big</code>)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.big.sm</div>
+      <div class="clamp-value">4.25rem · 68px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:4.25rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>4.25rem (68px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.big.sm</div>
+      <div class="clamp-value">2.5rem · 40px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:2.5rem;line-height:0.92;letter-spacing:-0.02em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>2.5rem (40px)</span></div>
+        <div><span class="k">line-height</span><span>0.92</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.02em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-name  (--h2 ma lh/ls diverse da .big)
+       clamp(2.5rem, 7vw, 6rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-name</div>
+      <div class="clamp-formula">clamp(2.5rem, 7vw, 6rem)</div>
+      <div class="clamp-value">6rem · 96px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:6rem;line-height:1;letter-spacing:-0.01em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>6rem (96px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.01em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">margin-bottom</span><span>0.12em</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wine cards — nome di ogni vino (3,2,1 · 40 Milia Konda · Roudià · Apiri · Atmida)</li>
+        <li>Stesso clamp di <code>.big.sm</code> ma line-height 1.0 e letter-spacing -0.01em (più aperta)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-name</div>
+      <div class="clamp-value">4.25rem · 68px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:4.25rem;line-height:1;letter-spacing:-0.01em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>4.25rem (68px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.01em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-name</div>
+      <div class="clamp-value">2.5rem · 40px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:2.5rem;line-height:1;letter-spacing:-0.01em;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>2.5rem (40px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+        <div><span class="k">letter-spacing</span><span>-0.01em</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .nav-links li a  (menu overlay)
+       clamp(2.4rem, 7vw, 5rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.nav-links li a</div>
+      <div class="clamp-formula">clamp(2.4rem, 7vw, 5rem)</div>
+      <div class="clamp-value">5rem · 80px</div>
+      <div class="sample" style="background:#2B2725;padding:24px;"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:5rem;line-height:1;letter-spacing:0;color:rgba(255,255,255,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>5rem (80px)</span></div>
+        <div><span class="k">line-height</span><span>1</span></div>
+        <div><span class="k">letter-spacing</span><span>0</span></div>
+        <div><span class="k">color</span><span>rgba(255,255,255,0.8)</span></div>
+        <div><span class="k">hover/active</span><span>var(--red)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Nav overlay full-screen — voci del menu (Manifesto · Wines · Faces · Contact)</li>
+        <li>Su mobile (≤639px) il clamp diventa <code>clamp(3rem, 12vw, 5rem)</code> con line-height 1.25</li>
+        <li>Contesto: sempre su fondo scuro (<code>var(--ink)</code>)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.nav-links li a</div>
+      <div class="clamp-value">3.7rem · 59.2px</div>
+      <div class="sample" style="background:#2B2725;padding:24px;"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:3.7rem;line-height:1;letter-spacing:0;color:rgba(255,255,255,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>3.7rem (59.2px)</span></div>
+        <div><span class="k">line-height</span><span>1</span></div>
+        <div><span class="k">letter-spacing</span><span>0</span></div>
+        <div><span class="k">color</span><span>rgba(255,255,255,0.8)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.nav-links li a</div>
+      <div class="clamp-value">2.4rem · 38.4px</div>
+      <div class="sample" style="background:#2B2725;padding:24px;"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:2.4rem;line-height:1;letter-spacing:0;color:rgba(255,255,255,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>2.4rem (38.4px)</span></div>
+        <div><span class="k">line-height</span><span>1</span></div>
+        <div><span class="k">letter-spacing</span><span>0</span></div>
+        <div><span class="k">color</span><span>rgba(255,255,255,0.8)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .collection-name-v2  (--h3)
+       clamp(1.6rem, 5vw, 3.5rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.collection-name-v2</div>
+      <div class="clamp-formula">clamp(1.6rem, 5vw, 3.5rem)</div>
+      <div class="clamp-value">3.5rem · 56px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:3.5rem;line-height:1;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>3.5rem (56px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+        <div><span class="k">color</span><span>inline (per collezione)</span></div>
+        <div><span class="k">margin-bottom</span><span>12px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wines collections card — titoli delle 3 collezioni</li>
+        <li>Colori inline per collezione: Monopàtia <code>#EA9332</code> · Nereides <code>#C7BCA3</code> · Volcanica <code>#C46E4B</code></li>
+        <li>Su mobile font-size scende a <code>var(--h4)</code> con media query</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.collection-name-v2</div>
+      <div class="clamp-value">2.55rem · 40.8px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:2.55rem;line-height:1;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>2.55rem (40.8px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.collection-name-v2</div>
+      <div class="clamp-value">1.6rem · 25.6px</div>
+      <div class="sample"><span style="font-family:bookmania,Georgia,serif;font-weight:400;font-size:1.6rem;line-height:1;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>bookmania, Georgia, serif</span></div>
+        <div><span class="k">font-weight</span><span>400</span></div>
+        <div><span class="k">font-size</span><span>1.6rem (25.6px)</span></div>
+        <div><span class="k">line-height</span><span>1.0</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       #credo .scroll-hint-down  (override)
+       clamp(2.4rem, 5vw, 3.2rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">#credo .scroll-hint-down</div>
+      <div class="clamp-formula">clamp(2.4rem, 5vw, 3.2rem)</div>
+      <div class="clamp-value">3.2rem · 51.2px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:3.2rem;letter-spacing:0.05em;color:#F5F2EE;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>3.2rem (51.2px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#F5F2EE (bg)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Slide #credo — freccia "↓" che invita a scorrere verso #hero</li>
+        <li>Override del base <code>.scroll-hint-down</code>: font-size maggiore e colore bg su fondo red</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">#credo .scroll-hint-down</div>
+      <div class="clamp-value">2.8rem · 44.8px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:2.8rem;letter-spacing:0.05em;color:#F5F2EE;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>2.8rem (44.8px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#F5F2EE (bg)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">#credo .scroll-hint-down</div>
+      <div class="clamp-value">2.4rem · 38.4px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:2.4rem;letter-spacing:0.05em;color:#F5F2EE;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>2.4rem (38.4px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#F5F2EE (bg)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .scroll-hint-down  (base)
+       clamp(2rem, 4vw, 2.8rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.scroll-hint-down</div>
+      <div class="clamp-formula">clamp(2rem, 4vw, 2.8rem)</div>
+      <div class="clamp-value">2.8rem · 44.8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:2.8rem;letter-spacing:0.05em;color:#C7BCA3;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>2.8rem (44.8px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#C7BCA3 (faded)</span></div>
+        <div><span class="k">animation</span><span>nudge-down 2s infinite</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Hero — prompt "↓" per scorrere al manifesto (override colore: rgba(255,255,255,0.6))</li>
+        <li>Contenuto: freccia Unicode "↓", non parola — animata con rimbalzo verticale</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.scroll-hint-down</div>
+      <div class="clamp-value">2.4rem · 38.4px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:2.4rem;letter-spacing:0.05em;color:#C7BCA3;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>2.4rem (38.4px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#C7BCA3 (faded)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.scroll-hint-down</div>
+      <div class="clamp-value">2rem · 32px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:2rem;letter-spacing:0.05em;color:#C7BCA3;">↓</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>2rem (32px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#C7BCA3 (faded)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .quote  (--h5 · paragrafi manifesto)
+       clamp(0.9rem, 2vw, 1.2rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.quote</div>
+      <div class="clamp-formula">clamp(0.9rem, 2vw, 1.2rem)</div>
+      <div class="clamp-value">1.2rem · 19.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.2rem;line-height:1.65;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.2rem (19.2px)</span></div>
+        <div><span class="k">line-height</span><span>1.65</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+        <div><span class="k">max-width</span><span>560px</span></div>
+        <div><span class="k">margin-top</span><span>10px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Manifesto — paragrafi in tutti i 6 pannelli (#m1–#m6)</li>
+        <li>Wines intro card — copy sotto i 3 titoli</li>
+        <li>Paragrafo "body" principale del sito (non-credo)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.quote</div>
+      <div class="clamp-value">1.05rem · 16.8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.05rem;line-height:1.65;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.05rem (16.8px)</span></div>
+        <div><span class="k">line-height</span><span>1.65</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.quote</div>
+      <div class="clamp-value">0.9rem · 14.4px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.9rem;line-height:1.65;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.9rem (14.4px)</span></div>
+        <div><span class="k">line-height</span><span>1.65</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       #credo .sub  (paragrafo credo)
+       clamp(0.9rem, 2vw, 1.2rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">#credo .sub</div>
+      <div class="clamp-formula">clamp(0.9rem, 2vw, 1.2rem)</div>
+      <div class="clamp-value">1.2rem · 19.2px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.2rem;line-height:1.75;color:rgba(245,242,238,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.2rem (19.2px)</span></div>
+        <div><span class="k">line-height</span><span>1.75</span></div>
+        <div><span class="k">color</span><span>rgba(245,242,238,0.8)</span></div>
+        <div><span class="k">max-width</span><span>540px</span></div>
+        <div><span class="k">margin-top</span><span>22px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Slide #credo — unico paragrafo ("Every bottle carries the energy…")</li>
+        <li>Stesso clamp di <code>.quote</code> ma line-height 1.75 (più arioso) e colore warm-white su red</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">#credo .sub</div>
+      <div class="clamp-value">1.05rem · 16.8px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.05rem;line-height:1.75;color:rgba(245,242,238,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.05rem (16.8px)</span></div>
+        <div><span class="k">line-height</span><span>1.75</span></div>
+        <div><span class="k">color</span><span>rgba(245,242,238,0.8)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">#credo .sub</div>
+      <div class="clamp-value">0.9rem · 14.4px</div>
+      <div class="sample" style="background:#C46E4B;padding:24px;"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.9rem;line-height:1.75;color:rgba(245,242,238,0.8);">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.9rem (14.4px)</span></div>
+        <div><span class="k">line-height</span><span>1.75</span></div>
+        <div><span class="k">color</span><span>rgba(245,242,238,0.8)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-type  (--h5)
+       clamp(0.9rem, 2vw, 1.2rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-type</div>
+      <div class="clamp-formula">clamp(0.9rem, 2vw, 1.2rem)</div>
+      <div class="clamp-value">1.2rem · 19.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.2rem;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.2rem (19.2px)</span></div>
+        <div><span class="k">line-height</span><span>normal (ereditato)</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+        <div><span class="k">margin-bottom</span><span>24px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wine cards — sottotitolo sotto <code>.wine-name</code> (es. "Bianco · 2023")</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-type</div>
+      <div class="clamp-value">1.05rem · 16.8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.05rem;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.05rem (16.8px)</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-type</div>
+      <div class="clamp-value">0.9rem · 14.4px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.9rem;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.9rem (14.4px)</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-discover-cta  (CTA intro wines)
+       clamp(0.9rem, 2vw, 1.2rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-discover-cta</div>
+      <div class="clamp-formula">clamp(0.9rem, 2vw, 1.2rem)</div>
+      <div class="clamp-value">1.2rem · 19.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.2rem;color:#2B2725;text-decoration:underline;text-underline-offset:5px;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.2rem (19.2px)</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">text-decoration</span><span>underline</span></div>
+        <div><span class="k">underline-offset</span><span>5px</span></div>
+        <div><span class="k">margin-top</span><span>32px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wines intro card — bottone testuale "Discover &gt;" che porta alla prima scheda vino</li>
+        <li>Stile ereditato dal family <code>--h6-family</code> (JetBrains Mono) su size <code>--h5</code></li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-discover-cta</div>
+      <div class="clamp-value">1.05rem · 16.8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1.05rem;color:#2B2725;text-decoration:underline;text-underline-offset:5px;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1.05rem (16.8px)</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">text-decoration</span><span>underline</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-discover-cta</div>
+      <div class="clamp-value">0.9rem · 14.4px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.9rem;color:#2B2725;text-decoration:underline;text-underline-offset:5px;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.9rem (14.4px)</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">text-decoration</span><span>underline</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       .wine-body-text  /  .collection-desc-v2   (--p)
+       clamp(0.82rem, 1.8vw, 1rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-body-text · .collection-desc-v2</div>
+      <div class="clamp-formula">clamp(0.82rem, 1.8vw, 1rem)</div>
+      <div class="clamp-value">1rem · 16px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:1rem;line-height:1.7;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>1rem (16px)</span></div>
+        <div><span class="k">line-height</span><span>1.7</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li><code>.wine-body-text</code> — paragrafi Story / Winemaking / Tasting Notes in ogni wine card</li>
+        <li><code>.collection-desc-v2</code> — descrizioni delle 3 collezioni nella card finale wines</li>
+        <li>Le due classi sono tipograficamente identiche (scala <code>--p</code>)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-body-text · .collection-desc-v2</div>
+      <div class="clamp-value">0.91rem · 14.56px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.91rem;line-height:1.7;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.91rem (14.56px)</span></div>
+        <div><span class="k">line-height</span><span>1.7</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-body-text · .collection-desc-v2</div>
+      <div class="clamp-value">0.82rem · 13.12px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.82rem;line-height:1.7;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.82rem (13.12px)</span></div>
+        <div><span class="k">line-height</span><span>1.7</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-detail-value  /  .wine-detail-footer
+       clamp(0.66rem, 1.35vw, 0.8rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-detail-value · .wine-detail-footer</div>
+      <div class="clamp-formula">clamp(0.66rem, 1.35vw, 0.8rem)</div>
+      <div class="clamp-value">0.8rem · 12.8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.8rem;line-height:1.35;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.8rem (12.8px)</span></div>
+        <div><span class="k">line-height</span><span>1.35</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li><code>.wine-detail-value</code> — valore di ogni riga nella tabella specs (variety, appellation, origin…)</li>
+        <li><code>.wine-detail-footer</code> — riga finale "{volume} alc.{alcohol}% by vol." sotto la tabella</li>
+        <li>Le due classi sono tipograficamente identiche</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-detail-value · .wine-detail-footer</div>
+      <div class="clamp-value">0.73rem · 11.68px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.73rem;line-height:1.35;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.73rem (11.68px)</span></div>
+        <div><span class="k">line-height</span><span>1.35</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-detail-value · .wine-detail-footer</div>
+      <div class="clamp-value">0.66rem · 10.56px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.66rem;line-height:1.35;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.66rem (10.56px)</span></div>
+        <div><span class="k">line-height</span><span>1.35</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .collections-eyebrow  (--h6)
+       clamp(0.62rem, 1.6vw, 0.78rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.collections-eyebrow</div>
+      <div class="clamp-formula">clamp(0.62rem, 1.6vw, 0.78rem)</div>
+      <div class="clamp-value">0.78rem · 12.48px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.78rem;letter-spacing:0.3em;text-transform:uppercase;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.78rem (12.48px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+        <div><span class="k">margin-bottom</span><span>40px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wines collections card — eyebrow "OUR COLLECTIONS" sopra il titolo</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.collections-eyebrow</div>
+      <div class="clamp-value">0.7rem · 11.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.7rem;letter-spacing:0.3em;text-transform:uppercase;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.7rem (11.2px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.collections-eyebrow</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:#2B2725;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.62rem (9.92px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#2B2725 (ink)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .slide-counter  (--h6)
+       clamp(0.62rem, 1.6vw, 0.78rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.slide-counter</div>
+      <div class="clamp-formula">clamp(0.62rem, 1.6vw, 0.78rem)</div>
+      <div class="clamp-value">0.78rem · 12.48px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.78rem;letter-spacing:0.05em;color:#494441;">1 / 7</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.78rem (12.48px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Manifesto controls — contatore "n / 7" sotto i pannelli</li>
+        <li>Contenuto tipico: numeri e slash, non parola — quindi sample reale "1 / 7"</li>
+        <li>Su slide scura (#credo) il colore viene sovrascritto a <code>rgba(245,242,238,0.75)</code></li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.slide-counter</div>
+      <div class="clamp-value">0.7rem · 11.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.7rem;letter-spacing:0.05em;color:#494441;">1 / 7</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.7rem (11.2px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.slide-counter</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.62rem;letter-spacing:0.05em;color:#494441;">1 / 7</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.62rem (9.92px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.05em</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-body-label  (--h6 · bold · uppercase · red)
+       clamp(0.62rem, 1.6vw, 0.78rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-body-label</div>
+      <div class="clamp-formula">clamp(0.62rem, 1.6vw, 0.78rem)</div>
+      <div class="clamp-value">0.78rem · 12.48px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>600</span></div>
+        <div><span class="k">font-size</span><span>0.78rem (12.48px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#C46E4B (red)</span></div>
+        <div><span class="k">margin-bottom</span><span>4px</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wine cards — etichette "STORY" / "WINEMAKING" / "TASTING NOTES" sopra i paragrafi</li>
+        <li>Unica classe --h6 con <code>font-weight: 600</code> (le altre sono 300)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-body-label</div>
+      <div class="clamp-value">0.7rem · 11.2px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>600</span></div>
+        <div><span class="k">font-size</span><span>0.7rem (11.2px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#C46E4B (red)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-body-label</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#C46E4B;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>600</span></div>
+        <div><span class="k">font-size</span><span>0.62rem (9.92px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#C46E4B (red)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-collection  (badge --h6)
+       clamp(0.62rem, 1.6vw, 0.78rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-collection</div>
+      <div class="clamp-formula">clamp(0.62rem, 1.6vw, 0.78rem)</div>
+      <div class="clamp-value">0.78rem · 12.48px</div>
+      <div class="sample"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.78rem;letter-spacing:0.3em;text-indent:0.3em;text-transform:uppercase;color:#F5F2EE;background:#C46E4B;padding:0.5em 0.5em 0.42em;line-height:1;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300 (500 in v3)</span></div>
+        <div><span class="k">font-size</span><span>0.78rem (12.48px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em (0.08em in v3)</span></div>
+        <div><span class="k">text-indent</span><span>0.3em (0.08em in v3)</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">padding</span><span>0.5em 0.5em 0.42em</span></div>
+        <div><span class="k">line-height</span><span>1</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wine cards — badge collezione (solid bg) accanto al nome vino</li>
+        <li>Colori background + foreground per collezione:</li>
+        <li>Monopàtia <code>bg #EA9332</code> · <code>text ink</code></li>
+        <li>Nereides <code>bg #C7BCA3</code> · <code>text ink</code></li>
+        <li>Volcanica <code>bg #C46E4B</code> · <code>text bg</code></li>
+        <li>Modifier <code>.wine-card-v3</code>: weight 500, letter-spacing 0.08em, margin-bottom 40px</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-collection</div>
+      <div class="clamp-value">0.7rem · 11.2px</div>
+      <div class="sample"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.7rem;letter-spacing:0.3em;text-indent:0.3em;text-transform:uppercase;color:#F5F2EE;background:#C46E4B;padding:0.5em 0.5em 0.42em;line-height:1;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.7rem (11.2px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-collection</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.62rem;letter-spacing:0.3em;text-indent:0.3em;text-transform:uppercase;color:#F5F2EE;background:#C46E4B;padding:0.5em 0.5em 0.42em;line-height:1;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.62rem (9.92px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.3em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       .wine-detail-label  (tabella specs)
+       clamp(0.5rem, 1.2vw, 0.62rem)
+       ══════════════════════════════════════ -->
+  <section class="class-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="class-name">.wine-detail-label</div>
+      <div class="clamp-formula">clamp(0.5rem, 1.2vw, 0.62rem)</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.62rem (9.92px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+      <div class="usage-title">Usata in</div>
+      <ul class="usage-list">
+        <li>Wine cards — etichette della tabella specs (VARIETY, APPELLATION, ORIGIN, ALTITUDE, SOIL, VINIFICATION, PRODUCTION)</li>
+        <li>Classe più piccola del sistema tipografico</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="class-name">.wine-detail-label</div>
+      <div class="clamp-value">0.56rem · 8.96px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.56rem (8.96px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="class-name">.wine-detail-label</div>
+      <div class="clamp-value">0.5rem · 8px</div>
+      <div class="sample"><span style="font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:#494441;">Nisyros</span></div>
+      <div class="details">
+        <div><span class="k">font-family</span><span>JetBrains Mono, monospace</span></div>
+        <div><span class="k">font-weight</span><span>300</span></div>
+        <div><span class="k">font-size</span><span>0.5rem (8px)</span></div>
+        <div><span class="k">letter-spacing</span><span>0.2em</span></div>
+        <div><span class="k">text-transform</span><span>uppercase</span></div>
+        <div><span class="k">color</span><span>#494441 (muted)</span></div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

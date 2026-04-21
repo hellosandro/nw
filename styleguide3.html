@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Nisyros Wines — Styleguide 3 · Scala tipografica</title>
+<link rel="stylesheet" href="https://use.typekit.net/jyf6llr.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:    #F5F2EE;
+    --bg-alt:#EDE7DB;
+    --ink:   #2B2725;
+    --muted: #494441;
+    --hint:  #B4A995;
+    --accent:#C46E4B;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 300;
+    padding: 48px 40px 80px;
+    min-width: 1200px;
+  }
+
+  .page-title {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    font-size: 2.6rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .page-intro {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 820px;
+    margin-bottom: 16px;
+  }
+  .page-intro code { background: var(--bg-alt); padding: 1px 5px; border-radius: 2px; }
+
+  /* ── ROW ── */
+  .scale-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    padding: 40px 0 48px;
+    border-top: 1px solid rgba(43,39,37,0.15);
+  }
+  .scale-row.flag-merge { border-top-color: var(--accent); }
+
+  .col-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    color: var(--hint);
+    margin-bottom: 4px;
+  }
+  .step-name {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .clamp-formula {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .clamp-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .sample {
+    padding: 28px 0;
+    border-top: 1px dashed rgba(43,39,37,0.18);
+    border-bottom: 1px dashed rgba(43,39,37,0.18);
+    margin-bottom: 20px;
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .usage-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .usage-list {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.75;
+    color: var(--muted);
+    list-style: none;
+  }
+  .usage-list li { padding-left: 14px; position: relative; }
+  .usage-list li::before {
+    content: '·';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+
+  .merge-note {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-left: 2px solid var(--accent);
+    background: var(--bg-alt);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .merge-note strong { color: var(--ink); font-weight: 400; }
+
+  /* ── Sample typeface normalization ── */
+  .s-display {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+  .s-body {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+
+  /* ── Summary / candidates ── */
+  .summary {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .summary h2 {
+    font-family: bookmania, Georgia, serif;
+    font-weight: 400;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+  .summary p, .summary li {
+    font-size: 0.78rem;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .summary ul { list-style: none; margin-top: 16px; }
+  .summary li {
+    padding: 10px 0 10px 14px;
+    position: relative;
+    border-bottom: 1px solid rgba(43,39,37,0.12);
+  }
+  .summary li::before {
+    content: '→';
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+  }
+  .summary code { background: var(--bg-alt); padding: 1px 5px; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+  <h1 class="page-title">Styleguide v3 — scala tipografica</h1>
+  <p class="page-intro">
+    Una riga per ogni <strong>dimensione distinta</strong> del sistema. Classi che cambiano solo per colore, letter-spacing, text-transform o weight sono collassate sotto lo stesso livello. Il campione è reso in <code>bookmania</code> (display) o <code>JetBrains&nbsp;Mono</code> (body) a weight 400, colore ink, senza tracking o uppercase — così si vede solo la <strong>grandezza reale</strong> ad ogni breakpoint.
+  </p>
+  <p class="page-intro">
+    Le righe evidenziate con bordo arancio segnalano scale <strong>candidate a essere accorpate</strong>.
+  </p>
+
+  <!-- ════ 01 · Display XL ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">01</div>
+      <div class="step-name">Display XL</div>
+      <div class="clamp-formula">clamp(3.5rem, 10vw, 9rem)</div>
+      <div class="clamp-value">9rem · 144px</div>
+      <div class="sample"><span class="s-display" style="font-size:9rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.big</code> — titoli manifesto, hero, wines intro, faces overlay</li>
+        <li>Varianti solo di colore (non contano come scala): <code>.big.red</code>, <code>.big.amber</code>, <code>#hero .big</code>, <code>#credo .big</code></li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">6.25rem · 100px</div>
+      <div class="sample"><span class="s-display" style="font-size:6.25rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">3.5rem · 56px</div>
+      <div class="sample"><span class="s-display" style="font-size:3.5rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 02 · Display L (unused) ════ -->
+  <section class="scale-row flag-merge">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">02</div>
+      <div class="step-name">Display L</div>
+      <div class="clamp-formula">clamp(3rem, 8.5vw, 7.5rem)</div>
+      <div class="clamp-value">7.5rem · 120px</div>
+      <div class="sample"><span class="s-display" style="font-size:7.5rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.big.md</code> — <em>modifier non istanziato nei template</em></li>
+      </ul>
+      <div class="merge-note">
+        <strong>Candidato rimozione.</strong> Nessuno lo usa. Variabile CSS <code>--h1</code> morta. Si può cancellare sia il modifier <code>.big.md</code> sia la variabile.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">5.25rem · 84px</div>
+      <div class="sample"><span class="s-display" style="font-size:5.25rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">3rem · 48px</div>
+      <div class="sample"><span class="s-display" style="font-size:3rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 03 · Display M ════ -->
+  <section class="scale-row flag-merge">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">03</div>
+      <div class="step-name">Display M</div>
+      <div class="clamp-formula">clamp(2.5rem, 7vw, 6rem)</div>
+      <div class="clamp-value">6rem · 96px</div>
+      <div class="sample"><span class="s-display" style="font-size:6rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.big.sm</code> — "Three Philosophies" (wines collections card)</li>
+        <li><code>.wine-name</code> — nome di ogni vino nelle card</li>
+      </ul>
+      <div class="merge-note">
+        <strong>Candidato merge.</strong> <code>.wine-name</code> è uguale a <code>.big.sm</code> tranne per <code>letter-spacing</code> (-0.01em vs -0.02em) e <code>line-height</code> (1.0 vs 0.92). Decisione: <strong>usare <code>.big.sm</code> per i nomi dei vini</strong> e rimuovere <code>.wine-name</code>.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">4.25rem · 68px</div>
+      <div class="sample"><span class="s-display" style="font-size:4.25rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">2.5rem · 40px</div>
+      <div class="sample"><span class="s-display" style="font-size:2.5rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 04 · Nav ════ -->
+  <section class="scale-row flag-merge">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">04</div>
+      <div class="step-name">Nav</div>
+      <div class="clamp-formula">clamp(2.4rem, 7vw, 5rem)</div>
+      <div class="clamp-value">5rem · 80px</div>
+      <div class="sample"><span class="s-display" style="font-size:5rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.nav-links li a</code> — voci del menu overlay</li>
+      </ul>
+      <div class="merge-note">
+        <strong>Valutare fusione con 03.</strong> Scala off-system (non usa <code>--h2</code>). Se si porta a <code>clamp(2.5rem, 7vw, 6rem)</code> condivide il livello Display M e si risparmia un clamp custom.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">3.7rem · 59.2px</div>
+      <div class="sample"><span class="s-display" style="font-size:3.7rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">2.4rem · 38.4px</div>
+      <div class="sample"><span class="s-display" style="font-size:2.4rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 05 · Heading ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">05</div>
+      <div class="step-name">Heading</div>
+      <div class="clamp-formula">clamp(1.6rem, 5vw, 3.5rem)</div>
+      <div class="clamp-value">3.5rem · 56px</div>
+      <div class="sample"><span class="s-display" style="font-size:3.5rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.collection-name-v2</code> — titoli delle 3 collezioni (Monopàtia · Nereides · Volcanica)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">2.55rem · 40.8px</div>
+      <div class="sample"><span class="s-display" style="font-size:2.55rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">1.6rem · 25.6px</div>
+      <div class="sample"><span class="s-display" style="font-size:1.6rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 06 · Scroll arrow ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">06</div>
+      <div class="step-name">Scroll arrow</div>
+      <div class="clamp-formula">clamp(2rem, 4vw, 2.8rem)</div>
+      <div class="clamp-value">2.8rem · 44.8px</div>
+      <div class="sample"><span class="s-body" style="font-size:2.8rem;">↓</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.scroll-hint-down</code> — prompt "↓" in hero e credo</li>
+        <li>Variante <code>#credo .scroll-hint-down</code> cresce leggermente (clamp 2.4–3.2rem) — cambia solo per mantenere rapporto visivo col fondo rosso</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">2.4rem · 38.4px</div>
+      <div class="sample"><span class="s-body" style="font-size:2.4rem;">↓</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">2rem · 32px</div>
+      <div class="sample"><span class="s-body" style="font-size:2rem;">↓</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 07 · Body ════ -->
+  <section class="scale-row flag-merge">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">07</div>
+      <div class="step-name">Body</div>
+      <div class="clamp-formula">clamp(0.9rem, 2vw, 1.2rem)</div>
+      <div class="clamp-value">1.2rem · 19.2px</div>
+      <div class="sample"><span class="s-body" style="font-size:1.2rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.quote</code> — paragrafi manifesto e intro wines</li>
+        <li><code>#credo .sub</code> — paragrafo credo (cambia solo colore + line-height)</li>
+        <li><code>.wine-type</code> — sottotitolo sotto nome vino</li>
+        <li><code>.wine-discover-cta</code> — CTA "Discover &gt;" sotto intro wines</li>
+      </ul>
+      <div class="merge-note">
+        <strong>Valutare fusione con 08.</strong> Il salto 1.2rem → 1rem è minimo. Se si accorpa si perde solo 0.2rem di dimensione sui paragrafi manifesto rispetto al body delle wine cards.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">1.05rem · 16.8px</div>
+      <div class="sample"><span class="s-body" style="font-size:1.05rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">0.9rem · 14.4px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.9rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 08 · Body S ════ -->
+  <section class="scale-row flag-merge">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">08</div>
+      <div class="step-name">Body S</div>
+      <div class="clamp-formula">clamp(0.82rem, 1.8vw, 1rem)</div>
+      <div class="clamp-value">1rem · 16px</div>
+      <div class="sample"><span class="s-body" style="font-size:1rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.wine-body-text</code> — paragrafi Story / Winemaking / Tasting Notes in wine card</li>
+        <li><code>.collection-desc-v2</code> — descrizioni delle 3 collezioni</li>
+      </ul>
+      <div class="merge-note">
+        <strong>Valutare fusione con 07.</strong> Vedi nota precedente — 1rem vs 1.2rem è un delta piccolo. Tenendo solo 07 si semplifica la gerarchia body.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">0.91rem · 14.56px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.91rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">0.82rem · 13.12px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.82rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 09 · Detail ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">09</div>
+      <div class="step-name">Detail</div>
+      <div class="clamp-formula">clamp(0.66rem, 1.35vw, 0.8rem)</div>
+      <div class="clamp-value">0.8rem · 12.8px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.8rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.wine-detail-value</code> — valori della tabella specs</li>
+        <li><code>.wine-detail-footer</code> — footer "{volume} alc.{alcohol}%"</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">0.73rem · 11.68px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.73rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">0.66rem · 10.56px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.66rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 10 · Label ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">10</div>
+      <div class="step-name">Label</div>
+      <div class="clamp-formula">clamp(0.62rem, 1.6vw, 0.78rem)</div>
+      <div class="clamp-value">0.78rem · 12.48px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.78rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.collections-eyebrow</code> — eyebrow "OUR COLLECTIONS"</li>
+        <li><code>.slide-counter</code> — contatore manifesto "1 / 7"</li>
+        <li><code>.wine-body-label</code> — etichette "STORY / WINEMAKING / TASTING NOTES" (weight 600)</li>
+        <li><code>.wine-collection</code> — badge collezione (solid bg)</li>
+      </ul>
+      <div class="merge-note">
+        <strong>4 classi su un unico livello.</strong> Differiscono solo per weight, letter-spacing, colore o background. La scala è una sola — da valutare se 2 varianti (plain + bold/badge) sono sufficienti invece di 4.
+      </div>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">0.7rem · 11.2px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.7rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.62rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ 11 · Micro ════ -->
+  <section class="scale-row">
+    <div>
+      <div class="col-header">Desktop · max</div>
+      <div class="step-num">11</div>
+      <div class="step-name">Micro</div>
+      <div class="clamp-formula">clamp(0.5rem, 1.2vw, 0.62rem)</div>
+      <div class="clamp-value">0.62rem · 9.92px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.62rem;">Nisyros</span></div>
+      <div class="usage-title">Classi su questa scala</div>
+      <ul class="usage-list">
+        <li><code>.wine-detail-label</code> — etichette tabella specs (VARIETY, APPELLATION, ORIGIN…)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="col-header">Intermedio · midpoint</div>
+      <div class="clamp-value">0.56rem · 8.96px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.56rem;">Nisyros</span></div>
+    </div>
+    <div>
+      <div class="col-header">Mobile · min</div>
+      <div class="clamp-value">0.5rem · 8px</div>
+      <div class="sample"><span class="s-body" style="font-size:0.5rem;">Nisyros</span></div>
+    </div>
+  </section>
+
+  <!-- ════ SUMMARY ════ -->
+  <section class="summary">
+    <h2>Candidati a semplificazione</h2>
+    <p>Sintesi delle decisioni da prendere, in ordine di impatto basso → alto.</p>
+    <ul>
+      <li><strong>Rimuovere <code>.big.md</code> e la variabile <code>--h1</code></strong> — livello 02 non è usato in nessun template.</li>
+      <li><strong>Sostituire <code>.wine-name</code> con <code>.big.sm</code></strong> — livello 03. Adottare il letter-spacing di <code>.big.sm</code> (-0.02em) e line-height 0.92.</li>
+      <li><strong>Fondere Nav (04) dentro Display M (03)</strong> — unico clamp custom off-system. Allineare <code>.nav-links li a</code> a <code>clamp(2.5rem, 7vw, 6rem)</code>.</li>
+      <li><strong>Fondere Body S (08) in Body (07)</strong> — collassare <code>--p</code> in <code>--h5</code>. Tutti i paragrafi prendono la stessa scala.</li>
+      <li><strong>Ridurre le 4 classi di livello 10 a 2 varianti</strong> — plain label + badge. Il bold e letter-spacing variano sul tema Label, non servono classi separate.</li>
+    </ul>
+  </section>
+
+</body>
+</html>

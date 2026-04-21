@@ -62,7 +62,7 @@ function goPanel(el, idx) {
   smoothTo(el, pp[idx].offsetLeft, 480);
 }
 
-function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
+function setupDots(scrollEl, dotsEl, controlsEl) {
   var pp = scrollEl.querySelectorAll('.page,.wine-card');
   if (!pp.length) return;
   dotsEl.innerHTML = '';
@@ -75,10 +75,8 @@ function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
   var dots = dotsEl.querySelectorAll('.dot');
   var total = pp.length;
   function syncControls(idx) {
-    if (counterEl) counterEl.textContent = (idx+1) + ' / ' + total;
     if (controlsEl) {
       var panel = pp[idx];
-      controlsEl.style.backgroundColor = getComputedStyle(panel).backgroundColor;
       controlsEl.classList.toggle('on-dark', panel.id === 'credo');
       controlsEl.classList.toggle('on-last', idx === total - 1);
     }
@@ -99,11 +97,10 @@ function setupDots(scrollEl, dotsEl, counterEl, controlsEl) {
 
 var mScroll   = document.getElementById('manifesto-scroll');
 var mDots     = document.getElementById('manifesto-dots');
-var mCounter  = document.getElementById('manifesto-counter');
 var mControls = document.querySelector('.manifesto-controls');
 var wScroll   = document.getElementById('wines-scroll');
 var wDots     = document.getElementById('wines-dots');
-if (mScroll && mDots) setupDots(mScroll, mDots, mCounter, mControls);
+if (mScroll && mDots) setupDots(mScroll, mDots, mControls);
 if (wScroll && wDots) setupDots(wScroll, wDots);
 
 /* Reveal inside panels */
@@ -167,22 +164,36 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     // Only first right chevron (manifesto) gets bounce
     if (isFirst) { rArr.classList.add('first-bounce'); isFirst = false; }
     var arrowsHost = id === 'manifesto-scroll' ? document.getElementById('manifesto-arrows') : wrapper;
-    arrowsHost.appendChild(lArr);
-    arrowsHost.appendChild(rArr);
+    if (id === 'manifesto-scroll') {
+      // Left arrow before the dots, right arrow after — so row is [L | dots | R]
+      arrowsHost.insertBefore(lArr, arrowsHost.firstChild);
+      arrowsHost.appendChild(rArr);
+    } else {
+      arrowsHost.appendChild(lArr);
+      arrowsHost.appendChild(rArr);
+    }
+    var isManifesto = id === 'manifesto-scroll';
     function upd() {
       var pp=scrollEl.querySelectorAll('.page,.wine-card'), idx=getIdx(scrollEl);
-      lArr.style.display = idx<=0?'none':'';
-      // Last panel: right arrow navigates to next vertical section instead of disappearing
+      // Keep arrow slots in place; toggle visibility only so positions never shift.
+      lArr.style.visibility = idx<=0 ? 'hidden' : 'visible';
       if (idx >= pp.length-1) {
-        rArr.style.display = '';
-        rArr.style.opacity = '0.4';
-        rArr.onclick = function() {
-          var nextSection = wrapper.nextElementSibling;
-          // skip dots containers
-          while (nextSection && nextSection.classList.contains('hscroll-dots')) nextSection = nextSection.nextElementSibling;
-          if (nextSection) navScrollTo(nextSection);
-        };
+        if (isManifesto) {
+          // Manifesto: hide right arrow but preserve its slot (no shift)
+          rArr.style.visibility = 'hidden';
+          rArr.onclick = null;
+        } else {
+          // Wines: right arrow stays (absolutely positioned) and jumps to next section
+          rArr.style.visibility = 'visible';
+          rArr.style.opacity = '0.4';
+          rArr.onclick = function() {
+            var nextSection = wrapper.nextElementSibling;
+            while (nextSection && nextSection.classList.contains('hscroll-dots')) nextSection = nextSection.nextElementSibling;
+            if (nextSection) navScrollTo(nextSection);
+          };
+        }
       } else {
+        rArr.style.visibility = 'visible';
         rArr.style.opacity = '';
         rArr.onclick = () => goPanel(scrollEl, getIdx(scrollEl)+1);
       }
@@ -213,7 +224,7 @@ function navScrollTo(target) {
     var onDark = false;
     darkZones.forEach(function(el) {
       var r = el.getBoundingClientRect();
-      if (r.top < navH && r.bottom > 0) { onDark = true; }
+      if (r.top < navH && r.bottom > navH) { onDark = true; }
     });
     nav.classList.toggle('on-dark', onDark);
   }
@@ -378,7 +389,7 @@ function renderWineV3(w){
     + '<article class="wine-card wine-card-v3 reveal" id="'+escAttr(id)+'" data-collection="'+escAttr(slug)+'">'
       + '<div class="wine-col-main">'
         + '<span class="wine-collection">'+coll+' Collection</span>'
-        + '<div class="wine-name">'+name+'</div>'
+        + '<div class="big sm">'+name+'</div>'
         + '<p class="wine-type">'+type+'</p>'
         + '<div class="wine-col-texts">'
           + '<div><p class="wine-body-label">Story</p><p class="wine-body-text">'+body[0]+'</p></div>'
