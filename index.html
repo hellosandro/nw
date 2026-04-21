@@ -310,7 +310,29 @@
     </figure>
 
   </div>
+
+  <div class="faces-controls">
+    <div class="faces-arrows" id="faces-arrows">
+      <div class="hscroll-dots" id="faces-dots"></div>
+    </div>
+  </div>
 </section>
+
+<div class="faces-lightbox" id="faces-lightbox" aria-hidden="true">
+  <button class="faces-lightbox-close" id="faces-lightbox-close" aria-label="Close">
+    <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="6" y1="18" x2="18" y2="6"></line></svg>
+  </button>
+  <button class="faces-lightbox-prev" id="faces-lightbox-prev" aria-label="Previous">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <figure class="faces-lightbox-figure">
+    <img class="faces-lightbox-img" id="faces-lightbox-img" src="" alt="">
+    <figcaption class="faces-lightbox-caption" id="faces-lightbox-caption"></figcaption>
+  </figure>
+  <button class="faces-lightbox-next" id="faces-lightbox-next" aria-label="Next">
+    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+  </button>
+</div>
 <!-- ══ CONTACT ══ -->
 <section id="contact">
   <div class="contact-grid">
@@ -371,22 +393,26 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
   setTimeout(() => el.classList.add('on'), 150 + i * 120);
 });
 
-/* ── FACES GALLERY WALL (free horizontal scroll) ── */
+/* ── FACES GALLERY WALL (free horizontal scroll + arrows/dots + lightbox) ── */
 (function() {
   var wall = document.getElementById('faces-wall');
   if (!wall) return;
 
-  // Mouse drag-to-scroll
-  var dragging = false, startX = 0, startScroll = 0;
+  var items = wall.querySelectorAll('.faces-item');
+
+  // Mouse drag-to-scroll. Track whether a real drag happened so we can
+  // suppress the synthesised click that would otherwise open the lightbox.
+  var dragging = false, dragged = false, startX = 0, startScroll = 0;
   wall.addEventListener('mousedown', function(e) {
     if (e.button !== 0) return;
-    dragging = true;
+    dragging = true; dragged = false;
     startX = e.pageX;
     startScroll = wall.scrollLeft;
     wall.classList.add('dragging');
   });
   window.addEventListener('mousemove', function(e) {
     if (!dragging) return;
+    if (Math.abs(e.pageX - startX) > 5) dragged = true;
     wall.scrollLeft = startScroll - (e.pageX - startX);
   });
   window.addEventListener('mouseup', function() {
@@ -407,6 +433,120 @@ document.querySelectorAll('#m1 .reveal').forEach((el, i) => {
       wall.scrollLeft += e.deltaY;
     }
   }, { passive: false });
+
+  // ── Arrows + dots ──
+  var arrowsHost = document.getElementById('faces-arrows');
+  var dotsEl    = document.getElementById('faces-dots');
+  if (arrowsHost && dotsEl && items.length) {
+    // Build dots
+    dotsEl.innerHTML = '';
+    items.forEach(function(_, i) {
+      var d = document.createElement('span');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', function() { scrollToItem(i); });
+      dotsEl.appendChild(d);
+    });
+    var dots = dotsEl.querySelectorAll('.dot');
+
+    // Build arrows
+    var lArr = document.createElement('div');
+    lArr.className = 'scroll-chevron scroll-chevron-left';
+    lArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>';
+    var rArr = document.createElement('div');
+    rArr.className = 'scroll-chevron scroll-chevron-right';
+    rArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
+    arrowsHost.insertBefore(lArr, dotsEl);
+    arrowsHost.appendChild(rArr);
+
+    function currentIdx() {
+      var center = wall.scrollLeft + wall.clientWidth / 2;
+      var best = 0, bd = Infinity;
+      items.forEach(function(it, i) {
+        var c = it.offsetLeft + it.offsetWidth / 2;
+        var d = Math.abs(c - center);
+        if (d < bd) { bd = d; best = i; }
+      });
+      return best;
+    }
+    function scrollToItem(i) {
+      var item = items[Math.max(0, Math.min(i, items.length - 1))];
+      var target = item.offsetLeft + item.offsetWidth / 2 - wall.clientWidth / 2;
+      target = Math.max(0, Math.min(target, wall.scrollWidth - wall.clientWidth));
+      smoothTo(wall, target, 420);
+    }
+    lArr.addEventListener('click', function() { scrollToItem(currentIdx() - 1); });
+    rArr.addEventListener('click', function() { scrollToItem(currentIdx() + 1); });
+
+    function syncNav() {
+      var idx = currentIdx();
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      lArr.classList.toggle('is-disabled', wall.scrollLeft < 4);
+      rArr.classList.toggle('is-disabled', wall.scrollLeft > wall.scrollWidth - wall.clientWidth - 4);
+    }
+    var rafPending = false;
+    wall.addEventListener('scroll', function() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function() { rafPending = false; syncNav(); });
+    });
+    syncNav();
+  }
+
+  // ── Lightbox ──
+  var lb       = document.getElementById('faces-lightbox');
+  var lbImg    = document.getElementById('faces-lightbox-img');
+  var lbCap    = document.getElementById('faces-lightbox-caption');
+  var lbClose  = document.getElementById('faces-lightbox-close');
+  var lbPrev   = document.getElementById('faces-lightbox-prev');
+  var lbNext   = document.getElementById('faces-lightbox-next');
+  if (lb && lbImg && items.length) {
+    var photos = Array.prototype.map.call(items, function(it) {
+      var img = it.querySelector('img');
+      var label = it.querySelector('.faces-label');
+      var text  = it.querySelector('.faces-text');
+      return {
+        src: img ? img.getAttribute('src') : '',
+        alt: img ? img.getAttribute('alt') : '',
+        label: label ? label.textContent : '',
+        text:  text  ? text.textContent  : ''
+      };
+    });
+    var lbIdx = 0;
+    function showPhoto(i) {
+      lbIdx = (i + photos.length) % photos.length;
+      var p = photos[lbIdx];
+      lbImg.src = p.src;
+      lbImg.alt = p.alt || '';
+      lbCap.textContent = p.label + (p.label && p.text ? ' — ' : '') + p.text;
+    }
+    function openLb(i) {
+      showPhoto(i);
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    items.forEach(function(it, i) {
+      it.addEventListener('click', function() {
+        if (dragged) return;
+        openLb(i);
+      });
+    });
+    lbClose.addEventListener('click', closeLb);
+    lbPrev.addEventListener('click', function() { showPhoto(lbIdx - 1); });
+    lbNext.addEventListener('click', function() { showPhoto(lbIdx + 1); });
+    lb.addEventListener('click', function(e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')    closeLb();
+      if (e.key === 'ArrowLeft') showPhoto(lbIdx - 1);
+      if (e.key === 'ArrowRight') showPhoto(lbIdx + 1);
+    });
+  }
 })();
 
 /* ── HORIZONTAL SCROLL ENGINE ── */
