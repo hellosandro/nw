@@ -332,13 +332,14 @@ async function loadConfig(){
 
 // ── Wine card v3 rendering (single source of truth: the CMS sheet) ──
 // Required CMS columns per wine:
-//   id, collection, name, type, body, img_bottle,
-//   variety, appellation, origin, altitude, soil, vinification,
-//   production, alcohol, volume
+//   id, collection, name, subtitle, body, img_bottle,
+//   vintages, type, variety, appellation, origin, altitude, soil,
+//   vinification, production, alcohol, volume
 // Shape:
+//   subtitle → single line rendered under the wine name
 //   body    → exactly 3 non-empty parts separated by "||"
 //             (Story || Winemaking || Tasting Notes)
-//   details → one labeled row per field (variety..production)
+//   details → one labeled row per field (vintages, type, variety..production)
 //   footer  → "{volume}  alc.{alcohol}% by vol."
 //   slug    → derived from `collection` (lowercased, accents stripped)
 function slugify(s){
@@ -368,6 +369,8 @@ function requireField(w, field){
   return v;
 }
 var WINE_DETAIL_FIELDS = [
+  ['vintages',     'Vintages'],
+  ['type',         'Type'],
   ['variety',      'Variety'],
   ['appellation',  'Appellation'],
   ['origin',       'Origin'],
@@ -380,7 +383,7 @@ function renderWineV3(w){
   var id       = requireField(w, 'id');
   var coll     = requireField(w, 'collection');
   var name     = requireField(w, 'name');
-  var type     = requireField(w, 'type');
+  var subtitle = requireField(w, 'subtitle');
   var bodyRaw  = requireField(w, 'body');
   var imgRaw   = requireField(w, 'img_bottle');
   var alcohol  = requireField(w, 'alcohol');
@@ -409,7 +412,7 @@ function renderWineV3(w){
     + '<article class="wine-card wine-card-v3 reveal" id="'+escAttr(id)+'" data-collection="'+escAttr(slug)+'">'
       + '<div class="wine-col-main">'
         + '<div class="big sm">'+name+'</div>'
-        + '<p class="wine-type">'+type+'</p>'
+        + '<p class="wine-type wine-subtitle">'+subtitle+'</p>'
         + '<div class="wine-col-texts">'
           + '<div><p class="wine-body-label">Story</p><p class="wine-body-text">'+body[0]+'</p></div>'
           + '<div><p class="wine-body-label">Winemaking</p><p class="wine-body-text">'+body[1]+'</p></div>'
