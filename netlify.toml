@@ -1,0 +1,17 @@
+[build]
+  command = "bash build.sh"
+  publish = "."
+
+[[redirects]]
+  from = "/api/cms"
+  query = { sheet = "config" }
+  to = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1620319001&single=true&output=csv"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/cms"
+  query = { sheet = "wines" }
+  to = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1993474932&single=true&output=csv"
+  status = 200
+  force = true
