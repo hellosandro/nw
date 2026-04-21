@@ -537,8 +537,8 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   .hscroll { overflow-y: hidden; overscroll-behavior: contain; height: 100%; }
   #wines-scroll { overscroll-behavior: contain; overflow-y: hidden; }
   .page { flex-direction: column; padding: calc(var(--nav-h) + 20px) 24px 32px; gap: 16px; height: 100%; min-height: auto; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; align-items: center; justify-content: flex-start; }
-  .page .panel-text { text-align: left; width: 100%; flex: 0 0 auto; }
-  .panel-illust { position: static; width: clamp(120px, 44vw, 200px); align-self: center; margin: 48px auto 88px; padding: 0; flex: 0 0 auto; }
+  .page .panel-text { text-align: left; width: 100%; flex: 0 0 auto; margin-top: auto; }
+  .panel-illust { position: static; width: clamp(120px, 44vw, 200px); align-self: center; margin: 48px 0 auto; padding: 0; flex: 0 0 auto; }
   .quote { margin-top: 8px; }
   #faces, #contact { scroll-margin-top: 0; }
   #hero { padding: calc(var(--nav-h) + 20px) 24px 40px; height: 100dvh; min-height: auto; align-items: center; justify-content: center; overflow: hidden; }
