@@ -173,15 +173,10 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
     rArr.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>';
     // Only first right chevron (manifesto) gets bounce
     if (isFirst) { rArr.classList.add('first-bounce'); isFirst = false; }
-    var arrowsHost = id === 'manifesto-scroll' ? document.getElementById('manifesto-arrows') : wrapper;
-    if (id === 'manifesto-scroll') {
-      // Left arrow before the dots, right arrow after — so row is [L | dots | R]
-      arrowsHost.insertBefore(lArr, arrowsHost.firstChild);
-      arrowsHost.appendChild(rArr);
-    } else {
-      arrowsHost.appendChild(lArr);
-      arrowsHost.appendChild(rArr);
-    }
+    var arrowsHost = document.getElementById(id === 'manifesto-scroll' ? 'manifesto-arrows' : 'wines-arrows');
+    // Left arrow before the dots, right arrow after — so row is [L | dots | R]
+    arrowsHost.insertBefore(lArr, arrowsHost.firstChild);
+    arrowsHost.appendChild(rArr);
     var isManifesto = id === 'manifesto-scroll';
     function upd() {
       var pp=scrollEl.querySelectorAll('.page,.wine-card'), idx=getIdx(scrollEl);
