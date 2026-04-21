@@ -492,7 +492,7 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   position: absolute; top: calc(var(--nav-h) + 32px); left: 48px;
   z-index: 10; pointer-events: none;
 }
-.faces-wall-header .big { color: var(--bg); }
+.faces-wall-header .big { color: #fff; }
 .faces-wall {
   position: absolute; inset: 0;
   display: flex; align-items: flex-end;
