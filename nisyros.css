@@ -572,12 +572,35 @@ hr.slash { border: none; border-top: 2px solid var(--red); width: 50px; margin: 
   padding: 0;
 }
 .faces-lightbox.open { display: flex; }
+.faces-lightbox-stage {
+  position: relative;
+  display: inline-block;
+  max-width: 100vw;
+  max-height: 100svh;
+  line-height: 0;
+}
 .faces-lightbox-img {
   max-width: 100vw;
   max-height: 100svh;
   width: auto; height: auto; display: block;
   object-fit: contain;
 }
+.faces-lightbox-caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 48px 32px 28px;
+  background: linear-gradient(to top, rgba(20,18,17,0.85) 0%, rgba(20,18,17,0) 100%);
+  text-align: left; pointer-events: none;
+  color: var(--bg); line-height: normal;
+}
+.faces-lightbox-caption .faces-label {
+  color: var(--bg); opacity: 0.85; margin-bottom: 8px;
+}
+.faces-lightbox-caption .faces-text {
+  color: var(--bg); max-width: 720px; margin: 0;
+}
+.faces-lightbox-caption:empty,
+.faces-lightbox-caption .faces-label:empty,
+.faces-lightbox-caption .faces-text:empty { display: none; }
 .faces-lightbox-close, .faces-lightbox-prev, .faces-lightbox-next {
   position: absolute; background: transparent; border: none; cursor: pointer;
   padding: 0; color: #fff; opacity: 0.65; transition: opacity 0.2s;
@@ -686,6 +709,15 @@ footer { scroll-snap-align: end; background: var(--ink); color: var(--faded); fo
   }
   .faces-polaroid { padding: 10px; }
   .faces-caption { margin-top: 14px; }
+  /* On mobile the first item's upward lift (-50px from the global stagger)
+     pulls it under the "Faces & Places" header. Push it down instead. */
+  .faces-wall .faces-item:first-of-type { transform: translateY(24px); }
+  /* Lift illustrations on the long-text slides so they don't overlap the
+     dots row at the bottom of the manifesto on mobile. Title and body
+     stay where they are. */
+  #m4 .panel-illust { position: relative; top: -60px; }
+  #m5 .panel-illust,
+  #credo .panel-illust { position: relative; top: -40px; }
   .scroll-chevron { width: 52px; height: 52px; }
   .scroll-chevron svg { width: 28px; height: 28px; }
   .contact-header { padding: calc(var(--nav-h) + 40px) 24px 32px; }
