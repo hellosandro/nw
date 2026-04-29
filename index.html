@@ -638,6 +638,12 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
   if (!el) return;
   var accum=0, locked=false, rt;
   el.addEventListener('wheel', function(e) {
+    // Only hijack when this section is fully snapped to the viewport.
+    // Otherwise wheel events driving a vertical snap-transition would
+    // advance a slide on the section we're scrolling toward.
+    var wr = el.closest('.hscroll-wrapper');
+    var rect = (wr || el).getBoundingClientRect();
+    if (Math.abs(rect.top) > 2) return;
     if (Date.now() < navLockUntil) return;
     var absX=Math.abs(e.deltaX), absY=Math.abs(e.deltaY);
     var isH = absX>absY*8 && absX>10, isD = e.deltaMode===1||(absX===0&&absY>=40);
