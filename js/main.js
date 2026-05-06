@@ -40,18 +40,9 @@ function initFaces() {
     wall.classList.remove('dragging');
   });
 
-  // Vertical wheel → horizontal scroll (only when the wall actually overflows)
-  wall.addEventListener('wheel', function(e) {
-    if (wall.scrollWidth <= wall.clientWidth + 2) return;
-    var absX = Math.abs(e.deltaX), absY = Math.abs(e.deltaY);
-    if (absY <= absX) return;
-    var canRight = wall.scrollLeft < wall.scrollWidth - wall.clientWidth - 1;
-    var canLeft  = wall.scrollLeft > 0;
-    if ((e.deltaY > 0 && canRight) || (e.deltaY < 0 && canLeft)) {
-      e.preventDefault();
-      wall.scrollLeft += e.deltaY;
-    }
-  }, { passive: false });
+  // Vertical wheel is left to the page so the user can always scroll down
+  // to Contact from any photo. Horizontal trackpad swipes still scroll the
+  // wall natively via overflow-x; drag + arrows + dots handle the rest.
 
   // ── Arrows + dots ──
   var arrowsHost = document.getElementById('faces-arrows');
@@ -117,12 +108,18 @@ function initFaces() {
   var lbClose  = document.getElementById('faces-lightbox-close');
   var lbPrev   = document.getElementById('faces-lightbox-prev');
   var lbNext   = document.getElementById('faces-lightbox-next');
+  var lbLabel  = document.getElementById('faces-lightbox-label');
+  var lbText   = document.getElementById('faces-lightbox-text');
   if (lb && lbImg && items.length) {
     var photos = Array.prototype.map.call(items, function(it) {
       var img = it.querySelector('img');
+      var labelEl = it.querySelector('.faces-label');
+      var textEl  = it.querySelector('.faces-text');
       return {
         src: img ? (img.getAttribute('data-full-src') || img.getAttribute('src')) : '',
-        alt: img ? img.getAttribute('alt') : ''
+        alt: img ? img.getAttribute('alt') : '',
+        label: labelEl ? labelEl.textContent.trim() : '',
+        text:  textEl  ? textEl.textContent.trim()  : ''
       };
     });
     var lbIdx = 0;
@@ -131,6 +128,8 @@ function initFaces() {
       var p = photos[lbIdx];
       lbImg.src = p.src;
       lbImg.alt = p.alt || '';
+      if (lbLabel) lbLabel.textContent = p.label || '';
+      if (lbText)  lbText.textContent  = p.text  || '';
     }
     function openLb(i) {
       showPhoto(i);
@@ -245,6 +244,13 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
   if (!el) return;
   var accum=0, locked=false, rt;
   el.addEventListener('wheel', function(e) {
+    // Only hijack when this section is fully snapped to the viewport.
+    // Otherwise wheel events driving a vertical snap-transition would
+    // advance a slide on the section we're scrolling toward.
+    var wr = el.closest('.hscroll-wrapper');
+    var rect = (wr || el).getBoundingClientRect();
+    if (Math.abs(rect.top) > 2) return;
+    if (Date.now() < navLockUntil) return;
     var absX=Math.abs(e.deltaX), absY=Math.abs(e.deltaY);
     var isH = absX>absY*8 && absX>10, isD = e.deltaMode===1||(absX===0&&absY>=40);
     if (!isH&&!isD) return;
@@ -334,10 +340,15 @@ if (wScroll && wDots) setupDots(wScroll, wDots);
 
 /* Nav scroll */
 var snapTimer = null;
+var navLockUntil = 0;
 function navScrollTo(target) {
   if (snapTimer) clearTimeout(snapTimer);
   document.documentElement.style.scrollSnapType = 'none';
   target.scrollIntoView({ behavior: 'smooth' });
+  // While the section transition is in flight, suppress carousel wheel-hijacking
+  // so wheel events that arrive during the smooth scroll don't advance the
+  // receiving carousel by one slide.
+  navLockUntil = Date.now() + 1200;
   snapTimer = setTimeout(() => { document.documentElement.style.scrollSnapType = ''; snapTimer=null; }, 1200);
 }
 
@@ -472,7 +483,7 @@ function slugify(s){
 function escAttr(s){
   return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-// Read collection blurbs from the "Three Philosophies" slide so wine cards
+// Read collection blurbs from the "Three Directions" slide so wine cards
 // and that slide share a single source of truth. Populated in loadCMS().
 var COLLECTION_DESCRIPTIONS = {};
 function readCollectionDescriptions(){

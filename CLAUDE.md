@@ -2,7 +2,7 @@
 
 > **Living document.** This file is the shared source of truth for the Nisyros Wines website project. It is maintained and updated by Claude across sessions so that Nicola, Sandro, and any collaborator landing on the repo have the full picture without archaeological digs through chat history.
 >
-> **Last updated:** 2026-04-21 · **Maintained by:** Claude (Cowork) · **Owners:** Nicola Zonca (nicola@nativeprime.com), Sandro (design + deploy)
+> **Last updated:** 2026-04-29 · **Maintained by:** Claude (Cowork) · **Owners:** Nicola Zonca (nicola@nativeprime.com), Sandro (design + deploy)
 
 ---
 
@@ -46,12 +46,11 @@ nw/
 │   ├── manifesto.html    # horizontal-scroll manifesto (VII slides + credo)
 │   ├── hero.html         # hero section with inline SVG logo
 │   ├── wines.html        # horizontal-scroll wine cards (CMS overwrites at runtime)
-│   ├── faces.html        # fullscreen photo slideshow (hardcoded, not CMS)
+│   ├── faces.html        # photo gallery wall + lightbox (CMS overwrites at runtime)
 │   └── contact.html      # contact blocks + footer
 ├── js/
 │   └── main.js           # scroll engine, CMS loader, nav, animations
 ├── assets/               # local images + SVG illustrations (1.svg–8.svg)
-├── api/                  # Vercel Edge Functions (CMS proxy for Google Sheets)
 ├── nisyros.css           # all styles
 ├── build.sh              # concatenates sections + JS → index.html
 ├── index.html            # BUILD ARTIFACT — never edit by hand
@@ -59,7 +58,7 @@ nw/
 └── server.py             # local dev server
 ```
 
-**Build step:** run `./build.sh` inside the repo root. It produces `index.html`, which Vercel serves. Previously the build output was `nisyros.html`; this was renamed to `index.html` so Vercel serves it at the root (commit `bdc74ce`, merged via PR #4).
+**Build step:** run `./build.sh` inside the repo root. It produces `index.html`, which Netlify serves at the site root.
 
 ---
 
@@ -115,18 +114,23 @@ Wine data is driven by the CMS (Google Sheets). The five wines hardcoded in `sec
 
 ## 6. CMS (Google Sheets)
 
-Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a Vercel Edge Function proxy (`api/`) to avoid CORS and improve reliability.
+Wines and faces are edited in a Google Sheet, published as CSV per tab, and fetched at runtime via Netlify redirects (`/api/cms?sheet=…` → Google's published-CSV URL). The redirects are defined in `netlify.toml` and exist purely to give the client a same-origin path so we don't fight CORS.
 
-**Wines sheet CSV URL:**
-`https://docs.google.com/spreadsheets/d/e/2PACX-1vQGec_ewoWxtdcEXP05iJm4v2LHOoyW5sZc2bSBRVMzX7vlJIX8duf1JD--qMhpihBVgHMnHJxrgwkL/pub?gid=1993474932&single=true&output=csv`
+**Sheet tabs:**
 
-**Body-text format:** the wine `body` field splits on `||` into exactly two non-empty parts — part 1 renders under *Story*, part 2 under *Winemaking & Tasting Notes*. The `specs` field splits on a single `|`, each part becoming a row.
+- `wines` — gid `1993474932` — drives the Wines section.
+- `faces` — gid `1521558789` — drives the Faces & Places gallery.
+- `config` — gid `1620319001` — global text snippets.
 
-**Google Drive images:** must use the `https://lh3.googleusercontent.com/d/[FILE_ID]` format, not the standard sharing URL.
+**Body-text format (wines):** the `body` field splits on `||` into exactly two non-empty parts — part 1 renders under *Story*, part 2 under *Winemaking & Tasting Notes*. The `specs` field splits on a single `|`, each part becoming a row.
 
-**Faces section is NOT CMS-driven** — it is hardcoded in `sections/faces.html`.
+**Faces columns:** `oredr | img_url | label | text`. Display order currently follows the sheet row order. `oredr` is reserved for future numeric ordering.
 
-**CMS loader invariant:** updates happen via `data-cms` attributes, not by replacing `innerHTML`. The CMS fails loud on bad data (no silent fallbacks, no duplicated runtime templates). See commit `c7c0abf`.
+**Google Drive images:** the CMS accepts standard Drive share links (`https://drive.google.com/file/d/<ID>/view…`) — `js/main.js` extracts the file ID and rewrites to `https://lh3.googleusercontent.com/d/<ID>`, which is then routed through the Netlify Image CDN (`/.netlify/images?url=…&w=…`) for AVIF/WebP transcoding and CDN caching. The `[images].remote_images` whitelist in `netlify.toml` allows this.
+
+**CMS loader invariants:**
+- Wines: updates happen via `data-cms` attributes, not by replacing `innerHTML`. **Fails loud on bad data** — no silent fallbacks, no duplicated runtime templates (commit `c7c0abf`).
+- Faces: replaces the hardcoded fallback `<figure>`s when the sheet returns ≥1 valid row. **Falls back gracefully** if the CMS fails or returns zero rows (the hardcoded fallback in `sections/faces.html` stays on screen).
 
 ---
 
@@ -144,38 +148,31 @@ Wines are edited in a Google Sheet, published to CSV, fetched at runtime via a V
 
 ## 8. Workflow for every change
 
-1. Pull latest: `git -C nw-repo pull origin main`
-2. Create a branch: `git -C nw-repo checkout -b feature/description`
+1. Pull latest: `git pull origin main`
+2. Create a branch: `git checkout -b feature/description` (or `claude/<topic>` for AI work).
 3. Edit source files (never `index.html`).
-4. Build: `cd nw-repo && bash build.sh`
-5. Commit and push branch to GitHub.
-6. Provide PR link in this format: `https://github.com/hellosandro/nw/pull/new/[branch-name]`
-7. Nicola opens the PR via the link; Sandro reviews and merges.
-8. Vercel auto-deploys on merge.
+4. Build: `bash build.sh`
+5. Commit (as `nicolazonca <nicolazonca@me.com>`) and push the branch to `nicolazonca/nw`.
+6. Provide PR link in this format: `https://github.com/nicolazonca/nw/compare/main...nicolazonca:nw:[branch-name]?expand=1` — this forces both base and head to `nicolazonca/nw` so the PR is opened *within* the fork (the default GitHub compare page targets `hellosandro/nw` because of the fork relationship and is not what we want).
+7. Nicola opens the PR via the link, reviews the deploy preview at `https://deploy-preview-<N>--nisyros-wines.netlify.app`, and merges.
+8. Netlify auto-deploys main to https://nisyroswines.com on merge.
 
-> **Note for Claude:** the sandbox cannot call the GitHub API directly. Push the branch, then hand Nicola the PR-creation URL.
+> **Note for Claude:** the GitHub MCP integration cannot create PRs on this repo (`403 Resource not accessible by integration`). Push the branch, then hand Nicola the compare URL above.
 
 ---
 
-## 9. Current state (as of 2026-04-21)
+## 9. Current state (as of 2026-04-29)
 
-**Deployment:** migrated from Vercel → Netlify. Live at https://nisyroswines.com (custom domain, DNS via Squarespace). Production repo is the fork `nicolazonca/nw`; `hellosandro/nw` remains the origin for Sandro's reviews. The Vercel deployment (`nw-ruby.vercel.app`) is still up but no longer the canonical URL.
+**Deployment:** Netlify only. Production repo is the fork `nicolazonca/nw`; merging to its `main` triggers an auto-deploy to https://nisyroswines.com. `hellosandro/nw` is the upstream of the fork relationship but is **not** in the deploy path — Nicola's repo is fully independent. DNS is hosted on Google Cloud DNS (`ns-cloud-d1.googledomains.com`), with the apex pointing to Netlify's load balancer (`75.2.60.5`) and `www` CNAME'd to `nisyros-wines.netlify.app`.
 
-**CMS proxy:** `api/cms.js` (Vercel Edge Function) is superseded on Netlify by redirect rules in `netlify.toml`. The client-side JS is unchanged — still calls `/api/cms?sheet=…`.
+**CMS routing:** Google Sheets CSVs are reached via `/api/cms?sheet=…`, which `netlify.toml` 200-redirects to the published CSV URL on Google's side (no server function involved). Image transforms go through Netlify's Image CDN (`/.netlify/images?url=…&w=…`) with the `lh3.googleusercontent.com/*` host on the `remote_images` allowlist.
+
+**Faces section:** wired to the `faces` tab of the CMS sheet. Polaroids load at `w=800`, lightbox at `w=1600`. Lightbox shows label + caption text overlaid on the photo, anchored to the photo's own bounds (not the viewport). Falls back to the hardcoded `<figure>`s in `sections/faces.html` if the CMS fails or is empty.
 
 **Branches in play:**
 
-- `main` — last merged: PR #6 (removing unused `nisyros.html`), PR #4 (integration of wines redesign, CMS fixes, dark nav manifesto).
-- `claude/update-wine-card-6PBwU` — wine card updates (Vintages + Type specs, subtitle under name, `.wine-subtitle` CSS, `netlify.toml`, `og:url` fix). Merged into `nicolazonca/nw` main; pending merge to `hellosandro/nw` main.
-
-**Recent notable commits:**
-
-- `5cdf917` Add netlify.toml: build command + /api/cms proxy redirects
-- `0436528` Wines: add .wine-subtitle class (Raleway 500, uppercase)
-- `debb8ef` Wines: add Vintages & Type to specs; use CMS subtitle under wine name
-- `89edfe3` Merge PR #6 — remove unused `nisyros.html`
-- `a9ef43d` Merge PR #4 — integration of all features
-- `c7c0abf` Wines: CMS is single source of truth, fail loud on bad data
+- `main` — production. Last sync: 2026-04-29.
+- `claude/organize-photo-management-BYsdN` — Faces CMS wiring + lightbox caption overlay + scroll fixes. PR pending merge.
 
 ---
 
@@ -201,7 +198,10 @@ If you are Nicola or Sandro and something in this doc is wrong or out of date, f
 |---|---|
 | Display type | Adobe Typekit — `https://use.typekit.net/jyf6llr.css` |
 | Body type | Google Fonts JetBrains Mono |
-| Deployment | Vercel (managed by Sandro) |
-| CMS | Google Sheets (URL above) + Vercel Edge Function proxy |
+| Deployment | Netlify (auto-deploy from `nicolazonca/nw` main) |
+| Image CDN | Netlify Image CDN (`/.netlify/images?…`) |
+| CMS | Google Sheets, proxied via Netlify redirects in `netlify.toml` |
+| DNS | Google Cloud DNS |
 | Social | Instagram `@nisyroswines` |
-| Repo | GitHub `hellosandro/nw` |
+| Repo (production) | GitHub `nicolazonca/nw` |
+| Repo (upstream fork parent) | GitHub `hellosandro/nw` (not in the deploy path) |

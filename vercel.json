@@ -1,3 +1,0 @@
-{
-  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in claude/*) exit 0 ;; *) exit 1 ;; esac"
-}
