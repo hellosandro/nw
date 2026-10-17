@@ -419,7 +419,7 @@ const SHEET_CONFIG = '/api/cms?sheet=config';
 const SHEET_WINES  = '/api/cms?sheet=wines';
 const SHEET_FACES  = '/api/cms?sheet=faces';
 function driveUrl(u){if(!u)return'';var m=u.match(/\/d\/([a-zA-Z0-9_-]+)/)||u.match(/[?&]id=([a-zA-Z0-9_-]+)/);return m?'https://lh3.googleusercontent.com/d/'+m[1]+'=s1600':u;}
-function joinCSVLines(t){var r=[],c='',q=false;for(var i=0;i<t.length;i++){var ch=t[i];if(ch==='"'){q=!q;c+=ch;}else if((ch==='\n'||(ch==='\r'&&t[i+1]==='\n'))&&q){c+=' ';if(ch==='\r')i++;}else if(ch==='\r'){}else if(ch==='\n'){r.push(c);c='';}else c+=ch;}if(c)r.push(c);return r;}
+function joinCSVLines(t){var r=[],c='',q=false;for(var i=0;i<t.length;i++){var ch=t[i];if(ch==='"'){q=!q;c+=ch;}else if((ch==='\n'||(ch==='\r'&&t[i+1]==='\n'))&&q){c+='\n';if(ch==='\r')i++;}else if(ch==='\r'){}else if(ch==='\n'){r.push(c);c='';}else c+=ch;}if(c)r.push(c);return r;}
 function splitRow(row){var r=[],c='',q=false;for(var i=0;i<row.length;i++){var ch=row[i];if(ch==='"'){if(q&&row[i+1]==='"'){c+='"';i++;}else q=!q;}else if(ch===','&&!q){r.push(c);c='';}else c+=ch;}r.push(c);return r;}
 function parseCSV(text,headerFirstCell){var key=(headerFirstCell||'id').toLowerCase();var rows=[],lines=joinCSVLines(text.trim()),hi=-1;for(var i=0;i<lines.length;i++){if(splitRow(lines[i])[0].replace(/^"|"$/g,'').trim().toLowerCase()===key){hi=i;break;}}if(hi===-1)return rows;var headers=splitRow(lines[hi]).map(h=>h.replace(/^"|"$/g,'').trim().split('\n')[0].replace(/\s*\(.*$/,'').trim().toLowerCase());for(var i=hi+1;i<lines.length;i++){var vals=splitRow(lines[i]);if(vals.every(v=>!v.trim()))continue;var fv=vals[0].replace(/^"|"$/g,'').trim();if(!fv||fv.charCodeAt(0)===0x25b8)continue;var obj={};headers.forEach((h,idx)=>{obj[h]=(vals[idx]||'').replace(/^"|"$/g,'').trim();});rows.push(obj);}return rows;}
 async function fetchSheet(url){
@@ -452,10 +452,13 @@ async function loadConfig(){
   document.querySelectorAll('[data-cms]').forEach(function(el){
     var key = el.dataset.cms;
     if(cfg[key] !== undefined && cfg[key] !== ''){
-      if(el.dataset.cms.endsWith('_sub') && cfg[key].indexOf('\\n') > -1){
-        el.innerHTML = cfg[key].replace(/\\n/g,'<br>');
+      var v = cfg[key];
+      if(v.indexOf('\n') > -1 || v.indexOf('\\n') > -1){
+        el.innerHTML = v
+          .replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; })
+          .replace(/\\n|\n/g,'<br>');
       } else {
-        el.textContent = cfg[key];
+        el.textContent = v;
       }
     }
   });
